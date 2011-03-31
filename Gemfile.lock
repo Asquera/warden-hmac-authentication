@@ -1,0 +1,28 @@
+PATH
+  remote: .
+  specs:
+    hmac (1.0)
+      addressable
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    addressable (2.2.4)
+    rack (1.2.2)
+    rack-test (0.5.7)
+      rack (>= 1.0)
+    riot (0.12.3)
+      rr
+    rr (1.0.2)
+    warden (1.0.3)
+      rack (>= 1.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  hmac!
+  rack
+  rack-test
+  riot
+  warden
