@@ -31,7 +31,7 @@ Configure the HMAC warden strategy:
     end
 
 `params` allows you to specify parameters the request must contain, `token` is the name of the token parameter, `secret` and `algorithm` allow you to specify
-the secret and algorithm used for the HMAC algorithm. `hmac` expects a class that implement the HMAC algorithm. It is instantiated on each request.
+the secret and algorithm used for the HMAC algorithm. `hmac` expects a class that implements the HMAC algorithm. It is instantiated on each request.
 
 If you want to retrieve the secret and token using a different strategy, extend the HMAC strategy:
 
