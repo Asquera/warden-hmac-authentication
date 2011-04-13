@@ -5,12 +5,12 @@ This gem provides a tiny HMAC implementation along with a warden strategy to us 
 ## HMAC usage
 
     h = HMAC.new('secret', 'md5')
-    h.generate_signature('http://example.com/')
+    h.generate_signature('http://example.com/?foo=bar')
     
 If you want to generate the signature for a signed URL, pass the parameter used for the token:
 
     h = HMAC.new('secret', 'md5')
-    h.generate_signature('http://example.com/?token=123', 'token')
+    h.generate_signature('http://example.com/?foo=bar&token=123', 'token')
     
 ## Warden strategy usage
 
