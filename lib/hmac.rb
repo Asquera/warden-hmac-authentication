@@ -27,15 +27,25 @@ class HMAC
 
     return false unless query_values
 
-    expected = query_values.delete(token)
+    query_values[token] == generate_signature(url, secret, token)
+  end
+  
+  def sign_url(url, secret, token = "token", extra_params = {})
+    uri          = Addressable::URI.parse(url)
     
-    expected == generate_signature(url, secret, token)
+    query_values = (uri.query_values || {}).merge(extra_params)
+    uri.query_values = query_values
+    
+    signature = generate_signature(uri.to_s, secret, token)
+    
+    uri.query_values = query_values.merge({token => signature})
+    uri.to_s
   end
   
   def canonical_querystring(params)
     params.sort.map do |key, value|
-      "%{key}=%{value}" % {:key   => CGI.escape(key), 
-                           :value => CGI.escape(value)}
+      "%{key}=%{value}" % {:key   => CGI.escape(key.to_s), 
+                           :value => CGI.escape(value.to_s)}
     end.join("&")
   end
   
