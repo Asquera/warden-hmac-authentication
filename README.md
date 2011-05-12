@@ -68,7 +68,7 @@ to the given proc and allows access to the full rack env.
 ### Controlling TTLs
 
 It is good practice to enforce a max-age for tokens. The hmac strategy allows this by adding two parameters: `ttl` and `timestamp`. The `ttl` parameter controls the max age
-of tokens in seconds. `timestamp` is the name of the request parameter containing a timestamp (in UTC) when the token was generated. `timestamp` defaults to "timestamp" if not given.
+of tokens in seconds. `timestamp` is the name of the request parameter containing a timestamp (in microseconds UTC) when the token was generated. `timestamp` defaults to "timestamp" if not given.
 
     use Warden::Manager do |manager|
       manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
