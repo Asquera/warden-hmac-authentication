@@ -42,7 +42,7 @@ context "HMAC" do
     
     context "> with no signature" do
       setup do
-        get "http://example.org/?user_id=123&token=foo"
+        get "http://example.org/?user_id=123&token="
       end
 
       asserts(:status).equals(401)
@@ -99,7 +99,7 @@ context "HMAC" do
     
     context "> with no signature" do
       setup do
-        get "http://example.org/?user_id=123&token=foo"
+        get "http://example.org/?user_id=123&token="
       end
 
       asserts(:status).equals(401)
