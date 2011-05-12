@@ -195,7 +195,7 @@ context "HMAC" do
     
     context "> with an expired timestamp " do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{Time.now.gmtime.to_i - 301}"
+        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round - 310000}"
         signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
       
         get signed
@@ -206,7 +206,7 @@ context "HMAC" do
     
     context "> with timestamp in the future" do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{Time.now.gmtime.to_i + 300}"
+        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round + 15000}"
         signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
       
         get signed
@@ -215,11 +215,30 @@ context "HMAC" do
       asserts(:status).equals(401)
     end
     
-    context "> with valid timestamp " do
+    context "> with valid timestamp slighty in the past" do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{Time.now.gmtime.to_i - 250}"
+        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round - 2500}"
         signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
-      
+        get signed
+      end
+
+      asserts(:status).equals(200)
+    end
+    
+    context "> with timestamp equal current time" do
+      setup do
+        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round}"
+        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        get signed
+      end
+
+      asserts(:status).equals(200)
+    end
+    
+    context "> with timestamp slightly into the future" do
+      setup do
+        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round + 1000}"
+        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
         get signed
       end
 
