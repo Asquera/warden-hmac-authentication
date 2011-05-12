@@ -15,7 +15,7 @@ context "HMAC" do
                                          :store => false, 
                                          :hmac => { 
                                            :params => ["user_id"],
-                                           :token => "token",
+                                           :token => "auth",
                                            :secret => "secrit",
                                            :algorithm => "md5",
                                            :hmac => HMAC
@@ -32,7 +32,7 @@ context "HMAC" do
     context "> with a valid signature" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        signed = uri + "&auth=" + HMAC.new('md5').generate_signature(uri, 'secrit')
       
         get signed
       end
@@ -42,7 +42,7 @@ context "HMAC" do
     
     context "> with no signature" do
       setup do
-        get "http://example.org/?user_id=123&token="
+        get "http://example.org/?user_id=123&auth="
       end
 
       asserts(:status).equals(401)
@@ -50,7 +50,7 @@ context "HMAC" do
     
     context "> with an invalid signature" do
       setup do
-        get "http://example.org/?user_id=123&token=foo"
+        get "http://example.org/?user_id=123&auth=foo"
       end
 
       asserts(:status).equals(401)
