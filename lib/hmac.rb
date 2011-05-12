@@ -22,6 +22,16 @@ class HMAC
     OpenSSL::HMAC.hexdigest(algorithm, secret, uri.to_s)
   end
   
+  def check_signature(url, secret, token = "token")
+    query_values = Addressable::URI.parse(url).query_values
+
+    return false unless query_values
+
+    expected = query_values.delete(token)
+    
+    expected == generate_signature(url, secret, token)
+  end
+  
   def canonical_querystring(params)
     params.sort.map do |key, value|
       "%{key}=%{value}" % {:key   => CGI.escape(key), 

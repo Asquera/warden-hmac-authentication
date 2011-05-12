@@ -9,8 +9,6 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
   end
 
   def authenticate!
-    given = params[config[:token]]
-    
     if "" == secret.to_s
       return fail!("Cannot authenticate with an empty secret")
     end
@@ -19,9 +17,7 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
       return fail!("Invalid timestamp")  
     end
     
-    expected = hmac.generate_signature(request.url, secret, token)
-
-    if given == expected
+    if hmac.check_signature(request.url, secret, token)
       success!(retrieve_user)
     else
       fail!("Invalid token passed")
