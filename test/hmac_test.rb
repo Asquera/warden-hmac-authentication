@@ -10,11 +10,11 @@ context "an HMAC object" do
     setup do
       topic.canonical_querystring({
         "foo" => "bar",
-        "baz" => "foobar"
+        "baz" => "foo bar"
       })
     end
     
-    asserts("querystring"){topic}.equals("baz=foobar&foo=bar")
+    asserts("querystring"){topic}.equals("baz=foo+bar&foo=bar")
     
   end
 
