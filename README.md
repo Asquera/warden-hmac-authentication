@@ -86,3 +86,5 @@ of tokens in seconds. `timestamp` is the name of the request parameter containin
                                      }
     end
 
+The TTL allows for a little clock skew to accommodate servers that are slightly running off time. The allowed clock skew can be controlled with the `:clockskew` option and defaults to 5 seconds. Thus 
+timestamps that are 5 seconds into the future relative to the servers time are considered valid. The skew must be 0 or bigger.

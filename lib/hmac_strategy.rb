@@ -66,12 +66,16 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
     end
     
     def timestamp_valid?
-      now = Time.now.gmtime.to_i
-      timestamp < now && timestamp > now - ttl
+      now = (Time.now.gmtime.to_f * 1000).round
+      timestamp < (now + clockskew) && timestamp > (now - ttl * 1000)
     end
 
     def secret
       @secret ||= config[:secret].respond_to?(:call) ? config[:secret].call(self) : config[:secret]
+    end
+    
+    def clockskew
+      (config[:clockskew] || 5) * 1000
     end
 end
 
