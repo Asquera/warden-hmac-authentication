@@ -27,9 +27,7 @@ class HMAC
 
     return false unless query_values
 
-    expected = query_values.delete(token)
-    
-    expected == generate_signature(url, secret, token)
+    query_values[token] == generate_signature(url, secret, token)
   end
   
   def canonical_querystring(params)
