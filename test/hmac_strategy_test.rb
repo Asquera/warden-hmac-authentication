@@ -183,7 +183,7 @@ context "HMAC" do
         get signed
       end
 
-      asserts(:status).equals(401)
+      asserts(:status).equals(200)
     end
     
   end
