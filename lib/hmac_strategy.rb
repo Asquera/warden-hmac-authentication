@@ -3,15 +3,20 @@ require 'warden'
 
 class Warden::Strategies::HMAC < Warden::Strategies::Base
   def valid?
-    config[:params].all? { |p| params.include?(p.to_s) } &&
-    params.include?(config[:token])
+    valid = config[:params].all? { |p| params.include?(p.to_s) } && params.include?(token)
+    valid = valid && params.include?(timestamp_name) if check_ttl?  
+    valid
   end
 
   def authenticate!
     given = params[config[:token]]
     
     if "" == secret.to_s
-      fail!("Cannot authenticate with an empty secret")
+      return fail!("Cannot authenticate with an empty secret")
+    end
+    
+    if check_ttl? && !timestamp_valid?
+      return fail!("Invalid timestamp")  
     end
     
     expected = hmac.generate_signature(request.url, secret, token)
@@ -48,6 +53,27 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
       config[:token]
     end
     
+    def ttl
+      config[:ttl].to_i
+    end
+    
+    def check_ttl?
+      !config[:ttl].nil?
+    end
+
+    def timestamp_name
+      config[:timestamp] || "timestamp"
+    end
+
+    def timestamp
+      params[timestamp_name].to_i
+    end
+    
+    def timestamp_valid?
+      now = Time.now.gmtime.to_i
+      timestamp < now && timestamp > now - ttl
+    end
+
     def secret
       @secret ||= config[:secret].respond_to?(:call) ? config[:secret].call(self) : config[:secret]
     end
