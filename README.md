@@ -44,3 +44,23 @@ If you want to retrieve the secret and token using a different strategy, extend 
         retrieve_user.secret
       end
     end
+
+The configured secret may also be a proc that retrieves a given secret. The proc must return a string in all cases. The strategy itself is passed as the only parameter
+to the given proc and allows access to the full rack env.
+
+
+    use Warden::Manager do |manager|
+      manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
+      # other scopes
+      manager.scope_defaults :token, :strategies => [:hmac], 
+                                     :store => false, 
+                                     :hmac => { 
+                                       :params => ["user_id"],
+                                       :token => "token",
+                                       :secret => Proc.new {|strategy|
+                                         "secret"
+                                       },
+                                       :algorithm => "md5",
+                                       :hmac => HMAC
+                                     }
+    end

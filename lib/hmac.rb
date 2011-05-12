@@ -5,12 +5,12 @@ require 'openssl'
 class HMAC
   attr_accessor :secret, :algorithm
 
-  def initialize(secret, algorithm = "md5")
+  def initialize(algorithm = "md5")
     self.secret    = secret
     self.algorithm = algorithm
   end
   
-  def generate_signature(url, token = "token")
+  def generate_signature(url, secret, token = "token")
     uri          = Addressable::URI.parse(url)
     query_values = uri.query_values
 
