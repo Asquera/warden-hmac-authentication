@@ -9,12 +9,17 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
 
   def authenticate!
     given = params[config[:token]]
-    expected = hmac.generate_signature(request.url, token)
+    
+    if "" == secret.to_s
+      fail!("Cannot authenticate with an empty secret")
+    end
+    
+    expected = hmac.generate_signature(request.url, secret, token)
 
     if given == expected
       success!(retrieve_user)
     else
-      halt!
+      fail!("Invalid token passed")
     end
   end
   
@@ -32,7 +37,7 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
     end
     
     def hmac
-      config[:hmac].new(secret, algorithm)
+      config[:hmac].new(algorithm)
     end
     
     def algorithm
@@ -44,7 +49,7 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
     end
     
     def secret
-      config[:secret]
+      @secret ||= config[:secret].respond_to?(:call) ? config[:secret].call(self) : config[:secret]
     end
 end
 
