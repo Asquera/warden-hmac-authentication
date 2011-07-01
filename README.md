@@ -125,15 +125,15 @@ configuration option.
 The `:require_nonce` configuration can be set to `true` to enforce a nonce. If a nonce is required no authentication attempt will be
 made for requests not providing a nonce.
 
-  use Warden::Manager do |manager|
-    manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
-    # other scopes
-    manager.scope_defaults :hmac, :strategies => [:hmac_query, :hmac_header], 
-                                   :hmac => { 
-                                     :secret => "secrit",
-                                     :require_nonce => true
-                                   }
-  end
+    use Warden::Manager do |manager|
+      manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
+      # other scopes
+      manager.scope_defaults :hmac, :strategies => [:hmac_query, :hmac_header], 
+                                     :hmac => { 
+                                       :secret => "secrit",
+                                       :require_nonce => true
+                                     }
+    end
 
 
 ## Required headers and parameters
