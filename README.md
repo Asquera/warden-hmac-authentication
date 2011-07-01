@@ -246,26 +246,3 @@ to the given proc and allows access to the full rack env.
                                      }
     end
     
-### Controlling TTLs
-
-It is good practice to enforce a max-age for tokens. The hmac strategy allows this by adding two parameters: `ttl` and `timestamp`. The `ttl` parameter controls the max age
-of tokens in seconds. `timestamp` is the name of the request parameter containing a timestamp (in microseconds UTC) when the token was generated. `timestamp` defaults to "timestamp" if not given.
-
-    use Warden::Manager do |manager|
-      manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
-      # other scopes
-      manager.scope_defaults :token, :strategies => [:hmac], 
-                                     :store => false, 
-                                     :hmac => { 
-                                       :params => ["user_id"],
-                                       :token => "token",
-                                       :secret => "secrit",
-                                       :algorithm => "md5",
-                                       :ttl => 300, # make tokens valid for 5 minutes
-                                       :timestamp => "generated_at", # the information when the token was generated is found in the request parameter named "generated_at"
-                                       :hmac => HMAC
-                                     }
-    end
-
-The TTL allows for a little clock skew to accommodate servers that are slightly running off time. The allowed clock skew can be controlled with the `:clockskew` option and defaults to 5 seconds. Thus 
-timestamps that are 5 seconds into the future relative to the servers time are considered valid. The skew must be 0 or bigger.
