@@ -17,15 +17,70 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
       return fail!("Invalid timestamp")  
     end
     
-    if hmac.check_signature(request.url, secret, token)
+    if hmac.check_signature(canonical_representation, secret, signature)
       success!(retrieve_user)
     else
       fail!("Invalid token passed")
     end
   end
   
+  def canonical_representation
+    rep = ""
+    
+    rep << "#{request_method}\n" 
+    rep << "date:#{request_timestamp}\n"
+    rep << "nonce:#{nonce}\n"
+    
+    optional_headers.map {|header_name| header_name.downcase}.sort.each do |header_name|
+      rep << "#{header_name}:#{lowercase_headers[header_name]}\n" unless lowercase_headers[header_name].nil?
+    end
+    
+    rep << request.path
+    
+    p = params.dup
+    p.delete auth_param
+    
+    if !p.empty?
+      query = p.sort.map do |key, value|
+        "%{key}=%{value}"
+      end.join("&")
+      rep << "?#{query}"
+    end
+    
+    rep
+  end
+  
+  
+  def auth_info
+    params[auth_param] || {}
+  end
+  
+  def signature
+    auth_info["hmac"]
+  end
+  
+  def nonce
+    auth_info["nonce"] || ""
+  end
+  
+  def request_timestamp
+    auth_info["date"] || ""
+  end
+  
+  def request_method
+    env['REQUEST_METHOD'].upcase
+  end
+  
   def params
     request.GET
+  end
+  
+  def headers
+    pairs = env.select {|k,v| k.start_with? 'HTTP_'}
+        .collect {|pair| [pair[0].sub(/^HTTP_/, '').gsub(/_/, '-'), pair[1]]}
+        .sort
+     headers = Hash[*pairs.flatten]
+     headers   
   end
   
   def retrieve_user
@@ -37,12 +92,32 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
       env["warden"].config[:scope_defaults][scope][:hmac]
     end
     
+    def auth_param
+      config[:auth_param] || "auth"
+    end
+    
+    def optional_headers
+      (config[:optional_headers] || []) + ["Content-MD5", "Content-Type"]
+    end
+    
+    def lowercase_headers
+
+      if @lowercase_headers.nil?
+        tmp = headers.map do |name,value|
+          [name.downcase, value]
+        end
+        @lowercase_headers = Hash[*tmp.flatten]
+      end
+
+      @lowercase_headers
+    end
+    
     def hmac
-      config[:hmac].new(algorithm)
+      HMAC.new(algorithm)
     end
     
     def algorithm
-      config[:algorithm]
+      config[:algorithm] || "sha1"
     end
     
     def token

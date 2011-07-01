@@ -10,24 +10,12 @@ class HMAC
     self.algorithm = algorithm
   end
   
-  def generate_signature(url, secret, token = "token")
-    uri          = Addressable::URI.parse(url)
-    query_values = uri.query_values
-
-    return false unless query_values
-
-    query_values.delete(token)
-    uri.query    = canonical_querystring(query_values)
-    
-    OpenSSL::HMAC.hexdigest(algorithm, secret, uri.to_s)
+  def generate_signature(canonical_representation, secret)
+    OpenSSL::HMAC.hexdigest(algorithm, secret, canonical_representation)
   end
   
-  def check_signature(url, secret, token = "token")
-    query_values = Addressable::URI.parse(url).query_values
-
-    return false unless query_values
-
-    query_values[token] == generate_signature(url, secret, token)
+  def check_signature(canonical_representation, secret, signature)
+    signature == generate_signature(canonical_representation, secret)
   end
   
   def sign_url(url, secret, token = "token", extra_params = {})

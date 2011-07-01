@@ -5,7 +5,9 @@ require 'cgi'
 class Warden::Strategies::HMACHeader < Warden::Strategies::Base
   
   def valid?
-    required_headers.all? { |h| headers.include?(h) } && headers.include? "Authorization" && has_timestamp?
+    valid = required_headers.all? { |h| headers.include?(h) } && headers.include?("Authorization") && has_timestamp?
+    valid = valid && scheme_valid?
+    valid
   end
 
   def authenticate!
@@ -17,11 +19,15 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
       return fail!("Invalid timestamp")  
     end
     
-    if hmac.check_signature(request.url, secret, token)
+    if hmac.check_signature(canonical_representation, secret, signature)
       success!(retrieve_user)
     else
       fail!("Invalid token passed")
     end
+  end
+  
+  def signature
+    headers[auth_header].split(" ")[1]
   end
   
   def params
@@ -29,12 +35,21 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
   end
   
   def headers
-    request.headers
+    pairs = env.select {|k,v| k.start_with? 'HTTP_'}
+        .collect {|pair| [pair[0].sub(/^HTTP_/, '').gsub(/_/, '-'), pair[1]]}
+        .sort
+     headers = Hash[*pairs.flatten]
+     headers   
+  end
+  
+  def request_method
+    env['REQUEST_METHOD'].upcase
   end
 
   def canonical_representation
     rep = ""
-    rep << "#{request.method}\n" 
+    
+    rep << "#{request_method}\n" 
     rep << "date:#{request_timestamp}\n"
     rep << "nonce:#{nonce}\n"
     
@@ -74,7 +89,7 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
         tmp = headers.map do |name,value|
           [name.downcase, value]
         end
-        Hash[*tmp.flatten]
+        @lowercase_headers = Hash[*tmp.flatten]
       end
 
       @lowercase_headers
@@ -91,7 +106,11 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
     end
 
     def auth_scheme_name
-      config[:auth_scheme] || "MAC"
+      config[:auth_scheme] || "HMAC"
+    end
+    
+    def scheme_valid?
+      headers[auth_header].to_s.split(" ").first == auth_scheme_name
     end
     
     def nonce_header_name
@@ -103,8 +122,8 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
     end
 
     def date_header
-      if headers.include? timestamp_name
-        timestamp_name
+      if headers.include? alternate_date_header_name
+        alternate_date_header_name
       else
         "Date"
       end
@@ -139,16 +158,20 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
     end
 
     def timestamp
-      DateTime.strptime(headers[date_header], '%a, %e %b %Y %T %z') if headers.include? date_header
+      Time.strptime(headers[date_header], '%a, %e %b %Y %T %z') if headers.include? date_header
     end
     
     def timestamp_valid?
-      now = (Time.now.gmtime.to_f * 1000).round
-      timestamp < (now + clockskew) && timestamp > (now - ttl * 1000)
+      now = Time.now.gmtime.to_i
+      timestamp.to_i < (now + clockskew) && timestamp.to_i > (now - ttl)
     end
     
     def nonce
       headers[nonce_header_name]
+    end
+
+    def nonce_required?
+      !!config[:require_nonce]
     end
 
     def secret
@@ -164,7 +187,7 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
     end
 
     def algorithm
-      config[:algorithm]
+      config[:algorithm] || "sha1"
     end
     
 end
