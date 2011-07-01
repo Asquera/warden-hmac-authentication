@@ -36,10 +36,6 @@ the `Authorization` header for header-based authentication and is empty for quer
 parameters defaults to the chosen authentication parameter for query-based auth and is empty for header-based auth. If a required
 parameter or header is not included in the request, no authentication attempt will be made for the strategy.
 
-Additional required headers and parameters can be defined using the `:required_headers` and `:required_parameters` config options.
-Keep in mind that additional required parameters will be required for header-based authentication as well as additional required
-headers will be required for query-based authentication.
-
 ## Other optional headers
 
 Some headers are optional but should be included in the signature of the request if present. The default list of optional headers
