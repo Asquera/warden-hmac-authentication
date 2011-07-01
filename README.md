@@ -2,7 +2,7 @@
 
 This gem provides request authentication via [HMAC](http://en.wikipedia.org/wiki/Hmac). Two strategies are supported that differ mainly 
 in how the authentication information is transferred to the server: One header-based authentication method and one query-based. The
-authentication scheme is largely based on the ideas laid out in this article and the following discussion: 
+authentication scheme is in some parts based on ideas laid out in this article and the following discussion: 
 http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html
 
 The gem also provides a small helper class that can be used to generate request signatures.
@@ -202,7 +202,7 @@ followed by a single newline (U+000A) character.
 * URL-decode query parameters if required
 * If using query-based authentication: Remove all authentication-related parameters from the query parameters.
 * Sort all query parameters lexicographically by parameter name and join them, using a single ampersand (“&”) as separator
-* Append the query string using a single question mark (“?”) as separator
+* Append the query string using a single question mark (“?”) as separator unless the query string is empty
 
 ### Examples
 
@@ -270,4 +270,27 @@ The HMAC class can be used to validate and generate signatures for a given reque
     h.generate_signature(canonical_representation, 'secret')
     
     h.validated_signature(canonical_representation, signature, 'secret')
+
+## Licence
+
+Copyright (c) 2011 Florian Gilcher <florian.gilcher@asquera.de>, Felix Gilcher <felix.gilcher@asquera.de>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
