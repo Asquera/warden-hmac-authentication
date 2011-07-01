@@ -102,7 +102,7 @@ The algorithm defaults to SHA1.
 
 The name of the authentication scheme is primarily used for header authentication. It is used to construct the `Authorization` header and 
 must thus avoid names that are reserved for existing standardized authentication schemes such as `Basic` and `Digest`. The scheme
-name is also used to construct the default values for various header names. The authentication scheme name defaults to `MAC`
+name is also used to construct the default values for various header names. The authentication scheme name defaults to `HMAC`
 
     use Warden::Manager do |manager|
       manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
@@ -113,13 +113,14 @@ name is also used to construct the default values for various header names. The 
                                        :auth_scheme_name => "MyScheme"
                                      }
     end
-    
+
+No authentication attempt is made if the scheme name in the `Authorization` header does not match the configured scheme name.    
 
 ## Optional nonce
 
 An optional nonce can be passed in the request to increase security. The nonce is not limited to digits and can be any string. It's
 advisable to limit the length of the nonce to a reasonable value. If a nonce is used it should be changed with every request. The
-default header for the nonce is `X-#{auth-scheme-name}-Nonce` (`X-MAC-Nonce`). The header name can be controlled using the `:nonce_header` 
+default header for the nonce is `X-#{auth-scheme-name}-Nonce` (`X-HMAC-Nonce`). The header name can be controlled using the `:nonce_header` 
 configuration option.
 
 The `:require_nonce` configuration can be set to `true` to enforce a nonce. If a nonce is required no authentication attempt will be
@@ -158,7 +159,7 @@ of tokens in seconds and defaults to 900 seconds. Pass `nil` as ttl value to dis
 
 The timestamp of the request is usually passed in the `Date` HTTP-Header. However, since some HTTP-Client libraries do not allow 
 setting the Date header another header may be used to override the `Date` header. The name of this header can be controlled via the
-`:alternate_date_header` option and defaults to `X-#{auth-scheme-name}-Date` (`X-MAC-Date`). 
+`:alternate_date_header` option and defaults to `X-#{auth-scheme-name}-Date` (`X-HMAC-Date`). 
 
 The date must be formatted as HTTP-Date according to RFC 1123, section 5.2.14 and should be provided in GMT time.
 
