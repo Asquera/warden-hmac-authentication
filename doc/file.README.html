@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.7.2
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>HMAC</h1>
+
+<p>This gem provides request authentication via <a href="http://en.wikipedia.org/wiki/Hmac">HMAC</a>. Two strategies are supported that differ mainly
+in how the authentication information is transferred to the server: One header-based authentication method and one query-based. The
+authentication scheme is in some parts based on ideas laid out in this article and the following discussion:
+<a href="http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html">http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html</a></p>
+
+<p>The gem also provides a small helper class that can be used to generate request signatures.</p>
+
+<h2>Header-Based authentication</h2>
+
+<p>The header-based authentication transports the authentication information in the (misnamed) <code>Authorization</code> HTTP-Header. The primary
+advantage of header-based authentication is that request urls are stable even if authentication information changes. The improves
+cacheability of the resource.</p>
+
+<p>Header-based authentication is supported by the <code>:hmac_header</code> strategy.</p>
+
+<h2>Query-Based authentication</h2>
+
+<p>Query-Based authentication encodes all authentication in the query string. Query-based authentication has unique advantages in
+scenarios with little or no control over the request headers such as pre-generating and embedding a signed URL in a web-page or
+similar cases. However, resources requested using query-based authentication cannot be cached since the request URL changes for
+every request.
+All information related to authentication is passed as a single hash in one single query parameter to minimize collisions with other
+query parameters. The name of the query parameter defaults to <code>auth</code> and can be controlled using the <code>:auth_parameter</code> config option.
+Query-based authentication takes optional headers into account if they are present in the request.</p>
+
+<p>Query-based authentication is supported by the <code>:hmac_query</code> strategy.</p>
+
+<h2>Shared secret</h2>
+
+<p>Both strategies use a secret that is shared between the server and the client to calculate the signature. The secret must be
+configured when registering the strategy. For simple cases a single secret may be sufficient but most real-world scenarios
+will require a different secret for each possible client. Such cases can be managed by passing a Proc as secret. An empty
+secret (empty string or nil) will trigger authentication failure.</p>
+
+<h2>Warden strategy usage</h2>
+
+<p>Both strategies can be used at the same time and will not interfere with each other. It is advisable to attempt query-based
+authentication first to reduce the chance that a stray Authorization header triggers header-based authentication. Both strategies
+read additional configuration from a hash named :hmac in the warden scope.</p>
+
+<p>Configure the HMAC warden strategy:</p>
+
+<pre class="code"><span class='id use'>use</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Manager</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id manager'>manager</span><span class='op'>|</span>
+  <span class='id manager'>manager</span><span class='period'>.</span><span class='id failure_app'>failure_app</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span> <span class='id env'>env</span> <span class='tlambeg'>{</span> <span class='lbracket'>[</span><span class='int'>401</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='comment'># other scopes
+</span>  <span class='id manager'>manager</span><span class='period'>.</span><span class='id scope_defaults'>scope_defaults</span> <span class='symbol'>:hmac</span><span class='comma'>,</span>  <span class='symbol'>:strategies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:hmac_query</span><span class='comma'>,</span> <span class='symbol'>:hmac_header</span><span class='rbracket'>]</span><span class='comma'>,</span> 
+                                 <span class='symbol'>:hmac</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> 
+                                   <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secrit</span><span class='tstring_end'>&quot;</span></span>
+                                 <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</pre>
+
+<h3>Retrieving the secret from a database or other storage</h3>
+
+<p>If you want to retrieve the secret and token using a different strategy, either extend the HMAC strategy:</p>
+
+<pre class="code"><span class='kw'>class</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Strategies</span><span class='op'>::</span><span class='const'>HMAC</span> <span class='op'>&lt;</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Strategies</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='kw'>def</span> <span class='id retrieve_user'>retrieve_user</span>
+    <span class='const'>User</span><span class='period'>.</span><span class='id get'>get</span><span class='lparen'>(</span><span class='id request'>request</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id secret'>secret</span>
+    <span class='id retrieve_user'>retrieve_user</span><span class='period'>.</span><span class='id secret'>secret</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>or use a Proc that retrieves the secret.</p>
+
+<pre class="code"><span class='id use'>use</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Manager</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id manager'>manager</span><span class='op'>|</span>
+  <span class='id manager'>manager</span><span class='period'>.</span><span class='id failure_app'>failure_app</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span> <span class='id env'>env</span> <span class='tlambeg'>{</span> <span class='lbracket'>[</span><span class='int'>401</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='comment'># other scopes
+</span>  <span class='id manager'>manager</span><span class='period'>.</span><span class='id scope_defaults'>scope_defaults</span> <span class='symbol'>:hmac</span><span class='comma'>,</span> <span class='symbol'>:strategies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:hmac_query</span><span class='comma'>,</span> <span class='symbol'>:hmac_header</span><span class='rbracket'>]</span><span class='comma'>,</span> 
+                                 <span class='symbol'>:store</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span> 
+                                 <span class='symbol'>:hmac</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> 
+                                   <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id strategy'>strategy</span><span class='op'>|</span>
+                                     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secret</span><span class='tstring_end'>&quot;</span></span>
+                                   <span class='rbrace'>}</span>
+                                 <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</pre>
+
+<h3>Controlling the HMAC algorithm</h3>
+
+<p>The algorithm can be controlled using the <code>:algorithm</code> option:</p>
+
+<pre class="code"><span class='id use'>use</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Manager</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id manager'>manager</span><span class='op'>|</span>
+  <span class='id manager'>manager</span><span class='period'>.</span><span class='id failure_app'>failure_app</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span> <span class='id env'>env</span> <span class='tlambeg'>{</span> <span class='lbracket'>[</span><span class='int'>401</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='comment'># other scopes
+</span>  <span class='id manager'>manager</span><span class='period'>.</span><span class='id scope_defaults'>scope_defaults</span> <span class='symbol'>:hmac</span><span class='comma'>,</span> <span class='symbol'>:strategies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:hmac_query</span><span class='comma'>,</span> <span class='symbol'>:hmac_header</span><span class='rbracket'>]</span><span class='comma'>,</span> 
+                                 <span class='symbol'>:hmac</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> 
+                                   <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secrit</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                                   <span class='symbol'>:algorithm</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>md5</span><span class='tstring_end'>&quot;</span></span>
+                                 <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>The algorithm defaults to SHA1.</p>
+
+<h2>Auth Scheme Name</h2>
+
+<p>The name of the authentication scheme is primarily used for header authentication. It is used to construct the <code>Authorization</code> header and
+must thus avoid names that are reserved for existing standardized authentication schemes such as <code>Basic</code> and <code>Digest</code>. The scheme
+name is also used to construct the default values for various header names. The authentication scheme name defaults to <code>HMAC</code></p>
+
+<pre class="code"><span class='id use'>use</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Manager</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id manager'>manager</span><span class='op'>|</span>
+  <span class='id manager'>manager</span><span class='period'>.</span><span class='id failure_app'>failure_app</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span> <span class='id env'>env</span> <span class='tlambeg'>{</span> <span class='lbracket'>[</span><span class='int'>401</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='comment'># other scopes
+</span>  <span class='id manager'>manager</span><span class='period'>.</span><span class='id scope_defaults'>scope_defaults</span> <span class='symbol'>:hmac</span><span class='comma'>,</span> <span class='symbol'>:strategies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:hmac_query</span><span class='comma'>,</span> <span class='symbol'>:hmac_header</span><span class='rbracket'>]</span><span class='comma'>,</span> 
+                                 <span class='symbol'>:hmac</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> 
+                                   <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secrit</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                                   <span class='symbol'>:auth_scheme_name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MyScheme</span><span class='tstring_end'>&quot;</span></span>
+                                 <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</pre>
+
+<p>No authentication attempt is made if the scheme name in the <code>Authorization</code> header does not match the configured scheme name.</p>
+
+<h2>Optional nonce</h2>
+
+<p>An optional nonce can be passed in the request to increase security. The nonce is not limited to digits and can be any string. It's
+advisable to limit the length of the nonce to a reasonable value. If a nonce is used it should be changed with every request. The
+default header for the nonce is <code>X-#{auth-scheme-name}-Nonce</code> (<code>X-HMAC-Nonce</code>). The header name can be controlled using the <code>:nonce_header</code>
+configuration option.</p>
+
+<p>The <code>:require_nonce</code> configuration can be set to <code>true</code> to enforce a nonce. If a nonce is required no authentication attempt will be
+made for requests not providing a nonce.</p>
+
+<pre class="code"><span class='id use'>use</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Manager</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id manager'>manager</span><span class='op'>|</span>
+  <span class='id manager'>manager</span><span class='period'>.</span><span class='id failure_app'>failure_app</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span> <span class='id env'>env</span> <span class='tlambeg'>{</span> <span class='lbracket'>[</span><span class='int'>401</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='comment'># other scopes
+</span>  <span class='id manager'>manager</span><span class='period'>.</span><span class='id scope_defaults'>scope_defaults</span> <span class='symbol'>:hmac</span><span class='comma'>,</span> <span class='symbol'>:strategies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:hmac_query</span><span class='comma'>,</span> <span class='symbol'>:hmac_header</span><span class='rbracket'>]</span><span class='comma'>,</span> 
+                                 <span class='symbol'>:hmac</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> 
+                                   <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secrit</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                                   <span class='symbol'>:require_nonce</span> <span class='op'>=&gt;</span> <span class='kw'>true</span>
+                                 <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</pre>
+
+<h2>Required headers and parameters</h2>
+
+<p>Required headers and parameters must be present for a successful authentication attempt. The list of required headers defaults to
+the <code>Authorization</code> header for header-based authentication and is empty for query-based authentication. The list of required
+parameters defaults to the chosen authentication parameter for query-based authentication and is empty for header-based authentication.
+If a required parameter or header is not included in the request, no authentication attempt will be made for the strategy.</p>
+
+<h2>Other optional headers</h2>
+
+<p>Some headers are optional but should be included in the signature of the request if present. The default list of optional headers
+includes <code>Content-MD5</code> and <code>Content-Type</code>. The list of optional headers can be configured using the <code>:optional_headers</code> config option.
+Optional headers are always included in the canonical representation if they are found in the request and not blank. Optional headers
+will be included in the canonical representation for query-based authentication if they are present in the request so be careful
+not to include any header that is out of your clients control.</p>
+
+<h2>Date and TTL</h2>
+
+<p>It is good practice to enforce a max-age for tokens. The hmac strategy allows this via the <code>ttl</code> parameter. It controls the max age
+of tokens in seconds and defaults to 900 seconds. Pass <code>nil</code> as ttl value to disable TTL checking.</p>
+
+<p>The timestamp of the request is usually passed in the <code>Date</code> HTTP-Header. However, since some HTTP-Client libraries do not allow
+setting the Date header another header may be used to override the <code>Date</code> header. The name of this header can be controlled via the
+<code>:alternate_date_header</code> option and defaults to <code>X-#{auth-scheme-name}-Date</code> (<code>X-HMAC-Date</code>).</p>
+
+<p>The date must be formatted as HTTP-Date according to RFC 1123, section 5.2.14 and should be provided in GMT time.</p>
+
+<p>Example: Setting the ttl to 300 seconds:</p>
+
+<pre class="code"><span class='id use'>use</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Manager</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id manager'>manager</span><span class='op'>|</span>
+  <span class='id manager'>manager</span><span class='period'>.</span><span class='id failure_app'>failure_app</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span> <span class='id env'>env</span> <span class='tlambeg'>{</span> <span class='lbracket'>[</span><span class='int'>401</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content-Length</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='comment'># other scopes
+</span>  <span class='id manager'>manager</span><span class='period'>.</span><span class='id scope_defaults'>scope_defaults</span> <span class='symbol'>:token</span><span class='comma'>,</span> <span class='symbol'>:strategies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:hmac_query</span><span class='comma'>,</span> <span class='symbol'>:hmac_header</span><span class='rbracket'>]</span><span class='comma'>,</span> 
+                                 <span class='symbol'>:hmac</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> 
+                                   <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secrit</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                                   <span class='symbol'>:ttl</span> <span class='op'>=&gt;</span> <span class='int'>300</span> <span class='comment'># make tokens valid for 5 minutes
+</span>                                 <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</pre>
+
+<h3>Clock Skew</h3>
+
+<p>The TTL allows for a little clock skew to accommodate servers that are slightly running off time. The allowed clock skew can be
+controlled with the <code>:clockskew</code> option and defaults to 5 seconds.</p>
+
+<h2>Canonical representation</h2>
+
+<p>Both request methods use a canonical representation of the request together with the shared secret to calculate a signature
+that authenticates the request. The canonical representation is calculated using the following algorithm:</p>
+
+<ul>
+<li>Start with the empty string ("")</li>
+<li>Add the HTTP-Verb for the request ("GET", "POST", ...) in capital letters, followed by a single newline (U+000A).</li>
+<li>Add the date for the request using the form "date:#date-of-request" followed by a single newline. The date for the signature must be
+formatted exactly as in the request.</li>
+<li>Add the nonce for the request in the form "nonce:#nonce-in-request" followed by a single newline. If no nonce is passed use the
+empty string as nonce value.</li>
+<li>Convert all remaining header names to lowercase.</li>
+<li>Sort the remaining headers lexicographically by header name.</li>
+<li>Trim header values by removing any whitespace before the first non-whitespace character and after the last non-whitespace character.</li>
+<li>Combine lowercase header names and header values using a single colon (“:”) as separator. Do not include whitespace characters
+around the separator.</li>
+<li>Combine all headers using a single newline (U+000A) character and append them to the canonical representation,
+followed by a single newline (U+000A) character.</li>
+<li>Append the url-decoded query path to the canonical representation</li>
+<li>URL-decode query parameters if required</li>
+<li>If using query-based authentication: Remove all authentication-related parameters from the query parameters.</li>
+<li>Sort all query parameters lexicographically by parameter name and join them, using a single ampersand (“&amp;”) as separator</li>
+<li>Append the query string using a single question mark (“?”) as separator unless the query string is empty</li>
+</ul>
+
+
+<h3>Examples</h3>
+
+<p>Given the following request:</p>
+
+<pre class="code">GET /example/resource.html?sort=header%20footer&amp;order=ASC HTTP/1.1
+Host: www.example.org
+Date: Mon, 20 Jun 2011 12:06:11 GMT
+User-Agent: curl/7.20.0 (x86_64-pc-linux-gnu) libcurl/7.20.0 OpenSSL/1.0.0a zlib/1.2.3
+X-MAC-Nonce: Thohn2Mohd2zugoo
+</pre>
+
+<p>The canonical representation is:</p>
+
+<pre class="code">GET\n
+date:Mon, 20 Jun 2011 12:06:11 GMT\n
+nonce:Thohn2Mohd2zugo\n
+/example/resource.html?order=ASC&amp;sort=header footer
+</pre>
+
+<p>Given the following request:</p>
+
+<pre class="code">GET /example/resource.html?sort=header%20footer&amp;order=ASC HTTP/1.1
+Host: www.example.org
+Date: Mon, 20 Jun 2011 12:06:11 GMT
+User-Agent: curl/7.20.0 (x86_64-pc-linux-gnu) libcurl/7.20.0 OpenSSL/1.0.0a zlib/1.2.3
+X-MAC-Nonce: Thohn2Mohd2zugoo
+X-MAC-Date: Mon, 20 Jun 2011 14:06:57 GMT
+</pre>
+
+<p>The canonical representation is:</p>
+
+<pre class="code">GET\n
+date:Mon, 20 Jun 2011 14:06:57 GMT\n
+nonce:Thohn2Mohd2zugo\n
+/example/resource.html?order=ASC&amp;sort=header footer
+</pre>
+
+<h3>Generating the canonical representation for query-based authentication</h3>
+
+<p>The canonical representation for query-based authentication is generated using the same algorithm as for header-based authentication, but some
+of the values are retrieved from the query string instead of the respective headers. All query parameters related to authentication
+must be removed from the query string before generating the canonical representation.</p>
+
+<h4>Example</h4>
+
+<p>Given the following request:</p>
+
+<pre class="code">GET /example/resource.html?page=3&amp;order=id%2casc&amp;auth%5Bnonce%5D=foLiequei7oosaiWun5aoy8oo&amp;auth%5Bdate%5D=Mon%2C+20+Jun+2011+14%3A06%3A57+GMT HTTP/1.1
+Host: www.example.org
+Date: Mon, 20 Jun 2011 12:06:11 GMT
+User-Agent: curl/7.20.0 (x86_64-pc-linux-gnu) libcurl/7.20.0 OpenSSL/1.0.0a zlib/1.2.3
+</pre>
+
+<p>The canonical representation is:</p>
+
+<pre class="code">GET\n 
+date:Mon, 20 Jun 2011 14:06:57 GMT\n
+nonce:foLiequei7oosaiWun5aoy8oo\n
+/example/resource.html?order=id,asc&amp;page=3
+</pre>
+
+<h2>HMAC usage</h2>
+
+<p>The HMAC class can be used to validate and generate signatures for a given request.</p>
+
+<pre class="code"><span class='id h'>h</span> <span class='op'>=</span> <span class='const'>HMAC</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>md5</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+<span class='id h'>h</span><span class='period'>.</span><span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id canonical_representation'>canonical_representation</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>secret</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+
+<span class='id h'>h</span><span class='period'>.</span><span class='id validated_signature'>validated_signature</span><span class='lparen'>(</span><span class='id canonical_representation'>canonical_representation</span><span class='comma'>,</span> <span class='id signature'>signature</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>secret</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+</pre>
+
+<h2>Licence</h2>
+
+<p>Copyright (c) 2011 Florian Gilcher <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x66;&#108;&#111;&#114;&#105;&#x61;&#x6e;&#x2e;&#x67;&#105;&#x6c;&#99;&#x68;&#101;&#x72;&#x40;&#x61;&#115;&#x71;&#117;&#101;&#x72;&#x61;&#46;&#x64;&#x65;">&#x66;&#108;&#111;&#114;&#105;&#97;&#110;&#46;&#103;&#105;&#x6c;&#x63;&#x68;&#x65;&#x72;&#64;&#x61;&#x73;&#x71;&#117;&#101;&#114;&#x61;&#x2e;&#100;&#x65;</a>, Felix Gilcher <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x66;&#x65;&#x6c;&#x69;&#x78;&#46;&#x67;&#x69;&#x6c;&#x63;&#104;&#101;&#114;&#x40;&#97;&#x73;&#113;&#117;&#x65;&#114;&#x61;&#46;&#100;&#101;">&#102;&#101;&#108;&#x69;&#120;&#x2e;&#103;&#x69;&#108;&#99;&#104;&#x65;&#114;&#64;&#97;&#x73;&#x71;&#117;&#101;&#x72;&#x61;&#46;&#x64;&#x65;</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+</div></div>
+    
+    <div id="footer">
+  Generated on Sun Jul 10 12:19:38 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.2 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>
