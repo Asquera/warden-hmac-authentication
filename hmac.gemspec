@@ -17,4 +17,6 @@ Gem::Specification.new do |s|
   
   s.add_runtime_dependency(%q<addressable>)
   s.add_runtime_dependency(%q<rack>)
+  s.add_development_dependency(%q<yard>)
+  s.add_development_dependency(%q<rdiscount>)
 end
