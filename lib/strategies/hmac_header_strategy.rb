@@ -1,6 +1,5 @@
 require 'hmac'
 require 'warden'
-require 'cgi'
 
 class Warden::Strategies::HMACHeader < Warden::Strategies::Base
   

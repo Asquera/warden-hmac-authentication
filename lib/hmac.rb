@@ -1,4 +1,3 @@
-require 'cgi'
 require 'addressable/uri'
 require 'openssl'
 require 'rack/utils'
@@ -58,7 +57,10 @@ class HMAC
     
     if !p.empty?
       query = p.sort.map do |key, value|
-        "%{key}=%{value}" % {:key => Rack::Utils.unescape(key.to_s), :value => Rack::Utils.unescape(value.to_s)}
+        "%{key}=%{value}" % {
+          :key => Rack::Utils.unescape(key.to_s),
+          :value => Rack::Utils.unescape(value.to_s)
+        }
       end.join("&")
       rep << "?#{query}"
     end
@@ -121,13 +123,6 @@ class HMAC
     date = auth_params["date"]
     nonce = auth_params["nonce"]
     check_signature(auth_params["signature"], :secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => nonce, :query => query_values, :headers => {})
-  end
-  
-  def canonical_querystring(params)
-    params.sort.map do |key, value|
-      "%{key}=%{value}" % {:key   => Rack::Utils.unescape(key.to_s), 
-                           :value => Rack::Utils.unescape(value.to_s)}
-    end.join("&")
   end
   
 end
