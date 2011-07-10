@@ -1,4 +1,4 @@
-require 'hmac_strategy'
+require 'strategies/hmac_strategy'
 require 'rack/builder'
 
 context "HMAC" do

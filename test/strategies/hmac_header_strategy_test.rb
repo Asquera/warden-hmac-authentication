@@ -1,4 +1,4 @@
-require 'hmac_header_strategy'
+require 'strategies/hmac_header_strategy'
 require 'rack/builder'
 
 context "header-based auth" do
