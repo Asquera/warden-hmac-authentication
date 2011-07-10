@@ -7,8 +7,8 @@ class HMAC
 
   # create a new HMAC instance
   #
-  # @param [String] algorithm ('md5') The hashing-algorithm to use. See the openssl documentation for valid values.
-  # @param [Hash] default_opts ({}) The default options for all calls that take opts
+  # @param [String] algorithm   The hashing-algorithm to use. See the openssl documentation for valid values.
+  # @param [Hash] default_opts  The default options for all calls that take opts
   #
   # @option default_opts [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
   # @option default_opts [String]             :auth_header ('Authorization') The name of the authorization header to use
