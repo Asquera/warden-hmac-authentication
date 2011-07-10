@@ -68,17 +68,32 @@ class HMAC
     rep
   end
   
+  # sign the given request
+  #
+  # @param [String] url     The url of the request
+  # @param [String] secret  The shared secret for the signature
+  # @param [Hash]   opts    Options for the signature generation
+  #
+  # @option opts [String]            :nonce ('')           The nonce to use in the signature
+  # @option opts [String, #strftime] :date (Time.now)      The date to use in the signature
+  # @option opts [Hash]              :headers ({})         A list of optional headers to include in the signature
+  # @option opts [Bool]              :query_based (false)  Includes the authentication data in the url instead of the headers
+  #        
+  # @option opts [String]           :auth_param ('auth)   The name of the authentication param to use for query based authentication
+  # @option opts [String]           :auth_header ('Authorization') The name of the authorization header to use
+  # @option opts [String]           :auth_header_format ('%{auth_scheme} %{signature}) The format of the authorization header. Will be interpolated with the given options and the signature.
+  # 
+  #
   def sign_request(url, secret, opts = {})
     opts = default_opts.merge(opts)
     
     uri = Addressable::URI.parse(url)
-    headers = {}
+    headers = opts[:headers] || {}
     
     date = opts[:date] || Time.now.gmtime
     date = date.strftime('%a, %e %b %Y %T GMT') if date.respond_to? :strftime
     
-    signature = generate_signature(:secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => opts[:nonce], :query => uri.query_values, :headers => {})
-    #signature = generate_signature(rep, secret)
+    signature = generate_signature(:secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => opts[:nonce], :query => uri.query_values, :headers => opts[:headers])
       
     if opts[:query_based]
       auth_params = {
