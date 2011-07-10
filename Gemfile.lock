@@ -3,11 +3,12 @@ PATH
   specs:
     hmac (1.0)
       addressable
+      rack
 
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.2.4)
+    addressable (2.2.6)
     rack (1.2.2)
     rack-test (0.5.7)
       rack (>= 1.0)
