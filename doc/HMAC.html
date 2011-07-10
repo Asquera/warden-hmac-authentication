@@ -297,7 +297,7 @@ generates the canonical representation for a given request.
 
   
     <span class="summary_desc"><div class='inline'><p>
-A new instance of HMAC.
+create a new HMAC instance.
 </p>
 </div></span>
   
@@ -365,37 +365,167 @@ sign the given request.
 </p><div class="docstring">
   <div class="discussion">
     <p>
-A new instance of HMAC
+create a new HMAC instance
 </p>
 
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>algorithm</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;md5&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+(&#8216;md5&#8217;) The hashing-algorithm to use. See the openssl
+documentation for valid values.
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>default_opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+({}) The default options for all calls that take opts
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>default_opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:auth_param</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'auth'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The name of the authentication param to use for query based authentication
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:auth_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'Authorization'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The name of the authorization header to use
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:auth_header_format</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'%{auth_scheme} %{signature}'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The format of the authorization header. Will be interpolated with the given
+options and the signature.
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:nonce_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'X-#{auth_scheme}-Nonce'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The header name for the request nonce
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:alternate_date_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'X-#{auth_scheme}-Date'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The header name for the alternate date header
+</p>
+</div>
+        </tr>
+      
+    </ul>
+  
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
 19
 20
-21</pre>
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>md5</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='id algorithm'>algorithm</span>
@@ -689,17 +819,6 @@ All headers given in the request (optional and required)
       <pre class="lines">
 
 
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
 53
 54
 55
@@ -716,10 +835,21 @@ All headers given in the request (optional and required)
 66
 67
 68
-69</pre>
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id canonical_representation'>canonical_representation</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
   <span class='id rep'>rep</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
@@ -767,12 +897,12 @@ All headers given in the request (optional and required)
       <pre class="lines">
 
 
-28
-29
-30</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id check_signature'>check_signature</span><span class='lparen'>(</span><span class='id signature'>signature</span><span class='comma'>,</span> <span class='id params'>params</span><span class='rparen'>)</span>
   <span class='id signature'>signature</span> <span class='op'>==</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
@@ -795,21 +925,21 @@ All headers given in the request (optional and required)
       <pre class="lines">
 
 
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141</pre>
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id check_url_signature'>check_url_signature</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
@@ -841,13 +971,13 @@ All headers given in the request (optional and required)
       <pre class="lines">
 
 
-23
-24
-25
-26</pre>
+34
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
   <span class='id secret'>secret</span> <span class='op'>=</span> <span class='id params'>params</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:secret</span><span class='rparen'>)</span>
@@ -1004,12 +1134,27 @@ Includes the authentication data in the url instead of the headers
         </tr>
       
         <li>
-          <span class="name">:auth_param</span>
-          <span class="type">(<tt>:String</tt>)</span>
+          <span class="name">:use_alternate_date_header</span>
+          <span class="type">(<tt>String</tt>)</span>
           <span class="default">
             
               &mdash; default:
-              <tt>'auth</tt>
+              <tt>false</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Whether to use the alternate date header instead of &#8216;Date&#8217;
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:auth_param</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'auth'</tt>
             
           </span>
           &mdash; <div class='inline'><p>
@@ -1020,7 +1165,7 @@ The name of the authentication param to use for query based authentication
       
         <li>
           <span class="name">:auth_header</span>
-          <span class="type">(<tt>:String</tt>)</span>
+          <span class="type">(<tt>String</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1035,16 +1180,46 @@ The name of the authorization header to use
       
         <li>
           <span class="name">:auth_header_format</span>
-          <span class="type">(<tt>:String</tt>)</span>
+          <span class="type">(<tt>String</tt>)</span>
           <span class="default">
             
               &mdash; default:
-              <tt>'%{auth_scheme} %{signature}</tt>
+              <tt>'%{auth_scheme} %{signature}'</tt>
             
           </span>
           &mdash; <div class='inline'><p>
 The format of the authorization header. Will be interpolated with the given
 options and the signature.
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:nonce_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'X-#{auth_scheme}-Nonce'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The header name for the request nonce
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:alternate_date_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'X-#{auth_scheme}-Date'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The header name for the alternate date header
 </p>
 </div>
         </tr>
@@ -1058,19 +1233,6 @@ options and the signature.
       <pre class="lines">
 
 
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
 100
 101
 102
@@ -1091,10 +1253,23 @@ options and the signature.
 117
 118
 119
-120</pre>
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id sign_request'>sign_request</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
@@ -1148,16 +1323,16 @@ options and the signature.
       <pre class="lines">
 
 
-122
-123
-124
-125
-126
-127
-128</pre>
+135
+136
+137
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id sign_url'>sign_url</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
@@ -1176,7 +1351,7 @@ options and the signature.
 </div>
     
     <div id="footer">
-  Generated on Sun Jul 10 12:19:38 2011 by 
+  Generated on Sun Jul 10 16:08:31 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>
