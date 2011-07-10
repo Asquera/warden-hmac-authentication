@@ -19,7 +19,28 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
       return fail!("Invalid timestamp")  
     end
     
-    if hmac.check_signature(canonical_representation, secret, signature)
+    #:method => "GET",
+    #:date => "Mon, 20 Jun 2011 12:06:11 GMT",
+    #:nonce => "TESTNONCE",
+    #:path => "/example",
+    #:query => {
+    #  "foo" => "bar",
+    #  "baz" => "foobared"
+    #},
+    #:headers => {
+    #  "Content-Type" => "application/json;charset=utf8",
+    #  "Content-MD5" => "d41d8cd98f00b204e9800998ecf8427e"
+    #}
+    
+    if hmac.check_signature(signature, {
+        :secret => secret,
+        :method => request_method,
+        :date => request_timestamp,
+        :nonce => nonce,
+        :path => request.path,
+        :query => params,
+        :headers => headers.select {|name, value| optional_headers.include? name}
+      })
       success!(retrieve_user)
     else
       fail!("Invalid token passed")
@@ -44,32 +65,6 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::Base
   
   def request_method
     env['REQUEST_METHOD'].upcase
-  end
-
-  def canonical_representation
-    rep = ""
-    
-    rep << "#{request_method}\n" 
-    rep << "date:#{request_timestamp}\n"
-    rep << "nonce:#{nonce}\n"
-    
-    optional_headers.map {|header_name| header_name.downcase}.sort.each do |header_name|
-      rep << "#{header_name}:#{lowercase_headers[header_name]}\n" unless lowercase_headers[header_name].nil?
-    end
-    
-    rep << request.path
-    
-    p = params.dup
-    p.delete auth_param
-    
-    if !p.empty?
-      query = p.sort.map do |key, value|
-        "%{key}=%{value}"
-      end.join("&")
-      rep << "?#{query}"
-    end
-    
-    rep
   end
   
   def retrieve_user

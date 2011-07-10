@@ -52,7 +52,6 @@ context "header-based auth" do
     end
     
     asserts(:valid?)
-    asserts(:canonical_representation).equals("GET\ndate:Mon, 20 Jun 2011 12:06:11 GMT\nnonce:\n/")
     denies(:timestamp_valid?)
     denies(:authenticate!).equals(:success)
   
@@ -88,7 +87,6 @@ context "header-based auth" do
 
       asserts(:valid?)
       asserts(:timestamp_valid?)
-      asserts(:canonical_representation).equals("GET\ndate:Fri,  1 Jul 2011 20:28:55 GMT\nnonce:\n/")
       asserts(:signature).equals("a59456da1f61f86e96622e283780f58b7428c892")
       asserts(:authenticate!).equals(:success)
     end

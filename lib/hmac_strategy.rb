@@ -3,7 +3,7 @@ require 'warden'
 
 class Warden::Strategies::HMAC < Warden::Strategies::Base
   def valid?
-    valid = config[:params].all? { |p| params.include?(p.to_s) } && params.include?(token)
+    #valid = config[:params].all? { |p| params.include?(p.to_s) } && params.include?(token)
     valid = valid && params.include?(timestamp_name) if check_ttl?  
     valid
   end
@@ -17,7 +17,7 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
       return fail!("Invalid timestamp")  
     end
     
-    if hmac.check_signature(canonical_representation, secret, signature)
+    if hmac.check_url_signature(request.url, secret)
       success!(retrieve_user)
     else
       fail!("Invalid token passed")

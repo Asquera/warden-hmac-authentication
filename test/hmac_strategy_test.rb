@@ -11,19 +11,16 @@ context "HMAC" do
           manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
           manager.default_scope = :default
           manager.scope_defaults :default, :strategies => [:password, :basic]
-          manager.scope_defaults :token, :strategies => [:hmac], 
+          manager.scope_defaults :hmac, :strategies => [:hmac], 
                                          :store => false, 
                                          :hmac => { 
-                                           :params => ["user_id"],
-                                           :token => "auth",
                                            :secret => "secrit",
-                                           :algorithm => "md5",
-                                           :hmac => HMAC
+                                           :algorithm => "md5"
                                          }
         end
       
         run -> env {
-          env["warden"].authenticate!(:scope => :token)
+          env["warden"].authenticate!(:scope => :hmac)
           [200, {"Content-Length" => "0"}, [""]]
         }
       end.to_app
@@ -32,7 +29,7 @@ context "HMAC" do
     context "> with a valid signature" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&auth=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        signed = HMAC.new('md5').sign_url(uri, 'secrit')
       
         get signed
       end
@@ -50,7 +47,7 @@ context "HMAC" do
     
     context "> with an invalid signature" do
       setup do
-        get "http://example.org/?user_id=123&auth=foo"
+        get "http://example.org/?user_id=123&auth[signature]=foo"
       end
 
       asserts(:status).equals(401)
@@ -87,7 +84,7 @@ context "HMAC" do
     context "> with a valid signature" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, '')
+        signed = HMAC.new('md5').sign_url(uri, '')
       
         get signed
       end
@@ -109,13 +106,10 @@ context "HMAC" do
           manager.scope_defaults :token, :strategies => [:hmac], 
                                          :store => false, 
                                          :hmac => { 
-                                           :params => ["user_id"],
-                                           :token => "token",
                                            :secret => Proc.new {|strategy|
                                              "secrit"
                                            },
-                                           :algorithm => "md5",
-                                           :hmac => HMAC
+                                           :algorithm => "md5"
                                          }
         end
       
@@ -129,7 +123,7 @@ context "HMAC" do
     context "> with a valid signature" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        signed = HMAC.new('md5').sign_url(uri, 'secrit')
       
         get signed
       end
@@ -139,7 +133,7 @@ context "HMAC" do
     
     context "> with no signature" do
       setup do
-        get "http://example.org/?user_id=123&token="
+        get "http://example.org/?user_id=123&auth="
       end
 
       asserts(:status).equals(401)
@@ -147,7 +141,7 @@ context "HMAC" do
     
     context "> with an invalid signature" do
       setup do
-        get "http://example.org/?user_id=123&token=foo"
+        get "http://example.org/?user_id=123&auth[signature]=foo"
       end
 
       asserts(:status).equals(401)
@@ -185,7 +179,7 @@ context "HMAC" do
     context "> without timestamp" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        signed = HMAC.new('md5').sign_url(uri, 'secrit')
       
         get signed
       end
@@ -195,8 +189,8 @@ context "HMAC" do
     
     context "> with an expired timestamp " do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round - 310000}"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        uri = "http://example.org/?user_id=123"
+        signed = HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now - 3000))
       
         get signed
       end
@@ -206,8 +200,8 @@ context "HMAC" do
     
     context "> with timestamp in the future" do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round + 15000}"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        uri = "http://example.org/?user_id=123"
+        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 3000))
       
         get signed
       end
@@ -217,8 +211,8 @@ context "HMAC" do
     
     context "> with valid timestamp slighty in the past" do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round - 2500}"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        uri = "http://example.org/?user_id=123"
+        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now - 100))
         get signed
       end
 
@@ -227,8 +221,8 @@ context "HMAC" do
     
     context "> with timestamp equal current time" do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round}"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        uri = "http://example.org/?user_id=123"
+        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => Time.now)
         get signed
       end
 
@@ -237,8 +231,8 @@ context "HMAC" do
     
     context "> with timestamp slightly into the future" do
       setup do
-        uri = "http://example.org/?user_id=123&timestamp=#{(Time.now.gmtime.to_f * 1000).round + 1000}"
-        signed = uri + "&token=" + HMAC.new('md5').generate_signature(uri, 'secrit')
+        uri = "http://example.org/?user_id=123"
+        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 5))
         get signed
       end
 

@@ -5,33 +5,72 @@ context "an HMAC object" do
     HMAC.new("md5")
   end
 
-  context "> calculating the canonical query string" do
+  context "> generating the canonical representation" do
     
-    setup do
-      topic.canonical_querystring({
-        "foo" => "bar",
-        "baz" => "foo bar"
+    asserts("representation with nonce"){
+      topic.canonical_representation({
+        :method => "GET",
+        :date => "Mon, 20 Jun 2011 12:06:11 GMT",
+        :nonce => "TESTNONCE",
+        :path => "/example",
+        :query => {
+          "foo" => "bar",
+          "baz" => "foobared"
+        }
       })
-    end
+    }.equals("GET\ndate:Mon, 20 Jun 2011 12:06:11 GMT\nnonce:TESTNONCE\n/example?baz=foobared&foo=bar")
     
-    asserts("querystring"){topic}.equals("baz=foo+bar&foo=bar")
+    asserts("representation with headers"){
+      topic.canonical_representation({
+        :method => "GET",
+        :date => "Mon, 20 Jun 2011 12:06:11 GMT",
+        :nonce => "TESTNONCE",
+        :path => "/example",
+        :query => {
+          "foo" => "bar",
+          "baz" => "foobared"
+        },
+        :headers => {
+          "Content-Type" => "application/json;charset=utf8",
+          "Content-MD5" => "d41d8cd98f00b204e9800998ecf8427e"
+        }
+      })
+    }.equals("GET\ndate:Mon, 20 Jun 2011 12:06:11 GMT\nnonce:TESTNONCE\ncontent-md5:d41d8cd98f00b204e9800998ecf8427e\ncontent-type:application/json;charset=utf8\n/example?baz=foobared&foo=bar")    
     
   end
 
-  context "> generating the signature of a url" do
+  context "> generating the signature for a request" do
     
     setup do
-      topic.generate_signature("http://example.org?foo=bar&baz=foobar", "secret")
+      topic.sign_request("http://example.org?foo=bar&baz=foobar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
+    end
+
+    context "> resulting headers" do
+      
+      setup do
+        topic[0]
+      end
+      
+      asserts("date header") {topic["Date"]}.equals("Mon, 20 Jun 2011 12:06:11 GMT")
+      asserts("nonce header") {topic["X-HMAC-Nonce"]}.equals("TESTNONCE")
+      asserts("authorization header") {topic["Authorization"]}.equals("HMAC b2c5c7242f664ce18828f108452b437b")
+
     end
     
-    asserts("signature") {topic}.equals("4e8488fcfdea30d400861973ba03e079")
-    asserts("query parameter order does not matter") { topic == HMAC.new("md5").generate_signature("http://example.org?baz=foobar&foo=bar", "secret")}
-    asserts("token parameter is not taken into consideration") { topic == HMAC.new("md5").generate_signature("http://example.org?foo=bar&baz=foobar&token=4e8488fcfdea30d400861973ba03e079", "secret") }
+    asserts("resulting url is") {topic[1]}.equals("http://example.org?foo=bar&baz=foobar")
+    asserts("query parameter order does not matter") do
+      headers, url = * HMAC.new("md5").sign_request("http://example.org?baz=foobar&foo=bar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
+      headers["Authorization"] == topic[0]["Authorization"]
+    end
+    
   end
 
-  asserts("checking a url_signature") { topic.check_signature("http://example.org?foo=bar&baz=foobar&token=4e8488fcfdea30d400861973ba03e079", "secret") }
-  denies("checking an invalid url_signature") { topic.check_signature("http://example.org?foo=bar&baz=foobar&token=888488fcfdea30d400861973ba03e079", "secret") }
+  asserts("signing a url") do
+    topic.sign_url("http://example.org?foo=bar&baz=foobar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
+  end.equals("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b2c5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE")
   
-  asserts("signing a url") { topic.sign_url("http://example.org?foo=bar&token=888488fcfdea30d400861973ba03e079", "secret", "token", {"baz" => "foobar"}) }.equals("http://example.org?baz=foobar&foo=bar&token=4e8488fcfdea30d400861973ba03e079")
+  asserts("checking a url_signature") { topic.check_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b2c5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
+  denies("checking an invalid url_signature") { topic.check_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=AAc5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
+  
   
 end
