@@ -3,53 +3,31 @@ require 'warden'
 
 class Warden::Strategies::HMAC < Warden::Strategies::Base
   def valid?
-    #valid = config[:params].all? { |p| params.include?(p.to_s) } && params.include?(token)
-    valid = valid && params.include?(timestamp_name) if check_ttl?  
+    valid = auth_info.include? "signature"
+    valid = valid && has_timestamp? if check_ttl?
+    valid = valid && has_nonce? if nonce_required?
     valid
   end
 
   def authenticate!
     if "" == secret.to_s
+      debug("authentication attempt with an empty secret")
       return fail!("Cannot authenticate with an empty secret")
     end
     
     if check_ttl? && !timestamp_valid?
+      debug("authentication attempt with an invalid timestamp. Given was #{timestamp}, expected was #{Time.now.gmtime}")
       return fail!("Invalid timestamp")  
     end
     
     if hmac.check_url_signature(request.url, secret)
       success!(retrieve_user)
     else
+      debug("authentication attempt with an invalid signature.")
       fail!("Invalid token passed")
     end
   end
-  
-  def canonical_representation
-    rep = ""
     
-    rep << "#{request_method}\n" 
-    rep << "date:#{request_timestamp}\n"
-    rep << "nonce:#{nonce}\n"
-    
-    optional_headers.map {|header_name| header_name.downcase}.sort.each do |header_name|
-      rep << "#{header_name}:#{lowercase_headers[header_name]}\n" unless lowercase_headers[header_name].nil?
-    end
-    
-    rep << request.path
-    
-    p = params.dup
-    p.delete auth_param
-    
-    if !p.empty?
-      query = p.sort.map do |key, value|
-        "%{key}=%{value}"
-      end.join("&")
-      rep << "?#{query}"
-    end
-    
-    rep
-  end
-  
   
   def auth_info
     params[auth_param] || {}
@@ -85,6 +63,18 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
   
   def retrieve_user
     true
+  end
+  
+  def debug(msg)
+    if logger
+      logger.debug(msg)
+    end
+  end
+  
+  def logger
+    if defined? Padrino
+      Padrino.logger
+    end
   end
   
   private
@@ -132,26 +122,31 @@ class Warden::Strategies::HMAC < Warden::Strategies::Base
       !config[:ttl].nil?
     end
 
-    def timestamp_name
-      config[:timestamp] || "timestamp"
-    end
-
     def timestamp
-      params[timestamp_name].to_i
+      Time.strptime(auth_info["date"], '%a, %e %b %Y %T %z') if auth_info.has_key? "date"
+    end
+    
+    def has_timestamp?
+      !timestamp.nil?
     end
     
     def timestamp_valid?
-      now = (Time.now.gmtime.to_f * 1000).round
-      timestamp < (now + clockskew) && timestamp > (now - ttl * 1000)
+      now = Time.now.gmtime.to_i
+      timestamp.to_i <= (now + clockskew) && timestamp.to_i > (now - ttl)
     end
-
+    def nonce_required?
+      !!config[:require_nonce]
+    end
+    
     def secret
       @secret ||= config[:secret].respond_to?(:call) ? config[:secret].call(self) : config[:secret]
     end
     
     def clockskew
-      (config[:clockskew] || 5) * 1000
+      (config[:clockskew] || 5)
     end
+    
+    
 end
 
 Warden::Strategies.add(:hmac, Warden::Strategies::HMAC)

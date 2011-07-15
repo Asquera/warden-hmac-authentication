@@ -176,16 +176,16 @@ context "HMAC" do
       end.to_app
     ) 
 
-    context "> without timestamp" do
-      setup do
-        uri = "http://example.org/?user_id=123"
-        signed = HMAC.new('md5').sign_url(uri, 'secrit')
-      
-        get signed
-      end
-
-      asserts(:status).equals(401)
-    end
+    #context "> without timestamp" do
+    #  setup do
+    #    uri = "http://example.org/?user_id=123"
+    #    signed = HMAC.new('md5').sign_url(uri, 'secrit')
+    #  
+    #    get signed
+    #  end
+    #
+    #  asserts(:status).equals(401)
+    #end
     
     context "> with an expired timestamp " do
       setup do
@@ -201,7 +201,7 @@ context "HMAC" do
     context "> with timestamp in the future" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 3000))
+        signed = HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 3600))
       
         get signed
       end
@@ -212,7 +212,7 @@ context "HMAC" do
     context "> with valid timestamp slighty in the past" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now - 100))
+        signed = HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now - 100))
         get signed
       end
 
@@ -222,7 +222,7 @@ context "HMAC" do
     context "> with timestamp equal current time" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => Time.now)
+        signed = HMAC.new('md5').sign_url(uri, 'secrit', :date => Time.now)
         get signed
       end
 
@@ -232,7 +232,7 @@ context "HMAC" do
     context "> with timestamp slightly into the future" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = uri + "&token=" + HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 5))
+        signed =HMAC.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 5))
         get signed
       end
 
