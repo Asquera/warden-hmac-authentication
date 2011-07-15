@@ -104,7 +104,7 @@ class HMAC
     headers = opts[:headers] || {}
     
     date = opts[:date] || Time.now.gmtime
-    date = date.strftime('%a, %e %b %Y %T GMT') if date.respond_to? :strftime
+    date = date.gmtime.strftime('%a, %e %b %Y %T GMT') if date.respond_to? :strftime
     
     signature = generate_signature(:secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => opts[:nonce], :query => uri.query_values, :headers => opts[:headers])
       
