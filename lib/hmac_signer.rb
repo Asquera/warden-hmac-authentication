@@ -84,7 +84,7 @@ class HMACSigner
   # @option params [Bool]               :use_alternate_date_header (false) Use the alternate date header instead of `Date`
   #
   # @return [Bool] true if the signature matches
-  def check_signature(signature, params)
+  def validate_signature(signature, params)
     signature == generate_signature(params)
   end
   
@@ -97,7 +97,7 @@ class HMACSigner
   # @option opts [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
   #
   # @return [Bool] true if the signature is valid
-  def check_url_signature(url, secret, opts = {})
+  def validate_url_signature(url, secret, opts = {})
     opts = default_opts.merge(opts)
     opts[:query_based] = true
     
@@ -107,7 +107,7 @@ class HMACSigner
     
     date = auth_params["date"]
     nonce = auth_params["nonce"]
-    check_signature(auth_params["signature"], :secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => nonce, :query => query_values, :headers => {})
+    validate_signature(auth_params["signature"], :secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => nonce, :query => query_values, :headers => {})
   end
   
   # generates the canonical representation for a given request

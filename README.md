@@ -266,13 +266,13 @@ The canonical representation is:
 
 ## HMACSigner usage
 
-The HMACSigner class can be used to validate and generate signatures for a given request.
+The HMACSigner class can be used to validate and generate signatures for a given request. Most methods accept a hash as an intermediate 
+representation of the request but some methods accept and operate on full urls.
 
-    h = HMACSigner.new('md5')
-    h.generate_signature(canonical_representation, 'secret')
+    h = HMACSigner.new
+    h.sign_url('http://example.org/example.html', 'secret')
+    h.validate_url_signature('http://example.org/example.html?auth[signature]=foo', 'secret')
     
-    h.validated_signature(canonical_representation, signature, 'secret')
-
 ## Licence
 
 Copyright (c) 2011 Florian Gilcher <florian.gilcher@asquera.de>, Felix Gilcher <felix.gilcher@asquera.de>

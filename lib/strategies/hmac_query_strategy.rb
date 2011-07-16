@@ -23,7 +23,7 @@ class Warden::Strategies::HMACQuery < Warden::Strategies::HMACBase
   #
   # @return [Bool] true if the request is valid
   def signature_valid?
-    hmac.check_url_signature(request.url, secret)
+    hmac.validate_url_signature(request.url, secret)
   end
   
   # retrieve the authentication information from the request

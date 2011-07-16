@@ -494,7 +494,7 @@ true if the request is valid
       <pre class="code"><span class="info file"># File 'lib/strategies/hmac_query_strategy.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id signature_valid?'>signature_valid?</span>
-  <span class='id hmac'>hmac</span><span class='period'>.</span><span class='id check_url_signature'>check_url_signature</span><span class='lparen'>(</span><span class='id request'>request</span><span class='period'>.</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='rparen'>)</span>
+  <span class='id hmac'>hmac</span><span class='period'>.</span><span class='id validate_url_signature'>validate_url_signature</span><span class='lparen'>(</span><span class='id request'>request</span><span class='period'>.</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -578,7 +578,7 @@ true if all required authentication information is available in the request
 </div>
     
     <div id="footer">
-  Generated on Sat Jul 16 12:30:02 2011 by 
+  Generated on Sat Jul 16 12:39:13 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>

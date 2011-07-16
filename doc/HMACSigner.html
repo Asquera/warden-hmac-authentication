@@ -246,56 +246,6 @@ generates the canonical representation for a given request.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_signature-instance_method" title="#check_signature (instance method)">- (Bool) <strong>check_signature</strong>(signature, params) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-compares the given signature with the signature created from a hash
-representation.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#check_url_signature-instance_method" title="#check_url_signature (instance method)">- (Bool) <strong>check_url_signature</strong>(url, secret, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>
-convienience method to check the signature of a url with query-based
-authentication.
-</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#generate_signature-instance_method" title="#generate_signature (instance method)">- (String) <strong>generate_signature</strong>(params) </a>
     
 
@@ -385,6 +335,56 @@ sign the given request.
   
     <span class="summary_desc"><div class='inline'><p>
 convienience method to sign a url for use with query-based authentication.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_signature-instance_method" title="#validate_signature (instance method)">- (Bool) <strong>validate_signature</strong>(signature, params) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+compares the given signature with the signature created from a hash
+representation.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_url_signature-instance_method" title="#validate_url_signature (instance method)">- (Bool) <strong>validate_url_signature</strong>(url, secret, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+convienience method to check the signature of a url with query-based
+authentication.
 </p>
 </div></span>
   
@@ -1107,491 +1107,6 @@ the canonical representation
   <span class='kw'>end</span>
   
   <span class='id rep'>rep</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="check_signature-instance_method">
-  
-    - (<tt>Bool</tt>) <strong>check_signature</strong>(signature, params) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-compares the given signature with the signature created from a hash
-representation
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>signature</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the signature to compare with
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>params</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the parameters to create the representation with
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-  
-    
-    
-    
-    
-    <h3>Options Hash (<tt>params</tt>):</h3>
-    <ul class="option">
-      
-        <li>
-          <span class="name">:secret</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The secret to generate the signature with
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:method</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The HTTP Verb of the request
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:date</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The date of the request as it was formatted in the request
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:nonce</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>''</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The nonce given in the request
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:path</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The path portion of the request
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:query</span>
-          <span class="type">(<tt>Hash</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>{}</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The query parameters given in the request. Must not contain the auth param.
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:headers</span>
-          <span class="type">(<tt>Hash</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>{}</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-All headers given in the request (optional and required)
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:auth_scheme</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>'HMAC'</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The name of the authorization scheme used in the Authorization header and
-to construct various header-names
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>'auth'</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The name of the authentication param to use for query based authentication
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:auth_header</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>'Authorization'</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The name of the authorization header to use
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:auth_header_format</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>'%{auth_scheme} %{signature}'</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The format of the authorization header. Will be interpolated with the given
-options and the signature.
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:nonce_header</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>'X-#{auth_scheme}-Nonce'</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The header name for the request nonce
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:alternate_date_header</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>'X-#{auth_scheme}-Date'</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The header name for the alternate date header
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:query_based</span>
-          <span class="type">(<tt>Bool</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-Whether to use query based authentication
-</p>
-</div>
-        </tr>
-      
-        <li>
-          <span class="name">:use_alternate_date_header</span>
-          <span class="type">(<tt>Bool</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-Use the alternate date header instead of `Date`
-</p>
-</div>
-        </tr>
-      
-    </ul>
-  
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Bool</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-true if the signature matches
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-87
-88
-89</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 87</span>
-
-<span class='kw'>def</span> <span class='id check_signature'>check_signature</span><span class='lparen'>(</span><span class='id signature'>signature</span><span class='comma'>,</span> <span class='id params'>params</span><span class='rparen'>)</span>
-  <span class='id signature'>signature</span> <span class='op'>==</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="check_url_signature-instance_method">
-  
-    - (<tt>Bool</tt>) <strong>check_url_signature</strong>(url, secret, opts = {}) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>
-convienience method to check the signature of a url with query-based
-authentication
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>url</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the url to test
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>secret</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-the secret used to sign the url
-</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>opts</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'><p>
-Options controlling the singature generation
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-  
-    
-    
-    
-    
-    
-    
-    <h3>Options Hash (<tt>opts</tt>):</h3>
-    <ul class="option">
-      
-        <li>
-          <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>'auth'</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>
-The name of the authentication param to use for query based authentication
-</p>
-</div>
-        </tr>
-      
-    </ul>
-  
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Bool</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-true if the signature is valid
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 100</span>
-
-<span class='kw'>def</span> <span class='id check_url_signature'>check_url_signature</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
-  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
-  
-  <span class='id uri'>uri</span> <span class='op'>=</span> <span class='const'>Addressable</span><span class='op'>::</span><span class='const'>URI</span><span class='period'>.</span><span class='id parse'>parse</span><span class='lparen'>(</span><span class='id url'>url</span><span class='rparen'>)</span>
-  <span class='id query_values'>query_values</span> <span class='op'>=</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id query_values'>query_values</span>
-  <span class='id auth_params'>auth_params</span> <span class='op'>=</span> <span class='id query_values'>query_values</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_param</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  
-  <span class='id date'>date</span> <span class='op'>=</span> <span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='id nonce'>nonce</span> <span class='op'>=</span> <span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nonce</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='id check_signature'>check_signature</span><span class='lparen'>(</span><span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>signature</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='symbol'>:date</span> <span class='op'>=&gt;</span> <span class='id date'>date</span><span class='comma'>,</span> <span class='symbol'>:nonce</span> <span class='op'>=&gt;</span> <span class='id nonce'>nonce</span><span class='comma'>,</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='id query_values'>query_values</span><span class='comma'>,</span> <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2392,12 +1907,497 @@ The signed url
 </table>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="validate_signature-instance_method">
+  
+    - (<tt>Bool</tt>) <strong>validate_signature</strong>(signature, params) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+compares the given signature with the signature created from a hash
+representation
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>signature</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the signature to compare with
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>params</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the parameters to create the representation with
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>params</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:secret</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The secret to generate the signature with
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:method</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The HTTP Verb of the request
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:date</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The date of the request as it was formatted in the request
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:nonce</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>''</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The nonce given in the request
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:path</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The path portion of the request
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:query</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>{}</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The query parameters given in the request. Must not contain the auth param.
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:headers</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>{}</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+All headers given in the request (optional and required)
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:auth_scheme</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'HMAC'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The name of the authorization scheme used in the Authorization header and
+to construct various header-names
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:auth_param</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'auth'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The name of the authentication param to use for query based authentication
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:auth_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'Authorization'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The name of the authorization header to use
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:auth_header_format</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'%{auth_scheme} %{signature}'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The format of the authorization header. Will be interpolated with the given
+options and the signature.
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:nonce_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'X-#{auth_scheme}-Nonce'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The header name for the request nonce
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:alternate_date_header</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'X-#{auth_scheme}-Date'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The header name for the alternate date header
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:query_based</span>
+          <span class="type">(<tt>Bool</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Whether to use query based authentication
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="name">:use_alternate_date_header</span>
+          <span class="type">(<tt>Bool</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Use the alternate date header instead of `Date`
+</p>
+</div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bool</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+true if the signature matches
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 87</span>
+
+<span class='kw'>def</span> <span class='id validate_signature'>validate_signature</span><span class='lparen'>(</span><span class='id signature'>signature</span><span class='comma'>,</span> <span class='id params'>params</span><span class='rparen'>)</span>
+  <span class='id signature'>signature</span> <span class='op'>==</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="validate_url_signature-instance_method">
+  
+    - (<tt>Bool</tt>) <strong>validate_url_signature</strong>(url, secret, opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+convienience method to check the signature of a url with query-based
+authentication
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the url to test
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>secret</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the secret used to sign the url
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+Options controlling the singature generation
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    
+    
+    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:auth_param</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'auth'</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+The name of the authentication param to use for query based authentication
+</p>
+</div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bool</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+true if the signature is valid
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='id validate_url_signature'>validate_url_signature</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
+  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+  
+  <span class='id uri'>uri</span> <span class='op'>=</span> <span class='const'>Addressable</span><span class='op'>::</span><span class='const'>URI</span><span class='period'>.</span><span class='id parse'>parse</span><span class='lparen'>(</span><span class='id url'>url</span><span class='rparen'>)</span>
+  <span class='id query_values'>query_values</span> <span class='op'>=</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id query_values'>query_values</span>
+  <span class='id auth_params'>auth_params</span> <span class='op'>=</span> <span class='id query_values'>query_values</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_param</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  
+  <span class='id date'>date</span> <span class='op'>=</span> <span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id nonce'>nonce</span> <span class='op'>=</span> <span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nonce</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id validate_signature'>validate_signature</span><span class='lparen'>(</span><span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>signature</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='symbol'>:date</span> <span class='op'>=&gt;</span> <span class='id date'>date</span><span class='comma'>,</span> <span class='symbol'>:nonce</span> <span class='op'>=&gt;</span> <span class='id nonce'>nonce</span><span class='comma'>,</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='id query_values'>query_values</span><span class='comma'>,</span> <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Sat Jul 16 12:30:02 2011 by 
+  Generated on Sat Jul 16 12:39:13 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>

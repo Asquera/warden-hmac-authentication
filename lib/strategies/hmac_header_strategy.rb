@@ -35,7 +35,7 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
     #  "Content-MD5" => "d41d8cd98f00b204e9800998ecf8427e"
     #}
     
-    hmac.check_signature(given_signature, {
+    hmac.validate_signature(given_signature, {
       :secret => secret,
       :method => request_method,
       :date => request_timestamp,

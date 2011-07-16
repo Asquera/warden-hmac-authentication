@@ -530,7 +530,7 @@ true if the request is valid
 </span>  <span class='comment'>#  &quot;Content-MD5&quot; =&gt; &quot;d41d8cd98f00b204e9800998ecf8427e&quot;
 </span>  <span class='comment'>#}
 </span>  
-  <span class='id hmac'>hmac</span><span class='period'>.</span><span class='id check_signature'>check_signature</span><span class='lparen'>(</span><span class='id given_signature'>given_signature</span><span class='comma'>,</span> <span class='lbrace'>{</span>
+  <span class='id hmac'>hmac</span><span class='period'>.</span><span class='id validate_signature'>validate_signature</span><span class='lparen'>(</span><span class='id given_signature'>given_signature</span><span class='comma'>,</span> <span class='lbrace'>{</span>
     <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='id secret'>secret</span><span class='comma'>,</span>
     <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='id request_method'>request_method</span><span class='comma'>,</span>
     <span class='symbol'>:date</span> <span class='op'>=&gt;</span> <span class='id request_timestamp'>request_timestamp</span><span class='comma'>,</span>
@@ -620,7 +620,7 @@ true if all required authentication information is available in the request
 </div>
     
     <div id="footer">
-  Generated on Sat Jul 16 12:30:03 2011 by 
+  Generated on Sat Jul 16 12:39:13 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>
