@@ -3,6 +3,25 @@ require 'warden'
 
 class Warden::Strategies::HMACBase < Warden::Strategies::Base
   
+  def authenticate!
+    if "" == secret.to_s
+      debug("authentication attempt with an empty secret")
+      return fail!("Cannot authenticate with an empty secret")
+    end
+    
+    if check_ttl? && !timestamp_valid?
+      debug("authentication attempt with an invalid timestamp. Given was #{timestamp}, expected was #{Time.now.gmtime}")
+      return fail!("Invalid timestamp")  
+    end
+    
+    if signature_valid?
+      success!(retrieve_user)
+    else
+      debug("authentication attempt with an invalid signature.")
+      fail!("Invalid token passed")
+    end
+  end
+  
   def request_method
     env['REQUEST_METHOD'].upcase
   end

@@ -8,15 +8,7 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
     valid
   end
 
-  def authenticate!
-    if "" == secret.to_s
-      return fail!("Cannot authenticate with an empty secret")
-    end
-    
-    if check_ttl? && !timestamp_valid?
-      debug("authentication attempt with an invalid timestamp. Given was #{timestamp}, expected was #{Time.now.gmtime}")
-      return fail!("Invalid timestamp")  
-    end
+  def signature_valid?
     
     #:method => "GET",
     #:date => "Mon, 20 Jun 2011 12:06:11 GMT",
@@ -31,19 +23,15 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
     #  "Content-MD5" => "d41d8cd98f00b204e9800998ecf8427e"
     #}
     
-    if hmac.check_signature(signature, {
-        :secret => secret,
-        :method => request_method,
-        :date => request_timestamp,
-        :nonce => nonce,
-        :path => request.path,
-        :query => params,
-        :headers => headers.select {|name, value| optional_headers.include? name}
-      })
-      success!(retrieve_user)
-    else
-      fail!("Invalid token passed")
-    end
+    hmac.check_signature(signature, {
+      :secret => secret,
+      :method => request_method,
+      :date => request_timestamp,
+      :nonce => nonce,
+      :path => request.path,
+      :query => params,
+      :headers => headers.select {|name, value| optional_headers.include? name}
+    })
   end
   
   def signature
