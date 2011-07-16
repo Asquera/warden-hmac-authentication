@@ -58,7 +58,7 @@ Configure the HMAC warden strategy:
 
 If you want to retrieve the secret and token using a different strategy, either extend the HMAC strategy:
 
-    class Warden::Strategies::HMAC < Warden::Strategies::Base
+    class Warden::Strategies::HMACQuery < Warden::Strategies::HMACBase
       def retrieve_user
         User.get(request[:user_id])
       end
@@ -263,9 +263,9 @@ The canonical representation is:
     /example/resource.html?order=id,asc&page=3
 
 
-## HMAC usage
+## HMACSigner usage
 
-The HMAC class can be used to validate and generate signatures for a given request.
+The HMACSigner class can be used to validate and generate signatures for a given request.
 
     h = HMACSigner.new('md5')
     h.generate_signature(canonical_representation, 'secret')

@@ -1,4 +1,4 @@
-require 'strategies/hmac_strategy'
+require 'strategies/hmac_query_strategy'
 require 'rack/builder'
 
 context "HMAC" do
@@ -11,7 +11,7 @@ context "HMAC" do
           manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
           manager.default_scope = :default
           manager.scope_defaults :default, :strategies => [:password, :basic]
-          manager.scope_defaults :hmac, :strategies => [:hmac], 
+          manager.scope_defaults :hmac, :strategies => [:hmac_query], 
                                          :store => false, 
                                          :hmac => { 
                                            :secret => "secrit",
@@ -63,7 +63,7 @@ context "HMAC" do
           manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
           manager.default_scope = :default
           manager.scope_defaults :default, :strategies => [:password, :basic]
-          manager.scope_defaults :token, :strategies => [:hmac], 
+          manager.scope_defaults :token, :strategies => [:hmac_query], 
                                          :store => false, 
                                          :hmac => { 
                                            :token => "token",
@@ -100,7 +100,7 @@ context "HMAC" do
           manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
           manager.default_scope = :default
           manager.scope_defaults :default, :strategies => [:password, :basic]
-          manager.scope_defaults :token, :strategies => [:hmac], 
+          manager.scope_defaults :token, :strategies => [:hmac_query], 
                                          :store => false, 
                                          :hmac => { 
                                            :secret => Proc.new {|strategy|
@@ -154,7 +154,7 @@ context "HMAC" do
           manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
           manager.default_scope = :default
           manager.scope_defaults :default, :strategies => [:password, :basic]
-          manager.scope_defaults :token, :strategies => [:hmac], 
+          manager.scope_defaults :token, :strategies => [:hmac_query], 
                                          :store => false, 
                                          :hmac => { 
                                            :secret => "secrit",
@@ -226,7 +226,7 @@ context "HMAC" do
     context "> with timestamp slightly into the future" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed =HMACSigner.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 5))
+        signed = HMACSigner.new('md5').sign_url(uri, 'secrit', :date => (Time.now + 5))
         get signed
       end
 

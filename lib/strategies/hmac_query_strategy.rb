@@ -1,6 +1,6 @@
 require_relative 'base'
 
-class Warden::Strategies::HMAC < Warden::Strategies::HMACBase
+class Warden::Strategies::HMACQuery < Warden::Strategies::HMACBase
   
   # Checks that this strategy applies. Tests that the required
   # authentication information was given.
@@ -44,4 +44,4 @@ class Warden::Strategies::HMAC < Warden::Strategies::HMACBase
       
 end
 
-Warden::Strategies.add(:hmac, Warden::Strategies::HMAC)
+Warden::Strategies.add(:hmac_query, Warden::Strategies::HMACQuery)

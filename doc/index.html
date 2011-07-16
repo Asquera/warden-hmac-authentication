@@ -112,7 +112,7 @@ read additional configuration from a hash named :hmac in the warden scope.</p>
 
 <p>If you want to retrieve the secret and token using a different strategy, either extend the HMAC strategy:</p>
 
-<pre class="code"><span class='kw'>class</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Strategies</span><span class='op'>::</span><span class='const'>HMAC</span> <span class='op'>&lt;</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Strategies</span><span class='op'>::</span><span class='const'>Base</span>
+<pre class="code"><span class='kw'>class</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Strategies</span><span class='op'>::</span><span class='const'>HMACQuery</span> <span class='op'>&lt;</span> <span class='const'>Warden</span><span class='op'>::</span><span class='const'>Strategies</span><span class='op'>::</span><span class='const'>HMACBase</span>
   <span class='kw'>def</span> <span class='id retrieve_user'>retrieve_user</span>
     <span class='const'>User</span><span class='period'>.</span><span class='id get'>get</span><span class='lparen'>(</span><span class='id request'>request</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
@@ -327,11 +327,11 @@ nonce:foLiequei7oosaiWun5aoy8oo\n
 /example/resource.html?order=id,asc&amp;page=3
 </pre>
 
-<h2>HMAC usage</h2>
+<h2>HMACSigner usage</h2>
 
-<p>The HMAC class can be used to validate and generate signatures for a given request.</p>
+<p>The HMACSigner class can be used to validate and generate signatures for a given request.</p>
 
-<pre class="code"><span class='id h'>h</span> <span class='op'>=</span> <span class='const'>HMAC</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>md5</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+<pre class="code"><span class='id h'>h</span> <span class='op'>=</span> <span class='const'>HMACSigner</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>md5</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 <span class='id h'>h</span><span class='period'>.</span><span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id canonical_representation'>canonical_representation</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>secret</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 
 <span class='id h'>h</span><span class='period'>.</span><span class='id validated_signature'>validated_signature</span><span class='lparen'>(</span><span class='id canonical_representation'>canonical_representation</span><span class='comma'>,</span> <span class='id signature'>signature</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>secret</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -339,7 +339,7 @@ nonce:foLiequei7oosaiWun5aoy8oo\n
 
 <h2>Licence</h2>
 
-<p>Copyright (c) 2011 Florian Gilcher <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#102;&#108;&#x6f;&#x72;&#x69;&#x61;&#x6e;&#46;&#103;&#x69;&#x6c;&#99;&#x68;&#x65;&#x72;&#x40;&#97;&#115;&#113;&#x75;&#101;&#x72;&#x61;&#x2e;&#x64;&#101;">&#x66;&#108;&#x6f;&#114;&#x69;&#97;&#110;&#x2e;&#x67;&#x69;&#108;&#x63;&#x68;&#101;&#114;&#64;&#x61;&#x73;&#113;&#117;&#101;&#114;&#x61;&#46;&#x64;&#x65;</a>, Felix Gilcher <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#102;&#x65;&#x6c;&#105;&#x78;&#46;&#103;&#105;&#108;&#x63;&#x68;&#x65;&#x72;&#64;&#97;&#115;&#113;&#117;&#101;&#114;&#x61;&#46;&#x64;&#x65;">&#102;&#101;&#x6c;&#x69;&#x78;&#x2e;&#x67;&#x69;&#108;&#99;&#104;&#101;&#114;&#64;&#97;&#115;&#x71;&#117;&#x65;&#114;&#97;&#x2e;&#100;&#101;</a></p>
+<p>Copyright (c) 2011 Florian Gilcher <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#x66;&#x6c;&#x6f;&#x72;&#105;&#97;&#x6e;&#x2e;&#x67;&#105;&#108;&#99;&#x68;&#x65;&#x72;&#64;&#x61;&#x73;&#x71;&#x75;&#101;&#x72;&#97;&#46;&#100;&#101;">&#102;&#108;&#111;&#x72;&#x69;&#x61;&#x6e;&#46;&#103;&#x69;&#108;&#x63;&#104;&#x65;&#x72;&#64;&#x61;&#115;&#x71;&#x75;&#x65;&#x72;&#97;&#46;&#100;&#101;</a>, Felix Gilcher <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#102;&#101;&#x6c;&#x69;&#x78;&#x2e;&#103;&#105;&#108;&#x63;&#104;&#x65;&#x72;&#64;&#x61;&#x73;&#113;&#117;&#101;&#x72;&#97;&#x2e;&#x64;&#101;">&#x66;&#x65;&#x6c;&#x69;&#x78;&#x2e;&#x67;&#x69;&#x6c;&#99;&#104;&#101;&#x72;&#64;&#97;&#x73;&#113;&#117;&#x65;&#x72;&#x61;&#46;&#100;&#x65;</a></p>
 
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -362,7 +362,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 </div></div>
     
     <div id="footer">
-  Generated on Sat Jul 16 10:11:33 2011 by 
+  Generated on Sat Jul 16 10:41:21 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>
