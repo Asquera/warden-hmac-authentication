@@ -19,7 +19,7 @@ class HMACSigner
   # @option default_opts [Bool]               :query_based (false) Whether to use query based authentication
   # @option default_opts [Bool]               :use_alternate_date_header (false) Use the alternate date header instead of `Date`
   #
-  def initialize(algorithm = "md5", default_opts = {})
+  def initialize(algorithm = "sha1", default_opts = {})
     self.algorithm = algorithm
     self.default_opts = {
       :auth_scheme => "HMAC",
