@@ -10,36 +10,102 @@ class HMACSigner
   # @param [String] algorithm   The hashing-algorithm to use. See the openssl documentation for valid values.
   # @param [Hash] default_opts  The default options for all calls that take opts
   #
+  # @option default_opts [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
   # @option default_opts [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
   # @option default_opts [String]             :auth_header ('Authorization') The name of the authorization header to use
   # @option default_opts [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
   # @option default_opts [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
   # @option default_opts [String]             :alternate_date_header ('X-#{auth_scheme}-Date') The header name for the alternate date header
+  # @option default_opts [Bool]               :query_based (false) Whether to use query based authentication
+  # @option default_opts [Bool]               :use_alternate_date_header (false) Use the alternate date header instead of `Date`
   #
   def initialize(algorithm = "md5", default_opts = {})
     self.algorithm = algorithm
     self.default_opts = {
       :auth_scheme => "HMAC",
-      :alternate_date_header => "X-%{scheme}-Date" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
-      :nonce_header => "X-%{scheme}-Nonce" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
-      :query_based => false,
-      :use_alternate_date_header => false,
       :auth_param => "auth",
       :auth_header => "Authorization",
-      :auth_header_format => "%{auth_scheme} %{signature}"
+      :auth_header_format => "%{auth_scheme} %{signature}",
+      :nonce_header => "X-%{scheme}-Nonce" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
+      :alternate_date_header => "X-%{scheme}-Date" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
+      :query_based => false,
+      :use_alternate_date_header => false
     }.merge(default_opts)
     
   end
   
+  # Generate the signature from a hash representation
+  #
+  # @param [Hash] params the parameters to create the representation with
+  # @option params [String] :secret The secret to generate the signature with
+  # @option params [String] :method The HTTP Verb of the request
+  # @option params [String] :date The date of the request as it was formatted in the request
+  # @option params [String] :nonce ('') The nonce given in the request
+  # @option params [String] :path The path portion of the request
+  # @option params [Hash]   :query ({}) The query parameters given in the request. Must not contain the auth param.
+  # @option params [Hash]   :headers ({}) All headers given in the request (optional and required)
+  # @option params [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
+  # @option params [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
+  # @option params [String]             :auth_header ('Authorization') The name of the authorization header to use
+  # @option params [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
+  # @option params [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
+  # @option params [String]             :alternate_date_header ('X-#{auth_scheme}-Date') The header name for the alternate date header
+  # @option params [Bool]               :query_based (false) Whether to use query based authentication
+  # @option params [Bool]               :use_alternate_date_header (false) Use the alternate date header instead of `Date`
+  #
+  # @return [String] the signature
   def generate_signature(params)
     secret = params.delete(:secret)
     OpenSSL::HMAC.hexdigest(algorithm, secret, canonical_representation(params))
   end
   
+  # compares the given signature with the signature created from a hash representation
+  #
+  # @param [String] signature the signature to compare with
+  # @param [Hash] params the parameters to create the representation with
+  # @option params [String] :secret The secret to generate the signature with
+  # @option params [String] :method The HTTP Verb of the request
+  # @option params [String] :date The date of the request as it was formatted in the request
+  # @option params [String] :nonce ('') The nonce given in the request
+  # @option params [String] :path The path portion of the request
+  # @option params [Hash]   :query ({}) The query parameters given in the request. Must not contain the auth param.
+  # @option params [Hash]   :headers ({}) All headers given in the request (optional and required)
+  # @option params [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
+  # @option params [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
+  # @option params [String]             :auth_header ('Authorization') The name of the authorization header to use
+  # @option params [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
+  # @option params [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
+  # @option params [String]             :alternate_date_header ('X-#{auth_scheme}-Date') The header name for the alternate date header
+  # @option params [Bool]               :query_based (false) Whether to use query based authentication
+  # @option params [Bool]               :use_alternate_date_header (false) Use the alternate date header instead of `Date`
+  #
+  # @return [Bool] true if the signature matches
   def check_signature(signature, params)
     signature == generate_signature(params)
   end
-
+  
+  # convienience method to check the signature of a url with query-based authentication
+  #
+  # @param [String] url the url to test
+  # @param [String] secret the secret used to sign the url
+  # @param [Hash] opts Options controlling the singature generation
+  #
+  # @option opts [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
+  #
+  # @return [Bool] true if the signature is valid
+  def check_url_signature(url, secret, opts = {})
+    opts = default_opts.merge(opts)
+    opts[:query_based] = true
+    
+    uri = Addressable::URI.parse(url)
+    query_values = uri.query_values
+    auth_params = query_values.delete(opts[:auth_param])
+    
+    date = auth_params["date"]
+    nonce = auth_params["nonce"]
+    check_signature(auth_params["signature"], :secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => nonce, :query => query_values, :headers => {})
+  end
+  
   # generates the canonical representation for a given request
   # 
   # @param [Hash] params the parameters to create the representation with
@@ -49,7 +115,16 @@ class HMACSigner
   # @option params [String] :path The path portion of the request
   # @option params [Hash]   :query ({}) The query parameters given in the request. Must not contain the auth param.
   # @option params [Hash]   :headers ({}) All headers given in the request (optional and required)
+  # @option params [String] :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
+  # @option params [String] :auth_param ('auth')   The name of the authentication param to use for query based authentication
+  # @option params [String] :auth_header ('Authorization') The name of the authorization header to use
+  # @option params [String] :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
+  # @option params [String] :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
+  # @option params [String] :alternate_date_header ('X-#{auth_scheme}-Date') The header name for the alternate date header
+  # @option params [Bool]   :query_based (false) Whether to use query based authentication
+  # @option params [Bool]   :use_alternate_date_header (false) Use the alternate date header instead of `Date`
   #
+  # @return [String] the canonical representation
   def canonical_representation(params)
     rep = ""
     
@@ -88,14 +163,15 @@ class HMACSigner
   # @option opts [String]             :nonce ('')           The nonce to use in the signature
   # @option opts [String, #strftime]  :date (Time.now)      The date to use in the signature
   # @option opts [Hash]               :headers ({})         A list of optional headers to include in the signature
-  # @option opts [Bool]               :query_based (false)  Includes the authentication data in the url instead of the headers
-  # @option opts [String]             :use_alternate_date_header (false) Whether to use the alternate date header instead of 'Date'
   #                                   
+  # @option opts [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
   # @option opts [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
   # @option opts [String]             :auth_header ('Authorization') The name of the authorization header to use
   # @option opts [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
   # @option opts [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
   # @option opts [String]             :alternate_date_header ('X-#{auth_scheme}-Date') The header name for the alternate date header
+  # @option opts [Bool]               :query_based (false) Whether to use query based authentication
+  # @option opts [Bool]               :use_alternate_date_header (false) Use the alternate date header instead of `Date`
   #
   def sign_request(url, secret, opts = {})
     opts = default_opts.merge(opts)
@@ -132,6 +208,15 @@ class HMACSigner
     [headers, uri.to_s]
   end
   
+  # convienience method to sign a url for use with query-based authentication
+  #
+  # @param [String] url the url to sign
+  # @param [String] secret the secret used to sign the url
+  # @param [Hash] opts Options controlling the singature generation
+  #
+  # @option opts [String] :auth_param ('auth')   The name of the authentication param to use for query based authentication
+  #
+  # @return [String] The signed url
   def sign_url(url, secret, opts = {})
     opts = default_opts.merge(opts)
     opts[:query_based] = true
@@ -140,18 +225,6 @@ class HMACSigner
     url  
   end
   
-  def check_url_signature(url, secret, opts = {})
-    opts = default_opts.merge(opts)
-    opts[:query_based] = true
-    
-    uri = Addressable::URI.parse(url)
-    query_values = uri.query_values
-    auth_params = query_values.delete(opts[:auth_param])
-    
-    date = auth_params["date"]
-    nonce = auth_params["nonce"]
-    check_signature(auth_params["signature"], :secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => nonce, :query => query_values, :headers => {})
-  end
   
 end
 
