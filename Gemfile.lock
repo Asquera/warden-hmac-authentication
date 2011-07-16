@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    warden-hmac-authentication (0.2.0)
+    warden-hmac-authentication (0.3.0)
       addressable
       rack
       trollop
