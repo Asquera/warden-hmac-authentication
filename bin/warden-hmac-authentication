@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+require 'trollop'
+require 'hmac_signer'
+
+opts = Trollop::options do
+  
+  version "warden-hmac-sign 0.3.0 (c) 2011 Felix Gilcher, Florian Gilcher"
+    banner <<-EOS
+  warden-hmac-authentication is used to create and validate signed urls for
+  usage with the HMAC authentication scheme used by 
+  https://github.com/Asquera/warden-hmac-authentication
+
+  Usage:
+         warden-hmac-authentication [options] <command> url
+  
+  where command is one of
+  
+    sign: signs the given url 
+    validate: validates the given url
+    
+  and where [options] are:
+  
+  EOS
+  
+  opt :algorithm, "The hashing algorithm to use for the HMAC", :type => :string, :default => "sha1"
+  opt :secret, "The shared secret for the HMAC", :type => :string, :required => true
+  opt :"auth-param", "The name for the auth param in the url", :default => "auth"
+  opt :"date", "The date to use for the signature (defaults to now)"
+end
+
+cmd = ARGV.shift
+Trollop::die "You must give a command" if cmd.nil?
+Trollop::die "You command must be one of [sign, validate]" unless ["sign", "validate"].include? cmd
+Trollop::die "You must provide a URL" if ARGV.empty?
+url = ARGV.shift
+
+secret = opts.delete(:secret)
+algorithm = opts.delete(:algorithm)
+
+signer = HMACSigner.new(algorithm)
+
+if "sign" == cmd
+  puts signer.sign_url(url, secret, opts)
+else
+  success = signer.validate_url_signature(url, secret, opts)
+  if success
+    puts "URL #{url} is valid"
+    exit 0
+  else
+    puts "URL #{url} does not contain a valid signature"
+    exit 1
+  end
+end

@@ -1,9 +1,10 @@
 PATH
   remote: .
   specs:
-    hmac (1.0)
+    warden-hmac-authentication (0.2.0)
       addressable
       rack
+      trollop
 
 GEM
   remote: http://rubygems.org/
@@ -21,6 +22,7 @@ GEM
       simplecov-html (~> 0.4.4)
     simplecov-html (0.4.5)
     timecop (0.3.5)
+    trollop (1.16.2)
     warden (1.0.3)
       rack (>= 1.0.0)
     yard (0.7.2)
@@ -29,7 +31,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  hmac!
   rack
   rack-test
   rake
@@ -39,4 +40,5 @@ DEPENDENCIES
   simplecov-html
   timecop
   warden
+  warden-hmac-authentication!
   yard

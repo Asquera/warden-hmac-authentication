@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "warden-hmac-authentication"
-  s.version     = "0.2.0"
+  s.version     = "0.3.0"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Felix Gilcher", "Florian Gilcher"]
   s.email       = ["felix.gilcher@asquera.de", "florian.gilcher@asquera.de"]
@@ -21,8 +21,11 @@ Gem::Specification.new do |s|
   
   s.require_paths = ["lib"]
   
+  s.executables   = ["warden-hmac-authentication"]
+  
   s.add_runtime_dependency(%q<addressable>)
   s.add_runtime_dependency(%q<rack>)
+  s.add_runtime_dependency(%q<trollop>)
   s.add_development_dependency(%q<yard>)
   s.add_development_dependency(%q<rdiscount>)
   s.add_development_dependency(%q<simplecov>)
