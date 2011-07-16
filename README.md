@@ -1,8 +1,9 @@
 # HMAC
 
-This gem provides request authentication via [HMAC](http://en.wikipedia.org/wiki/Hmac). Two strategies are supported that differ mainly 
-in how the authentication information is transferred to the server: One header-based authentication method and one query-based. The
-authentication scheme is in some parts based on ideas laid out in this article and the following discussion: 
+This gem provides request authentication via [HMAC](http://en.wikipedia.org/wiki/Hmac). The main usage is request based, noninteractive
+authentication for API implementations. Two strategies are supported that differ mainly in how the authentication information is
+transferred to the server: One header-based authentication method and one query-based. The authentication scheme is in some parts based
+on ideas laid out in this article and the following discussion: 
 http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html
 
 The gem also provides a small helper class that can be used to generate request signatures.
