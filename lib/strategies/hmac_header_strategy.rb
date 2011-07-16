@@ -12,7 +12,10 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
     valid = valid && scheme_valid?
     valid
   end
-
+  
+  # Check that the signature given in the request is valid.
+  #
+  # @return [Bool] true if the request is valid
   def signature_valid?
     
     #:method => "GET",
@@ -38,17 +41,26 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
       :headers => headers.select {|name, value| optional_headers.include? name}
     })
   end
-  
+
+  # retrieve the signature from the request
+  #
+  # @return [String] The signature from the request
   def given_signature
     headers[auth_header].split(" ")[1]
   end
-  
-  def request_timestamp
-    headers[date_header]
-  end
-  
+
+  # retrieve the nonce from the request
+  #
+  # @return [String] The nonce or an empty string if no nonce was given in the request
   def nonce
     headers[nonce_header_name]
+  end
+
+  # retrieve the request timestamp as string
+  #
+  # @return [String] The request timestamp or an empty string if no timestamp was given in the request
+  def request_timestamp
+    headers[date_header]
   end
   
   private

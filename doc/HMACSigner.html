@@ -292,7 +292,7 @@ Generate the signature from a hash representation.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (HMACSigner) <strong>initialize</strong>(algorithm = &quot;md5&quot;, default_opts = {}) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (HMACSigner) <strong>initialize</strong>(algorithm = &quot;sha1&quot;, default_opts = {}) </a>
     
 
     
@@ -372,7 +372,7 @@ convienience method to sign a url for use with query-based authentication.
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="HMACSigner (class)">HMACSigner</a></span></tt>) <strong>initialize</strong>(algorithm = &quot;md5&quot;, default_opts = {}) 
+    - (<tt><span class='object_link'><a href="" title="HMACSigner (class)">HMACSigner</a></span></tt>) <strong>initialize</strong>(algorithm = &quot;sha1&quot;, default_opts = {}) 
   
 
   
@@ -397,7 +397,7 @@ create a new HMAC instance
         <span class='type'>(<tt>String</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&quot;md5&quot;</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;sha1&quot;</tt>)</em>
       
       
         &mdash;
@@ -587,7 +587,7 @@ Use the alternate date header instead of `Date`
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 22</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>md5</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sha1</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='id algorithm'>algorithm</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='symbol'>:auth_scheme</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HMAC</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
@@ -2369,7 +2369,7 @@ The signed url
 </div>
     
     <div id="footer">
-  Generated on Sat Jul 16 12:13:32 2011 by 
+  Generated on Sat Jul 16 12:20:28 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>
