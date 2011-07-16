@@ -17,6 +17,9 @@ GEM
     riot (0.12.3)
       rr
     rr (1.0.2)
+    simplecov (0.4.2)
+      simplecov-html (~> 0.4.4)
+    simplecov-html (0.4.5)
     timecop (0.3.5)
     warden (1.0.3)
       rack (>= 1.0.0)
@@ -32,6 +35,8 @@ DEPENDENCIES
   rake
   rdiscount
   riot
+  simplecov
+  simplecov-html
   timecop
   warden
   yard

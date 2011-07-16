@@ -6,3 +6,4 @@ bin/yardoc
 bin/yri
 bin/rdiscount
 .yardoc/
+coverage/

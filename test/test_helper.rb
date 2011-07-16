@@ -10,6 +10,11 @@ end
 
 Bundler.require(:default, :test)
 
+require 'simplecov'
+require 'simplecov-html'
+
+SimpleCov.start 
+
 class Riot::Situation
   include Rack::Test::Methods
   include Warden::Test::Helpers
