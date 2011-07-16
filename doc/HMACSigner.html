@@ -92,7 +92,35 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+Helper class that provides signing capabilites for the hmac strategies.
+</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Author:</h3>
+<ul class="author">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+Felix Gilcher <felix.gilcher@asquera.de>
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
@@ -569,10 +597,6 @@ Use the alternate date header instead of `Date`
       <pre class="lines">
 
 
-22
-23
-24
-25
 26
 27
 28
@@ -582,10 +606,14 @@ Use the alternate date header instead of `Date`
 32
 33
 34
-35</pre>
+35
+36
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sha1</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='id algorithm'>algorithm</span>
@@ -638,12 +666,12 @@ Returns the value of attribute algorithm
       <pre class="lines">
 
 
-6
-7
-8</pre>
+10
+11
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id algorithm'>algorithm</span>
   <span class='ivar'>@algorithm</span>
@@ -680,12 +708,12 @@ Returns the value of attribute default_opts
       <pre class="lines">
 
 
-6
-7
-8</pre>
+10
+11
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id default_opts'>default_opts</span>
   <span class='ivar'>@default_opts</span>
@@ -722,12 +750,12 @@ Returns the value of attribute secret
       <pre class="lines">
 
 
-6
-7
-8</pre>
+10
+11
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id secret'>secret</span>
   <span class='ivar'>@secret</span>
@@ -1020,10 +1048,6 @@ the canonical representation
       <pre class="lines">
 
 
-128
-129
-130
-131
 132
 133
 134
@@ -1047,10 +1071,14 @@ the canonical representation
 152
 153
 154
-155</pre>
+155
+156
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id canonical_representation'>canonical_representation</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
   <span class='id rep'>rep</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
@@ -1393,12 +1421,12 @@ true if the signature matches
       <pre class="lines">
 
 
-83
-84
-85</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id check_signature'>check_signature</span><span class='lparen'>(</span><span class='id signature'>signature</span><span class='comma'>,</span> <span class='id params'>params</span><span class='rparen'>)</span>
   <span class='id signature'>signature</span> <span class='op'>==</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
@@ -1537,10 +1565,6 @@ true if the signature is valid
       <pre class="lines">
 
 
-96
-97
-98
-99
 100
 101
 102
@@ -1548,10 +1572,14 @@ true if the signature is valid
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id check_url_signature'>check_url_signature</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
@@ -1858,13 +1886,13 @@ the signature
       <pre class="lines">
 
 
-57
-58
-59
-60</pre>
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
   <span class='id secret'>secret</span> <span class='op'>=</span> <span class='id params'>params</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:secret</span><span class='rparen'>)</span>
@@ -2136,10 +2164,6 @@ Use the alternate date header instead of `Date`
       <pre class="lines">
 
 
-176
-177
-178
-179
 180
 181
 182
@@ -2169,10 +2193,14 @@ Use the alternate date header instead of `Date`
 206
 207
 208
-209</pre>
+209
+210
+211
+212
+213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id sign_request'>sign_request</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
@@ -2341,16 +2369,16 @@ The signed url
       <pre class="lines">
 
 
-220
-221
-222
-223
 224
 225
-226</pre>
+226
+227
+228
+229
+230</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac_signer.rb', line 224</span>
 
 <span class='kw'>def</span> <span class='id sign_url'>sign_url</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
@@ -2369,7 +2397,7 @@ The signed url
 </div>
     
     <div id="footer">
-  Generated on Sat Jul 16 12:20:28 2011 by 
+  Generated on Sat Jul 16 12:30:02 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>

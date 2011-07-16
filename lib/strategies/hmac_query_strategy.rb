@@ -1,5 +1,10 @@
 require_relative 'base'
 
+
+# Implements query-based hmac authentication for warden. The strategy is registered as
+# `:hmac_query` in the warden strategy list.
+#
+# @author Felix Gilcher <felix.gilcher@asquera.de>
 class Warden::Strategies::HMACQuery < Warden::Strategies::HMACBase
   
   # Checks that this strategy applies. Tests that the required

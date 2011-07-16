@@ -2,6 +2,10 @@ require 'addressable/uri'
 require 'openssl'
 require 'rack/utils'
 
+
+# Helper class that provides signing capabilites for the hmac strategies.
+#
+# @author Felix Gilcher <felix.gilcher@asquera.de>
 class HMACSigner
   attr_accessor :secret, :algorithm, :default_opts
 

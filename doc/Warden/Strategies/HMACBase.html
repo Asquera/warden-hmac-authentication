@@ -94,7 +94,36 @@
 </dl>
 <div class="clear"></div>
 
-<div id="subclasses">
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+Base class for hmac authentication in warden. Provides shared methods such
+as config access and various helpers.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Author:</h3>
+<ul class="author">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+Felix Gilcher <felix.gilcher@asquera.de>
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="HMACHeader.html" title="Warden::Strategies::HMACHeader (class)">HMACHeader</a></span>, <span class='object_link'><a href="HMACQuery.html" title="Warden::Strategies::HMACQuery (class)">HMACQuery</a></span></p>
 </div>
@@ -327,11 +356,6 @@ in child-strategies.
       <pre class="lines">
 
 
-13
-14
-15
-16
-17
 18
 19
 20
@@ -344,10 +368,15 @@ in child-strategies.
 27
 28
 29
-30</pre>
+30
+31
+32
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id authenticate!'>authenticate!</span>
   <span class='kw'>if</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>==</span> <span class='id secret'>secret</span><span class='period'>.</span><span class='id to_s'>to_s</span>
@@ -417,14 +446,14 @@ The message to log
       <pre class="lines">
 
 
-69
-70
-71
-72
-73</pre>
+74
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id debug'>debug</span><span class='lparen'>(</span><span class='id msg'>msg</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id logger'>logger</span>
@@ -481,16 +510,16 @@ The request headers
       <pre class="lines">
 
 
-51
-52
-53
-54
-55
 56
-57</pre>
+57
+58
+59
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id headers'>headers</span>
   <span class='id pairs'>pairs</span> <span class='op'>=</span> <span class='id env'>env</span><span class='period'>.</span><span class='id select'>select</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span><span class='id v'>v</span><span class='op'>|</span> <span class='id k'>k</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='period'>
@@ -547,14 +576,14 @@ the logger, nil if none is available
       <pre class="lines">
 
 
-79
-80
-81
-82
-83</pre>
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id logger'>logger</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span> <span class='const'>Padrino</span>
@@ -609,12 +638,12 @@ The query parameters
       <pre class="lines">
 
 
-42
-43
-44</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id params'>params</span>
   <span class='id request'>request</span><span class='period'>.</span><span class='const'>GET</span>
@@ -667,12 +696,12 @@ The request method in capital letters
       <pre class="lines">
 
 
-35
-36
-37</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id request_method'>request_method</span>
   <span class='id env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id upcase'>upcase</span>
@@ -726,12 +755,12 @@ true
       <pre class="lines">
 
 
-62
-63
-64</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/strategies/base.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id retrieve_user'>retrieve_user</span>
   <span class='kw'>true</span>
@@ -746,7 +775,7 @@ true
 </div>
     
     <div id="footer">
-  Generated on Sat Jul 16 12:20:28 2011 by 
+  Generated on Sat Jul 16 12:30:02 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.9.2).
 </div>

@@ -1,5 +1,9 @@
 require_relative 'base'
 
+# Implements header-based hmac authentication for warden. The strategy is registered as
+# `:hmac_header` in the warden strategy list.
+#
+# @author Felix Gilcher <felix.gilcher@asquera.de>
 class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
   
   # Checks that this strategy applies. Tests that the required

@@ -1,6 +1,11 @@
 require 'hmac_signer'
 require 'warden'
 
+
+# Base class for hmac authentication in warden. Provides shared methods such as config access
+# and various helpers.
+#
+# @author Felix Gilcher <felix.gilcher@asquera.de>
 class Warden::Strategies::HMACBase < Warden::Strategies::Base
   
 
