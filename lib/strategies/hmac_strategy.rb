@@ -1,6 +1,12 @@
 require_relative 'base'
 
 class Warden::Strategies::HMAC < Warden::Strategies::HMACBase
+  
+  # Checks that this strategy applies. Tests that the required
+  # authentication information was given.
+  #
+  # @return [Bool] true if all required authentication information is available in the request
+  # @see https://github.com/hassox/warden/wiki/Strategies
   def valid?
     valid = auth_info.include? "signature"
     valid = valid && has_timestamp? if check_ttl?
@@ -8,6 +14,9 @@ class Warden::Strategies::HMAC < Warden::Strategies::HMACBase
     valid
   end
 
+  # Check that the signature given in the request is valid.
+  #
+  # @return [Bool] true if the request is valid
   def signature_valid?
     hmac.check_url_signature(request.url, secret)
   end

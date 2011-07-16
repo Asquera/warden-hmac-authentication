@@ -2,6 +2,11 @@ require_relative 'base'
 
 class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
   
+  # Checks that this strategy applies. Tests that the required
+  # authentication information was given.
+  #
+  # @return [Bool] true if all required authentication information is available in the request
+  # @see https://github.com/hassox/warden/wiki/Strategies
   def valid?
     valid = required_headers.all? { |h| headers.include?(h) } && headers.include?("Authorization") && has_timestamp?
     valid = valid && scheme_valid?

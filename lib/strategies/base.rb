@@ -3,6 +3,13 @@ require 'warden'
 
 class Warden::Strategies::HMACBase < Warden::Strategies::Base
   
+
+  # Performs authentication. Calls success! if authentication was performed successfully and halt!
+  # if the authentication information is invalid.
+  #
+  # Delegates parts of the work to signature_valid? which must be implemented in child-strategies.
+  #
+  # @see https://github.com/hassox/warden/wiki/Strategies
   def authenticate!
     if "" == secret.to_s
       debug("authentication attempt with an empty secret")
@@ -22,14 +29,25 @@ class Warden::Strategies::HMACBase < Warden::Strategies::Base
     end
   end
   
+  # Retrieve the current request method
+  #
+  # @return [String] The request method in capital letters
   def request_method
     env['REQUEST_METHOD'].upcase
   end
   
+  # Retrieve the request query parameters
+  #
+  # @return [Hash] The query parameters
   def params
     request.GET
   end
   
+  # Retrieve the request headers. Header names are normalized by this method by stripping
+  # the `HTTP_`-prefix and replacing underscores with dashes. `HTTP_X_Foo` is normalized to
+  # `X-Foo`.
+  #
+  # @return [Hash] The request headers
   def headers
     pairs = env.select {|k,v| k.start_with? 'HTTP_'}
         .collect {|pair| [pair[0].sub(/^HTTP_/, '').gsub(/_/, '-'), pair[1]]}
@@ -38,16 +56,26 @@ class Warden::Strategies::HMACBase < Warden::Strategies::Base
      headers   
   end
   
+  # Retrieve a user from the database. Stub implementation that just returns true, needed for compat.
+  #
+  # @return [Bool] true
   def retrieve_user
     true
   end
   
+  # Log a debug message if a logger is available.
+  #
+  # @param [String] msg The message to log
   def debug(msg)
     if logger
       logger.debug(msg)
     end
   end
   
+  # Retrieve a logger. Current implementation can
+  # only handle Padrino loggers
+  #
+  # @return [Logger] the logger, nil if none is available
   def logger
     if defined? Padrino
       Padrino.logger
