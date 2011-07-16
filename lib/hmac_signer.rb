@@ -195,7 +195,7 @@ class HMACSigner
       }
       auth_params[:nonce] = opts[:nonce] unless opts[:nonce].nil?
       
-      query_values =  uri.query_values
+      query_values =  uri.query_values || {}
       query_values[opts[:auth_param]] = auth_params
       uri.query_values = query_values
     else
