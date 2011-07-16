@@ -2,7 +2,7 @@ require 'addressable/uri'
 require 'openssl'
 require 'rack/utils'
 
-class HMAC
+class HMACSigner
   attr_accessor :secret, :algorithm, :default_opts
 
   # create a new HMAC instance

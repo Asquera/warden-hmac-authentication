@@ -1,4 +1,4 @@
-require 'hmac'
+require 'hmac_signer'
 require 'warden'
 
 class Warden::Strategies::HMACBase < Warden::Strategies::Base
@@ -124,7 +124,7 @@ class Warden::Strategies::HMACBase < Warden::Strategies::Base
     end
     
     def hmac
-      HMAC.new(algorithm)
+      HMACSigner.new(algorithm)
     end
     
     def algorithm

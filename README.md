@@ -267,7 +267,7 @@ The canonical representation is:
 
 The HMAC class can be used to validate and generate signatures for a given request.
 
-    h = HMAC.new('md5')
+    h = HMACSigner.new('md5')
     h.generate_signature(canonical_representation, 'secret')
     
     h.validated_signature(canonical_representation, signature, 'secret')
