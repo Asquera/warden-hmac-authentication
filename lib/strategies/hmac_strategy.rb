@@ -21,19 +21,23 @@ class Warden::Strategies::HMAC < Warden::Strategies::HMACBase
     hmac.check_url_signature(request.url, secret)
   end
   
-  
+  # retrieve the authentication information from the request
+  #
+  # @return [Hash] the authentication info in the request
   def auth_info
     params[auth_param] || {}
   end
   
-  def signature
-    auth_info["hmac"]
-  end
-  
+  # retrieve the nonce from the request
+  #
+  # @return [String] The nonce or an empty string if no nonce was given in the request
   def nonce
     auth_info["nonce"] || ""
   end
   
+  # retrieve the request timestamp as string
+  #
+  # @return [String] The request timestamp or an empty string if no timestamp was given in the request
   def request_timestamp
     auth_info["date"] || ""
   end
