@@ -59,22 +59,10 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
       headers
     end
 
-    def auth_scheme_name
-      config[:auth_scheme] || "HMAC"
-    end
-    
     def scheme_valid?
       headers[auth_header].to_s.split(" ").first == auth_scheme_name
     end
     
-    def nonce_header_name
-      config[:nonce_header] || "X-#{auth_scheme_name}-Nonce"
-    end
-    
-    def alternate_date_header_name
-      config[:alternate_date_header] || "X-#{auth_scheme_name}-Date"
-    end
-
     def date_header
       if headers.include? alternate_date_header_name
         alternate_date_header_name
@@ -83,13 +71,7 @@ class Warden::Strategies::HMACHeader < Warden::Strategies::HMACBase
       end
     end
     
-    def auth_header
-      config[:auth_header] || "Authorization"
-    end
 
-    def auth_param
-      config[:auth_param] || "auth"
-    end
       
 end
 

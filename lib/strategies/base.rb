@@ -91,6 +91,22 @@ class Warden::Strategies::HMACBase < Warden::Strategies::Base
       config[:auth_param] || "auth"
     end
     
+    def auth_header
+      config[:auth_header] || "Authorization"
+    end
+    
+    def auth_scheme_name
+      config[:auth_scheme] || "HMAC"
+    end
+    
+    def nonce_header_name
+      config[:nonce_header] || "X-#{auth_scheme_name}-Nonce"
+    end
+    
+    def alternate_date_header_name
+      config[:alternate_date_header] || "X-#{auth_scheme_name}-Date"
+    end
+
     def optional_headers
       (config[:optional_headers] || []) + ["Content-MD5", "Content-Type"]
     end
