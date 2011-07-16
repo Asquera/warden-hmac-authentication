@@ -87,7 +87,7 @@ context "header-based auth" do
 
       asserts(:valid?)
       asserts(:timestamp_valid?)
-      asserts(:signature).equals("a59456da1f61f86e96622e283780f58b7428c892")
+      asserts(:given_signature).equals("a59456da1f61f86e96622e283780f58b7428c892")
       asserts(:authenticate!).equals(:success)
     end
   
