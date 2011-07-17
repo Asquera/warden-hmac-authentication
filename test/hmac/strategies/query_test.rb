@@ -2,7 +2,7 @@ require 'hmac/signer'
 require 'hmac/strategies/query'
 require 'rack/builder'
 
-context "HMAC" do
+context "query-based auth" do
   
   context "> with a valid secret " do
     app(
