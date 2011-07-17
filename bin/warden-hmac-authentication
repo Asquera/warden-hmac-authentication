@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'trollop'
-require 'hmac_signer'
+require 'hmac/signer'
 
 opts = Trollop::options do
   
@@ -38,7 +38,7 @@ url = ARGV.shift
 secret = opts.delete(:secret)
 algorithm = opts.delete(:algorithm)
 
-signer = HMACSigner.new(algorithm)
+signer = HMAC::Signer.new(algorithm)
 
 if "sign" == cmd
   puts signer.sign_url(url, secret, opts)

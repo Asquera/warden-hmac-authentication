@@ -2,7 +2,7 @@
 context "an HMAC object" do
 
   setup do
-    HMACSigner.new("md5")
+    HMAC::Signer.new("md5")
   end
 
   context "> generating the canonical representation" do
@@ -59,7 +59,7 @@ context "an HMAC object" do
     
     asserts("resulting url is") {topic[1]}.equals("http://example.org?foo=bar&baz=foobar")
     asserts("query parameter order does not matter") do
-      headers, url = * HMACSigner.new("md5").sign_request("http://example.org?baz=foobar&foo=bar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
+      headers, url = * HMAC::Signer.new("md5").sign_request("http://example.org?baz=foobar&foo=bar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
       headers["Authorization"] == topic[0]["Authorization"]
     end
     

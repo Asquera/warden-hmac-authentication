@@ -1,4 +1,5 @@
-require 'strategies/hmac_header_strategy'
+require 'hmac/signer'
+require 'hmac/strategies/header'
 require 'rack/builder'
 
 context "header-based auth" do
@@ -19,7 +20,7 @@ context "header-based auth" do
     
     setup do
       env = {"warden" => warden_struct}
-      strategy = Warden::Strategies::HMACHeader.new(env_with_params('/', {}, env), :default)
+      strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
     end
     
     denies(:valid?)
@@ -34,7 +35,7 @@ context "header-based auth" do
         "warden" => warden_struct,
         "HTTP_Date" => "Mon, 20 Jun 2011 12:06:11 GMT",
         "HTTP_Authorization" => "Basic foo:bar"}
-      strategy = Warden::Strategies::HMACHeader.new(env_with_params('/', {}, env), :default)
+      strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
     end
     
     denies(:valid?)
@@ -48,7 +49,7 @@ context "header-based auth" do
         "warden" => warden_struct,
         "HTTP_Date" => "Mon, 20 Jun 2011 12:06:11 GMT",
         "HTTP_Authorization" => "HMAC c2ce0f0885378f3e2e4024f505416c78abdd7a4b"}
-      strategy = Warden::Strategies::HMACHeader.new(env_with_params('/', {}, env), :default)
+      strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
     end
     
     asserts(:valid?)
@@ -61,7 +62,7 @@ context "header-based auth" do
           "warden" => warden_struct,
           "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
           "HTTP_Authorization" => "HMAC c2ce0f0885378f3e2e4024f505416c78abdd7a4b"}
-        strategy = Warden::Strategies::HMACHeader.new(env_with_params('/', {}, env), :default)
+        strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
 
       asserts(:valid?)
@@ -78,7 +79,7 @@ context "header-based auth" do
           "warden" => warden_struct,
           "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
           "HTTP_Authorization" => "HMAC a59456da1f61f86e96622e283780f58b7428c892"}
-        strategy = Warden::Strategies::HMACHeader.new(env_with_params('/', {}, env), :default)
+        strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
       
       teardown do
