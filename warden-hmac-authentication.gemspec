@@ -26,8 +26,12 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<addressable>)
   s.add_runtime_dependency(%q<rack>)
   s.add_runtime_dependency(%q<trollop>)
-  s.add_development_dependency(%q<yard>)
-  s.add_development_dependency(%q<rdiscount>)
+  s.add_runtime_dependency(%q<warden>)
+  
+  s.add_development_dependency(%q<rake>)
+  s.add_development_dependency(%q<rack-test>)
+  s.add_development_dependency(%q<riot>)
+  s.add_development_dependency(%q<timecop>)
   s.add_development_dependency(%q<simplecov>)
   s.add_development_dependency(%q<simplecov-html>)
 end

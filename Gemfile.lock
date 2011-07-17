@@ -5,6 +5,7 @@ PATH
       addressable
       rack
       trollop
+      warden
 
 GEM
   remote: http://rubygems.org/
@@ -28,10 +29,10 @@ GEM
     yard (0.7.2)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
-  rack
   rack-test
   rake
   rdiscount
@@ -39,6 +40,5 @@ DEPENDENCIES
   simplecov
   simplecov-html
   timecop
-  warden
   warden-hmac-authentication!
   yard

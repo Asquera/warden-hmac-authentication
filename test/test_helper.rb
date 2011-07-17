@@ -10,6 +10,10 @@ end
 
 Bundler.require(:default, :test)
 
+require 'rack/test'
+require 'riot'
+require 'warden'
+require 'timecop'
 require 'simplecov'
 require 'simplecov-html'
 
