@@ -14,10 +14,15 @@ require 'rack/test'
 require 'riot'
 require 'warden'
 require 'timecop'
-require 'simplecov'
-require 'simplecov-html'
 
-SimpleCov.start 
+begin
+  require 'simplecov'
+  require 'simplecov-html'
+
+  SimpleCov.start 
+rescue LoadError => e
+  # swallow, code coverage is only supported on mri
+end
 
 class Riot::Situation
   include Rack::Test::Methods
