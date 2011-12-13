@@ -56,6 +56,7 @@ module HMAC
     # @option params [Hash]   :headers ({}) All headers given in the request (optional and required)
     # @option params [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option params [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
+    # @option params [Hash]               :extra_auth_params ({}) Additional parameters to inject in the auth parameter
     # @option params [String]             :auth_header ('Authorization') The name of the authorization header to use
     # @option params [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
     # @option params [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
@@ -88,6 +89,7 @@ module HMAC
     # @option params [Hash]   :headers ({}) All headers given in the request (optional and required)
     # @option params [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option params [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
+    # @option params [Hash]               :extra_auth_params ({}) Additional parameters to inject in the auth parameter
     # @option params [String]             :auth_header ('Authorization') The name of the authorization header to use
     # @option params [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
     # @option params [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
