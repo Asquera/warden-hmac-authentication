@@ -96,6 +96,9 @@ module HMAC
     #
     # @return [Bool] true if the signature matches
     def validate_signature(signature, params)
+      puts params.inspect
+      puts generate_signature(params)
+      puts signature
       signature == generate_signature(params)
     end
   
