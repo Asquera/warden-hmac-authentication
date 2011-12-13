@@ -1,6 +1,18 @@
 require 'faraday'
 require 'faraday/request/hmac'
 
+class DummyApp
+  attr_accessor :env
+
+  def call(env)
+    @env = env
+  end
+
+  def reset
+    @env = nil
+  end
+end
+
 
 context "the faraday middleware" do
   
@@ -14,8 +26,8 @@ context "the faraday middleware" do
   
   context "> using header-based auth" do
     setup do
-      m = Faraday::Request::Hmac.new(nil, "testsecret")
-      m.sign({ :request_headers => {}, :url => Addressable::URI.parse('http://www.example.com') })
+      m = Faraday::Request::Hmac.new(DummyApp.new, "testsecret")
+      m.call({ :request_headers => {}, :url => Addressable::URI.parse('http://www.example.com') })
     end
   
     asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC 539263f4f83878a4917d2f9c1521320c28b926a9")
@@ -24,8 +36,8 @@ context "the faraday middleware" do
     
     context "> using a different auth header format" do
       setup do
-        m = Faraday::Request::Hmac.new(nil, "testsecret", {:auth_key => 'TESTKEYID', :auth_header_format => '%{auth_scheme} %{auth_key} %{signature}'})
-        m.sign({ :request_headers => {}, :url => Addressable::URI.parse('http://www.example.com') })
+        m = Faraday::Request::Hmac.new(DummyApp.new, "testsecret", {:auth_key => 'TESTKEYID', :auth_header_format => '%{auth_scheme} %{auth_key} %{signature}'})
+        m.call({ :request_headers => {}, :url => Addressable::URI.parse('http://www.example.com') })
       end
   
       asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC TESTKEYID 539263f4f83878a4917d2f9c1521320c28b926a9")
@@ -37,8 +49,8 @@ context "the faraday middleware" do
 
   context "> using query-based auth" do
     setup do
-      m = Faraday::Request::Hmac.new(nil, "testsecret", {:query_based => true})
-      m.sign({ :request_headers => {}, :url => Addressable::URI.parse('http://www.example.com') })
+      m = Faraday::Request::Hmac.new(DummyApp.new, "testsecret", {:query_based => true})
+      m.call({ :request_headers => {}, :url => Addressable::URI.parse('http://www.example.com') })
     end
   
     asserts("authorization header") {topic[:request_headers]["Authorization"]}.nil
