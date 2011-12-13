@@ -1,7 +1,9 @@
 require 'addressable/uri'
 require 'openssl'
 require 'rack/utils'
-
+if defined?(JRUBY_VERSION) && RUBY_VERSION =~ /^1\.9/
+  require 'hmac/string/jruby'
+end
 
 module HMAC
   # Helper class that provides signing capabilites for the hmac strategies.
@@ -40,6 +42,8 @@ module HMAC
     end
   
     # Generate the signature from a hash representation
+    # 
+    # returns nil if no secret or an empty secret was given
     #
     # @param [Hash] params the parameters to create the representation with
     # @option params [String] :secret The secret to generate the signature with
@@ -61,7 +65,13 @@ module HMAC
     # @return [String] the signature
     def generate_signature(params)
       secret = params.delete(:secret)
-      OpenSSL::HMAC.hexdigest(algorithm, secret, canonical_representation(params))
+      
+      # jruby stumbles over empty secrets, we regard them as invalid anyways, so we return an empty digest if no scret was given
+      if '' == secret.to_s
+        nil
+      else
+        OpenSSL::HMAC.hexdigest(algorithm, secret, canonical_representation(params))
+      end
     end
   
     # compares the given signature with the signature created from a hash representation

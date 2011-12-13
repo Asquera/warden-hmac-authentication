@@ -8,7 +8,7 @@ rvm:
 #  - rbx
 #  - rbx-2.0
 #  - ree
-#  - jruby
+  - jruby
 #  - ruby-head
 #  - 1.8.6
 
@@ -26,6 +26,7 @@ script: "bundle exec rake test"
 
 # Specify an ENV variable to run before: 'bundle install' and 'rake' (or your defined 'script')
 #env: "RAILS_ENV='test' " 
+env: "JRUBY_OPTS='--1.9 –server -Dcext.enabled=false'"
 
 # Specify the recipients for email notification
 #notifications:
