@@ -6,7 +6,7 @@
 <title>
   Class: HMAC::Signer
   
-    &mdash; Documentation by YARD 0.7.2
+    &mdash; Documentation by YARD 0.7.4
   
 </title>
 
@@ -102,7 +102,8 @@ Helper class that provides signing capabilites for the hmac strategies.
   </div>
 </div>
 <div class="tags">
-  <h3>Author:</h3>
+  
+<h3>Author:</h3>
 <ul class="author">
   
     <li>
@@ -422,7 +423,7 @@ create a new HMAC instance
         <span class='name'>algorithm</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&quot;sha1&quot;</tt>)</em>
@@ -468,7 +469,7 @@ The default options for all calls that take opts
       
         <li>
           <span class="name">:auth_scheme</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -480,11 +481,11 @@ The name of the authorization scheme used in the Authorization header and
 to construct various header-names
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -495,11 +496,11 @@ to construct various header-names
 The name of the authentication param to use for query based authentication
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -510,11 +511,11 @@ The name of the authentication param to use for query based authentication
 The name of the authorization header to use
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_header_format</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -526,11 +527,11 @@ The format of the authorization header. Will be interpolated with the given
 options and the signature.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -541,11 +542,11 @@ options and the signature.
 The header name for the request nonce
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:alternate_date_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -556,7 +557,7 @@ The header name for the request nonce
 The header name for the alternate date header
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query_based</span>
@@ -571,7 +572,7 @@ The header name for the alternate date header
 Whether to use query based authentication
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:use_alternate_date_header</span>
@@ -586,10 +587,11 @@ Whether to use query based authentication
 Use the alternate date header instead of `Date`
 </p>
 </div>
-        </tr>
+        </li>
       
     </ul>
   
+
 
 </div><table class="source_code">
   <tr>
@@ -597,8 +599,6 @@ Use the alternate date header instead of `Date`
       <pre class="lines">
 
 
-27
-28
 29
 30
 31
@@ -610,23 +610,27 @@ Use the alternate date header instead of `Date`
 37
 38
 39
-40</pre>
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 29</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sha1</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id algorithm'>algorithm</span> <span class='op'>=</span> <span class='id algorithm'>algorithm</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_algorithm'>algorithm</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sha1</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_algorithm'>algorithm</span> <span class='op'>=</span> <span class='id identifier rubyid_algorithm'>algorithm</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='symbol'>:auth_scheme</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HMAC</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='symbol'>:auth_param</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>auth</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='symbol'>:auth_header</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Authorization</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='symbol'>:auth_header_format</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%{auth_scheme} %{signature}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='symbol'>:nonce_header</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>X-%{scheme}-Nonce</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbrace'>{</span><span class='symbol'>:scheme</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id default_opts'>default_opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_scheme</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HMAC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='comma'>,</span>
-    <span class='symbol'>:alternate_date_header</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>X-%{scheme}-Date</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbrace'>{</span><span class='symbol'>:scheme</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id default_opts'>default_opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_scheme</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HMAC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='symbol'>:nonce_header</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>X-%{scheme}-Nonce</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbrace'>{</span><span class='symbol'>:scheme</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_default_opts'>default_opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_scheme</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HMAC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='symbol'>:alternate_date_header</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>X-%{scheme}-Date</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbrace'>{</span><span class='symbol'>:scheme</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_default_opts'>default_opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_scheme</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HMAC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='comma'>,</span>
     <span class='symbol'>:query_based</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
-    <span class='symbol'>:use_alternate_date_header</span> <span class='op'>=&gt;</span> <span class='kw'>false</span>
-  <span class='rbrace'>}</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id default_opts'>default_opts</span><span class='rparen'>)</span>
+    <span class='symbol'>:use_alternate_date_header</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span>
+    <span class='symbol'>:extra_auth_params</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_default_opts'>default_opts</span><span class='rparen'>)</span>
 
 <span class='kw'>end</span></pre>
     </td>
@@ -660,20 +664,21 @@ Returns the value of attribute algorithm
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='id algorithm'>algorithm</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_algorithm'>algorithm</span>
   <span class='ivar'>@algorithm</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -702,20 +707,21 @@ Returns the value of attribute default_opts
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='id default_opts'>default_opts</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_default_opts'>default_opts</span>
   <span class='ivar'>@default_opts</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -744,20 +750,21 @@ Returns the value of attribute secret
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 13</span>
 
-<span class='kw'>def</span> <span class='id secret'>secret</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_secret'>secret</span>
   <span class='ivar'>@secret</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -775,7 +782,7 @@ Returns the value of attribute secret
       <div class="method_details first">
   <p class="signature first" id="canonical_representation-instance_method">
   
-    - (<tt>String</tt>) <strong>canonical_representation</strong>(params) 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>canonical_representation</strong>(params) 
   
 
   
@@ -819,7 +826,7 @@ the parameters to create the representation with
       
         <li>
           <span class="name">:method</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -827,11 +834,11 @@ the parameters to create the representation with
 The HTTP Verb of the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:date</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -839,11 +846,11 @@ The HTTP Verb of the request
 The date of the request as it was formatted in the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -854,11 +861,11 @@ The date of the request as it was formatted in the request
 The nonce given in the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:path</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -866,7 +873,7 @@ The nonce given in the request
 The path portion of the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query</span>
@@ -881,7 +888,7 @@ The path portion of the request
 The query parameters given in the request. Must not contain the auth param.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:headers</span>
@@ -896,11 +903,11 @@ The query parameters given in the request. Must not contain the auth param.
 All headers given in the request (optional and required)
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_scheme</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -912,11 +919,11 @@ The name of the authorization scheme used in the Authorization header and
 to construct various header-names
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -927,11 +934,26 @@ to construct various header-names
 The name of the authentication param to use for query based authentication
 </p>
 </div>
-        </tr>
+        </li>
+      
+        <li>
+          <span class="name">:extra_auth_params</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>{}</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Additional parameters to inject in the auth parameter
+</p>
+</div>
+        </li>
       
         <li>
           <span class="name">:auth_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -942,11 +964,11 @@ The name of the authentication param to use for query based authentication
 The name of the authorization header to use
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_header_format</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -958,11 +980,11 @@ The format of the authorization header. Will be interpolated with the given
 options and the signature.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -973,11 +995,11 @@ options and the signature.
 The header name for the request nonce
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:alternate_date_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -988,7 +1010,7 @@ The header name for the request nonce
 The header name for the alternate date header
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query_based</span>
@@ -1003,7 +1025,7 @@ The header name for the alternate date header
 Whether to use query based authentication
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:use_alternate_date_header</span>
@@ -1018,17 +1040,18 @@ Whether to use query based authentication
 Use the alternate date header instead of `Date`
 </p>
 </div>
-        </tr>
+        </li>
       
     </ul>
   
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1048,20 +1071,6 @@ the canonical representation
       <pre class="lines">
 
 
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
 147
 148
 149
@@ -1075,38 +1084,52 @@ the canonical representation
 157
 158
 159
-160</pre>
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 147</span>
 
-<span class='kw'>def</span> <span class='id canonical_representation'>canonical_representation</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
-  <span class='id rep'>rep</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_canonical_representation'>canonical_representation</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_rep'>rep</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
 
-  <span class='id rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:method</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id upcase'>upcase</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> 
-  <span class='id rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date:</span><span class='embexpr_beg'>#{</span><span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:date</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nonce:</span><span class='embexpr_beg'>#{</span><span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:method</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> 
+  <span class='id identifier rubyid_rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:date</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nonce:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
 
-  <span class='lparen'>(</span><span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:headers</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id sort'>sort</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pair'>pair</span><span class='op'>|</span>
-    <span class='id name'>name</span><span class='comma'>,</span><span class='id value'>value</span> <span class='op'>=</span> <span class='op'>*</span><span class='id pair'>pair</span>
-    <span class='id rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='period'>.</span><span class='id downcase'>downcase</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id value'>value</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:headers</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pair'>pair</span><span class='op'>|</span>
+    <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='op'>*</span><span class='id identifier rubyid_pair'>pair</span>
+    <span class='id identifier rubyid_rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
-  <span class='id rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span>
 
-  <span class='id p'>p</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:query</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id dup'>dup</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:query</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
 
-  <span class='kw'>if</span> <span class='op'>!</span><span class='id p'>p</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-    <span class='id query'>query</span> <span class='op'>=</span> <span class='id p'>p</span><span class='period'>.</span><span class='id sort'>sort</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='op'>|</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%{key}=%{value}</span><span class='tstring_end'>&quot;</span></span> <span class='op'>%</span> <span class='lbrace'>{</span>
-        <span class='symbol'>:key</span> <span class='op'>=&gt;</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id unescape'>unescape</span><span class='lparen'>(</span><span class='id key'>key</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span><span class='comma'>,</span>
-        <span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id unescape'>unescape</span><span class='lparen'>(</span><span class='id value'>value</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span>
+        <span class='symbol'>:key</span> <span class='op'>=&gt;</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_unescape'>unescape</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='comma'>,</span>
+        <span class='symbol'>:value</span> <span class='op'>=&gt;</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_unescape'>unescape</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
       <span class='rbrace'>}</span>
-    <span class='kw'>end</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&amp;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='id rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='id query'>query</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&amp;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_rep'>rep</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query'>query</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
-  <span class='id rep'>rep</span>
+  <span class='id identifier rubyid_rep'>rep</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1116,7 +1139,7 @@ the canonical representation
       <div class="method_details ">
   <p class="signature " id="generate_signature-instance_method">
   
-    - (<tt>String</tt>) <strong>generate_signature</strong>(params) 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>generate_signature</strong>(params) 
   
 
   
@@ -1124,6 +1147,9 @@ the canonical representation
   <div class="discussion">
     <p>
 Generate the signature from a hash representation
+</p>
+<p>
+returns nil if no secret or an empty secret was given
 </p>
 
 
@@ -1160,7 +1186,7 @@ the parameters to create the representation with
       
         <li>
           <span class="name">:secret</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -1168,11 +1194,11 @@ the parameters to create the representation with
 The secret to generate the signature with
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:method</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -1180,11 +1206,11 @@ The secret to generate the signature with
 The HTTP Verb of the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:date</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -1192,11 +1218,11 @@ The HTTP Verb of the request
 The date of the request as it was formatted in the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1207,11 +1233,11 @@ The date of the request as it was formatted in the request
 The nonce given in the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:path</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -1219,7 +1245,7 @@ The nonce given in the request
 The path portion of the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query</span>
@@ -1234,7 +1260,7 @@ The path portion of the request
 The query parameters given in the request. Must not contain the auth param.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:headers</span>
@@ -1249,11 +1275,11 @@ The query parameters given in the request. Must not contain the auth param.
 All headers given in the request (optional and required)
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_scheme</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1265,11 +1291,11 @@ The name of the authorization scheme used in the Authorization header and
 to construct various header-names
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1280,11 +1306,26 @@ to construct various header-names
 The name of the authentication param to use for query based authentication
 </p>
 </div>
-        </tr>
+        </li>
+      
+        <li>
+          <span class="name">:extra_auth_params</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>{}</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Additional parameters to inject in the auth parameter
+</p>
+</div>
+        </li>
       
         <li>
           <span class="name">:auth_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1295,11 +1336,11 @@ The name of the authentication param to use for query based authentication
 The name of the authorization header to use
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_header_format</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1311,11 +1352,11 @@ The format of the authorization header. Will be interpolated with the given
 options and the signature.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1326,11 +1367,11 @@ options and the signature.
 The header name for the request nonce
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:alternate_date_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1341,7 +1382,7 @@ The header name for the request nonce
 The header name for the alternate date header
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query_based</span>
@@ -1356,7 +1397,7 @@ The header name for the alternate date header
 Whether to use query based authentication
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:use_alternate_date_header</span>
@@ -1371,17 +1412,18 @@ Whether to use query based authentication
 Use the alternate date header instead of `Date`
 </p>
 </div>
-        </tr>
+        </li>
       
     </ul>
   
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1401,17 +1443,29 @@ the signature
       <pre class="lines">
 
 
-62
-63
-64
-65</pre>
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 68</span>
 
-<span class='kw'>def</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
-  <span class='id secret'>secret</span> <span class='op'>=</span> <span class='id params'>params</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:secret</span><span class='rparen'>)</span>
-  <span class='const'>OpenSSL</span><span class='op'>::</span><span class='const'>HMAC</span><span class='period'>.</span><span class='id hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='id algorithm'>algorithm</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id canonical_representation'>canonical_representation</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_secret'>secret</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:secret</span><span class='rparen'>)</span>
+  
+  <span class='comment'># jruby stumbles over empty secrets, we regard them as invalid anyways, so we return an empty digest if no scret was given
+</span>  <span class='kw'>if</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='op'>==</span> <span class='id identifier rubyid_secret'>secret</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='kw'>nil</span>
+  <span class='kw'>else</span>
+    <span class='const'>OpenSSL</span><span class='op'>::</span><span class='const'>HMAC</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='id identifier rubyid_algorithm'>algorithm</span><span class='comma'>,</span> <span class='id identifier rubyid_secret'>secret</span><span class='comma'>,</span> <span class='id identifier rubyid_canonical_representation'>canonical_representation</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1443,7 +1497,7 @@ sign the given request
         <span class='name'>url</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1460,7 +1514,7 @@ The url of the request
         <span class='name'>secret</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1505,7 +1559,7 @@ Options for the signature generation
       
         <li>
           <span class="name">:nonce</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1516,11 +1570,11 @@ Options for the signature generation
 The nonce to use in the signature
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:date</span>
-          <span class="type">(<tt>String</tt>, <tt>#strftime</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>#strftime</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1531,7 +1585,7 @@ The nonce to use in the signature
 The date to use in the signature
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:headers</span>
@@ -1546,11 +1600,11 @@ The date to use in the signature
 A list of optional headers to include in the signature
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_scheme</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1562,11 +1616,11 @@ The name of the authorization scheme used in the Authorization header and
 to construct various header-names
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1577,11 +1631,26 @@ to construct various header-names
 The name of the authentication param to use for query based authentication
 </p>
 </div>
-        </tr>
+        </li>
+      
+        <li>
+          <span class="name">:extra_auth_params</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>{}</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Additional parameters to inject in the auth parameter
+</p>
+</div>
+        </li>
       
         <li>
           <span class="name">:auth_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1592,11 +1661,11 @@ The name of the authentication param to use for query based authentication
 The name of the authorization header to use
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_header_format</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1608,11 +1677,11 @@ The format of the authorization header. Will be interpolated with the given
 options and the signature.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1623,11 +1692,11 @@ options and the signature.
 The header name for the request nonce
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:alternate_date_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1638,7 +1707,7 @@ The header name for the request nonce
 The header name for the alternate date header
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query_based</span>
@@ -1653,7 +1722,7 @@ The header name for the alternate date header
 Whether to use query based authentication
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:use_alternate_date_header</span>
@@ -1668,10 +1737,11 @@ Whether to use query based authentication
 Use the alternate date header instead of `Date`
 </p>
 </div>
-        </tr>
+        </li>
       
     </ul>
   
+
 
 </div><table class="source_code">
   <tr>
@@ -1679,21 +1749,6 @@ Use the alternate date header instead of `Date`
       <pre class="lines">
 
 
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
 196
 197
 198
@@ -1712,44 +1767,59 @@ Use the alternate date header instead of `Date`
 211
 212
 213
-214</pre>
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 196</span>
 
-<span class='kw'>def</span> <span class='id sign_request'>sign_request</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_sign_request'>sign_request</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_secret'>secret</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_default_opts'>default_opts</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
 
-  <span class='id uri'>uri</span> <span class='op'>=</span> <span class='const'>Addressable</span><span class='op'>::</span><span class='const'>URI</span><span class='period'>.</span><span class='id parse'>parse</span><span class='lparen'>(</span><span class='id url'>url</span><span class='rparen'>)</span>
-  <span class='id headers'>headers</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:headers</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='const'>Addressable</span><span class='op'>::</span><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_headers'>headers</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:headers</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
 
-  <span class='id date'>date</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:date</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>Time</span><span class='period'>.</span><span class='id now'>now</span><span class='period'>.</span><span class='id gmtime'>gmtime</span>
-  <span class='id date'>date</span> <span class='op'>=</span> <span class='id date'>date</span><span class='period'>.</span><span class='id gmtime'>gmtime</span><span class='period'>.</span><span class='id strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>%a, %e %b %Y %T GMT</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id date'>date</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:strftime</span>
+  <span class='id identifier rubyid_date'>date</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:date</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_gmtime'>gmtime</span>
+  <span class='id identifier rubyid_date'>date</span> <span class='op'>=</span> <span class='id identifier rubyid_date'>date</span><span class='period'>.</span><span class='id identifier rubyid_gmtime'>gmtime</span><span class='period'>.</span><span class='id identifier rubyid_strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>%a, %e %b %Y %T GMT</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_date'>date</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:strftime</span>
 
-  <span class='id signature'>signature</span> <span class='op'>=</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='symbol'>:date</span> <span class='op'>=&gt;</span> <span class='id date'>date</span><span class='comma'>,</span> <span class='symbol'>:nonce</span> <span class='op'>=&gt;</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id query_values'>query_values</span><span class='comma'>,</span> <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:headers</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_secret'>secret</span><span class='comma'>,</span> <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='symbol'>:date</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_date'>date</span><span class='comma'>,</span> <span class='symbol'>:nonce</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_query_values'>query_values</span><span class='comma'>,</span> <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:headers</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   
-  <span class='kw'>if</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span>
-    <span class='id auth_params'>auth_params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id date'>date</span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>signature</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id signature'>signature</span>
-    <span class='rbrace'>}</span>
-    <span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id nil?'>nil?</span>
-  
-    <span class='id query_values'>query_values</span> <span class='op'>=</span>  <span class='id uri'>uri</span><span class='period'>.</span><span class='id query_values'>query_values</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-    <span class='id query_values'>query_values</span><span class='lbracket'>[</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_param</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id auth_params'>auth_params</span>
-    <span class='id uri'>uri</span><span class='period'>.</span><span class='id query_values'>query_values</span> <span class='op'>=</span> <span class='id query_values'>query_values</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_auth_params'>auth_params</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:extra_auth_params</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_date'>date</span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>signature</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_signature'>signature</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_auth_params'>auth_params</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    
+    <span class='id identifier rubyid_query_values'>query_values</span> <span class='op'>=</span>  <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_query_values'>query_values</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_query_values'>query_values</span><span class='lbracket'>[</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_param</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_auth_params'>auth_params</span>
+    <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_query_values'>query_values</span> <span class='op'>=</span> <span class='id identifier rubyid_query_values'>query_values</span>
   <span class='kw'>else</span>
-    <span class='id headers'>headers</span><span class='lbracket'>[</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_header</span><span class='rbracket'>]</span><span class='rbracket'>]</span>   <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_header_format</span><span class='rbracket'>]</span> <span class='op'>%</span> <span class='id opts'>opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:signature</span> <span class='op'>=&gt;</span> <span class='id signature'>signature</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-    <span class='id headers'>headers</span><span class='lbracket'>[</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce_header</span><span class='rbracket'>]</span><span class='rbracket'>]</span>  <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+    <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_header</span><span class='rbracket'>]</span><span class='rbracket'>]</span>   <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_header_format</span><span class='rbracket'>]</span> <span class='op'>%</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:signature</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_signature'>signature</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce_header</span><span class='rbracket'>]</span><span class='rbracket'>]</span>  <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   
-    <span class='kw'>if</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:use_alternate_date_header</span><span class='rbracket'>]</span> 
-      <span class='id headers'>headers</span><span class='lbracket'>[</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:alternate_date_header</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id date'>date</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:use_alternate_date_header</span><span class='rbracket'>]</span> 
+      <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:alternate_date_header</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_date'>date</span>
     <span class='kw'>else</span>
-      <span class='id headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id date'>date</span>
+      <span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_date'>date</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
-  <span class='lbracket'>[</span><span class='id headers'>headers</span><span class='comma'>,</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbracket'>]</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1759,7 +1829,7 @@ Use the alternate date header instead of `Date`
       <div class="method_details ">
   <p class="signature " id="sign_url-instance_method">
   
-    - (<tt>String</tt>) <strong>sign_url</strong>(url, secret, opts = {}) 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>sign_url</strong>(url, secret, opts = {}) 
   
 
   
@@ -1781,7 +1851,7 @@ convienience method to sign a url for use with query-based authentication
         <span class='name'>url</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1798,7 +1868,7 @@ the url to sign
         <span class='name'>secret</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1843,7 +1913,7 @@ Options controlling the singature generation
       
         <li>
           <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1854,17 +1924,33 @@ Options controlling the singature generation
 The name of the authentication param to use for query based authentication
 </p>
 </div>
-        </tr>
+        </li>
+      
+        <li>
+          <span class="name">:extra_auth_params</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>{}</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Additional parameters to inject in the auth parameter
+</p>
+</div>
+        </li>
       
     </ul>
   
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1884,23 +1970,23 @@ The signed url
       <pre class="lines">
 
 
-225
-226
-227
-228
-229
-230
-231</pre>
+241
+242
+243
+244
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 241</span>
 
-<span class='kw'>def</span> <span class='id sign_url'>sign_url</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
-  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_sign_url'>sign_url</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_secret'>secret</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_default_opts'>default_opts</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
 
-  <span class='id headers'>headers</span><span class='comma'>,</span> <span class='id url'>url</span> <span class='op'>=</span> <span class='op'>*</span><span class='id sign_request'>sign_request</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='rparen'>)</span>
-  <span class='id url'>url</span>  
+  <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span> <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='op'>*</span><span class='id identifier rubyid_sign_request'>sign_request</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_secret'>secret</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_url'>url</span>  
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1933,7 +2019,7 @@ representation
         <span class='name'>signature</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1974,7 +2060,7 @@ the parameters to create the representation with
       
         <li>
           <span class="name">:secret</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -1982,11 +2068,11 @@ the parameters to create the representation with
 The secret to generate the signature with
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:method</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -1994,11 +2080,11 @@ The secret to generate the signature with
 The HTTP Verb of the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:date</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -2006,11 +2092,11 @@ The HTTP Verb of the request
 The date of the request as it was formatted in the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2021,11 +2107,11 @@ The date of the request as it was formatted in the request
 The nonce given in the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:path</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
@@ -2033,7 +2119,7 @@ The nonce given in the request
 The path portion of the request
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query</span>
@@ -2048,7 +2134,7 @@ The path portion of the request
 The query parameters given in the request. Must not contain the auth param.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:headers</span>
@@ -2063,11 +2149,11 @@ The query parameters given in the request. Must not contain the auth param.
 All headers given in the request (optional and required)
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_scheme</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2079,11 +2165,11 @@ The name of the authorization scheme used in the Authorization header and
 to construct various header-names
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2094,11 +2180,26 @@ to construct various header-names
 The name of the authentication param to use for query based authentication
 </p>
 </div>
-        </tr>
+        </li>
+      
+        <li>
+          <span class="name">:extra_auth_params</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>{}</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>
+Additional parameters to inject in the auth parameter
+</p>
+</div>
+        </li>
       
         <li>
           <span class="name">:auth_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2109,11 +2210,11 @@ The name of the authentication param to use for query based authentication
 The name of the authorization header to use
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:auth_header_format</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2125,11 +2226,11 @@ The format of the authorization header. Will be interpolated with the given
 options and the signature.
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:nonce_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2140,11 +2241,11 @@ options and the signature.
 The header name for the request nonce
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:alternate_date_header</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2155,7 +2256,7 @@ The header name for the request nonce
 The header name for the alternate date header
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:query_based</span>
@@ -2170,7 +2271,7 @@ The header name for the alternate date header
 Whether to use query based authentication
 </p>
 </div>
-        </tr>
+        </li>
       
         <li>
           <span class="name">:use_alternate_date_header</span>
@@ -2185,10 +2286,11 @@ Whether to use query based authentication
 Use the alternate date header instead of `Date`
 </p>
 </div>
-        </tr>
+        </li>
       
     </ul>
   
+
 <h3>Returns:</h3>
 <ul class="return">
   
@@ -2215,15 +2317,15 @@ true if the signature matches
       <pre class="lines">
 
 
-88
-89
-90</pre>
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 101</span>
 
-<span class='kw'>def</span> <span class='id validate_signature'>validate_signature</span><span class='lparen'>(</span><span class='id signature'>signature</span><span class='comma'>,</span> <span class='id params'>params</span><span class='rparen'>)</span>
-  <span class='id signature'>signature</span> <span class='op'>==</span> <span class='id generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id params'>params</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_validate_signature'>validate_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>==</span> <span class='id identifier rubyid_generate_signature'>generate_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2256,7 +2358,7 @@ authentication
         <span class='name'>url</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -2273,7 +2375,7 @@ the url to test
         <span class='name'>secret</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -2318,7 +2420,7 @@ Options controlling the singature generation
       
         <li>
           <span class="name">:auth_param</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -2329,10 +2431,11 @@ Options controlling the singature generation
 The name of the authentication param to use for query based authentication
 </p>
 </div>
-        </tr>
+        </li>
       
     </ul>
   
+
 <h3>Returns:</h3>
 <ul class="return">
   
@@ -2359,33 +2462,33 @@ true if the signature is valid
       <pre class="lines">
 
 
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112</pre>
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/hmac/signer.rb', line 114</span>
 
-<span class='kw'>def</span> <span class='id validate_url_signature'>validate_url_signature</span><span class='lparen'>(</span><span class='id url'>url</span><span class='comma'>,</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='rparen'>)</span>
-  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_validate_url_signature'>validate_url_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_secret'>secret</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_default_opts'>default_opts</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query_based</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
 
-  <span class='id uri'>uri</span> <span class='op'>=</span> <span class='const'>Addressable</span><span class='op'>::</span><span class='const'>URI</span><span class='period'>.</span><span class='id parse'>parse</span><span class='lparen'>(</span><span class='id url'>url</span><span class='rparen'>)</span>
-  <span class='id query_values'>query_values</span> <span class='op'>=</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id query_values'>query_values</span>
-  <span class='id auth_params'>auth_params</span> <span class='op'>=</span> <span class='id query_values'>query_values</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_param</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='const'>Addressable</span><span class='op'>::</span><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query_values'>query_values</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_query_values'>query_values</span>
+  <span class='id identifier rubyid_auth_params'>auth_params</span> <span class='op'>=</span> <span class='id identifier rubyid_query_values'>query_values</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:auth_param</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
-  <span class='id date'>date</span> <span class='op'>=</span> <span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='id nonce'>nonce</span> <span class='op'>=</span> <span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nonce</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-  <span class='id validate_signature'>validate_signature</span><span class='lparen'>(</span><span class='id auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>signature</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='id secret'>secret</span><span class='comma'>,</span> <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='id uri'>uri</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='symbol'>:date</span> <span class='op'>=&gt;</span> <span class='id date'>date</span><span class='comma'>,</span> <span class='symbol'>:nonce</span> <span class='op'>=&gt;</span> <span class='id nonce'>nonce</span><span class='comma'>,</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='id query_values'>query_values</span><span class='comma'>,</span> <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_date'>date</span> <span class='op'>=</span> <span class='id identifier rubyid_auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_nonce'>nonce</span> <span class='op'>=</span> <span class='id identifier rubyid_auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nonce</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_validate_signature'>validate_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_auth_params'>auth_params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>signature</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:secret</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_secret'>secret</span><span class='comma'>,</span> <span class='symbol'>:method</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='symbol'>:date</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_date'>date</span><span class='comma'>,</span> <span class='symbol'>:nonce</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_nonce'>nonce</span><span class='comma'>,</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_query_values'>query_values</span><span class='comma'>,</span> <span class='symbol'>:headers</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2397,9 +2500,9 @@ true if the signature is valid
 </div>
     
     <div id="footer">
-  Generated on Sun Jul 17 13:34:13 2011 by 
+  Generated on Tue Dec 13 23:47:50 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.2 (ruby-1.9.2).
+  0.7.4 (ruby-1.9.2).
 </div>
 
   </body>
