@@ -57,12 +57,19 @@ context "header-based auth" do
     denies(:authenticate!).equals(:success)
   
     context "> with valid timestamp" do
+      
       setup do
+        Timecop.freeze Time.local(2011, 7, 1, 22, 28, 55).gmtime
+
         env = {
           "warden" => warden_struct,
           "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
           "HTTP_Authorization" => "HMAC c2ce0f0885378f3e2e4024f505416c78abdd7a4b"}
         strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
+      end
+      
+      teardown do
+        Timecop.return
       end
 
       asserts(:valid?)
