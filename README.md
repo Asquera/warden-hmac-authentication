@@ -343,6 +343,16 @@ To simplify the generation of such urls, the `HMAC::Signer` accepts an `:extra_a
     h.sign_url('http://example.org/example.html', 'foo', {:extra_auth_params => {"access_key_id" => "KEY2"}})
 
 
+## Faraday Middleware
+
+The library includes a faraday middleware that can be used to sign requests made with the faraday http lib. The middleware accepts the same list of options as the HMAC::Signer class.
+
+    Faraday.new(:url => "http://example.com") do |builder|
+      builder.use      Faraday::Request::Hmac, secret, {:extra_auth_params => {"access_key_id" => "KEY2"}}
+      builder.response :raise_error
+      builder.adapter  :net_http
+    end
+
 ## Licence
 
 Copyright (c) 2011 Florian Gilcher <florian.gilcher@asquera.de>, Felix Gilcher <felix.gilcher@asquera.de>
