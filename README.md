@@ -117,6 +117,13 @@ name is also used to construct the default values for various header names. The 
 
 No authentication attempt is made if the scheme name in the `Authorization` header does not match the configured scheme name.    
 
+## Authentication Header Format
+
+The format of the Authentication Header can be controlled using the `:auth_header_format` directive. The given format string will be interpolated
+with all given options and the signature. The default value is `%{auth_scheme} %{signature}` which will result in an auth header with a format such as `HMAC 539263f4f83878a4917d2f9c1521320c28b926a9`. 
+
+The `:auth_header_format` directive has a companion directive, `:auth_header_parse` which can be a proc or a regular expression. Any given regular expression will be evaluated against the string and any named capture pattern will be added to the parameters for the request. The regular expression must at least contain a pattern named `scheme` and pattern named `signature`. The default value is `/(?<scheme>\w+) (?<signature>\w+)/`
+
 ## Optional nonce
 
 An optional nonce can be passed in the request to increase security. The nonce is not limited to digits and can be any string. It's
@@ -263,7 +270,6 @@ The canonical representation is:
     nonce:foLiequei7oosaiWun5aoy8oo\n
     /example/resource.html?order=id,asc&page=3
 
-
 ## HMACSigner usage
 
 The HMACSigner class can be used to validate and generate signatures for a given request. Most methods accept a hash as an intermediate 
@@ -272,6 +278,46 @@ representation of the request but some methods accept and operate on full urls.
     h = HMACSigner.new
     h.sign_url('http://example.org/example.html', 'secret')
     h.validate_url_signature('http://example.org/example.html?auth[signature]=foo', 'secret')
+
+## Using multiple authentication secrets
+
+Most applications will need to authenticate users using a combination of a user-identifier and and associated secret. 
+
+
+### Header-Based Authentication
+
+The format of the Autorization header can be controlled using the `:auth_header_format` option, the regular expression used to parse can be
+set using `:auth_header_parse`. Combining these two options with a proc that retrieves the signing key from a storage authentication with multiple
+secrets allows us to implement multiple signing keys:
+
+
+    use Warden::Manager do |manager|
+      manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
+      # other scopes
+      manager.scope_defaults :hmac, :strategies => [:hmac_query, :hmac_header], 
+                                     :store => false, 
+							         :hmac => {
+							           :secret => Proc.new {|strategy|
+							             keys = {
+							               "KEY1" => 'secrit',
+							               "KEY2" => "foo"
+							             }
+               
+							             access_key_id = strategy.parsed_auth_header["access_key_id"]
+							             keys[access_key_id]
+							           },
+							           :auth_header_format => '%{scheme} %{access_key_id} %{signature}',
+							           :auth_header_parse => /(?<scheme>\w+) (?<access_key_id>\w+) (?<signature>\w+)/
+							         }
+    end
+
+This combination of settings uses a slightly different Format for the authorization header and transports the secret keys ID in the header of the form `HMAC KEY2 a59456da1f61f86e96622e283780f58b7428c892`
+
+Another option would be transporting the access key id in a separate header.
+
+### Query-Based Authentication
+
+
     
 ## Licence
 
