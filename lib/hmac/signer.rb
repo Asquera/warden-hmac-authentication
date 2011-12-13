@@ -36,7 +36,8 @@ module HMAC
         :nonce_header => "X-%{scheme}-Nonce" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
         :alternate_date_header => "X-%{scheme}-Date" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
         :query_based => false,
-        :use_alternate_date_header => false
+        :use_alternate_date_header => false,
+        :extra_auth_params => {}
       }.merge(default_opts)
     
     end
@@ -132,6 +133,7 @@ module HMAC
     # @option params [Hash]   :headers ({}) All headers given in the request (optional and required)
     # @option params [String] :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option params [String] :auth_param ('auth')   The name of the authentication param to use for query based authentication
+    # @option params [Hash]   :extra_auth_params ({}) Additional parameters to inject in the auth parameter
     # @option params [String] :auth_header ('Authorization') The name of the authorization header to use
     # @option params [String] :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
     # @option params [String] :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
@@ -181,6 +183,7 @@ module HMAC
     #                                   
     # @option opts [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option opts [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
+    # @option opts [Hash]               :extra_auth_params ({}) Additional parameters to inject in the auth parameter
     # @option opts [String]             :auth_header ('Authorization') The name of the authorization header to use
     # @option opts [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
     # @option opts [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
@@ -200,12 +203,12 @@ module HMAC
       signature = generate_signature(:secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => opts[:nonce], :query => uri.query_values, :headers => opts[:headers])
       
       if opts[:query_based]
-        auth_params = {
+        auth_params = opts[:extra_auth_params].merge({
           "date" => date,
           "signature" => signature
-        }
+        })
         auth_params[:nonce] = opts[:nonce] unless opts[:nonce].nil?
-      
+        
         query_values =  uri.query_values || {}
         query_values[opts[:auth_param]] = auth_params
         uri.query_values = query_values
@@ -229,7 +232,8 @@ module HMAC
     # @param [String] secret the secret used to sign the url
     # @param [Hash] opts Options controlling the singature generation
     #
-    # @option opts [String] :auth_param ('auth')   The name of the authentication param to use for query based authentication
+    # @option opts [String] :auth_param ('auth')    The name of the authentication param to use for query based authentication
+    # @option opts [Hash]   :extra_auth_params ({}) Additional parameters to inject in the auth parameter
     #
     # @return [String] The signed url
     def sign_url(url, secret, opts = {})

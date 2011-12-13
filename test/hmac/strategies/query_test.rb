@@ -105,7 +105,18 @@ context "query-based auth" do
                                          :store => false, 
                                          :hmac => { 
                                            :secret => Proc.new {|strategy|
-                                             "secrit"
+                  							             keys = {
+                  							               "KEY1" => 'secrit',
+                  							               "KEY2" => "foo"
+                  							             }
+                                             auth = strategy.params["auth"]
+                                             
+                                             if auth.respond_to?(:key?)
+                                               access_key_id = auth["access_key_id"]
+                  							               keys[access_key_id]
+                                             else
+                                               nil
+                                             end
                                            },
                                            :algorithm => "md5"
                                          }
@@ -121,7 +132,7 @@ context "query-based auth" do
     context "> with a valid signature" do
       setup do
         uri = "http://example.org/?user_id=123"
-        signed = HMAC::Signer.new('md5').sign_url(uri, 'secrit')
+        signed = HMAC::Signer.new('md5').sign_url(uri, 'secrit', {:extra_auth_params => {:access_key_id => 'KEY1'}})
       
         get signed
       end
