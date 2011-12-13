@@ -9,7 +9,6 @@ module Faraday
     # @param [Object] app           The url of the request
     # @param [String] secret        The shared secret for the signature
     # @param [Hash]   options       Options for the signature generation
-    # @param [Hash]   query_values  Additional query values to inject in the request as part of the signing process
     #
     # @option options [String]             :nonce ('')           The nonce to use in the signature
     # @option options [String, #strftime]  :date (Time.now)      The date to use in the signature
@@ -17,6 +16,7 @@ module Faraday
     #                       
     # @option options [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option options [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
+    # @option options [Hash]               :extra_auth_params ({}) Additional parameters to inject in the auth parameter
     # @option options [String]             :auth_header ('Authorization') The name of the authorization header to use
     # @option options [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
     # @option options [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
@@ -24,8 +24,8 @@ module Faraday
     # @option options [Bool]               :query_based (false) Whether to use query based authentication
     # @option options [Bool]               :use_alternate_date_header (false) Use the alternate date header instead of `Date`
     #
-    def initialize(app, secret, options = {}, query_values = {})
-      @app, @secret, @options, @query_values = app, secret, options, query_values
+    def initialize(app, secret, options = {})
+      @app, @secret, @options, @query_values = app, secret, options
     end
   
     def call(env)
@@ -36,7 +36,6 @@ module Faraday
     def sign(env)
       signer = HMAC::Signer.new
       url = env[:url]
-      url.query_values = (url.query_values || {}).merge(@query_values)
       headers, url = *signer.sign_request(url, @secret, @options)
         
       env[:request_headers] = (env[:request_headers] || {}).merge(headers)
