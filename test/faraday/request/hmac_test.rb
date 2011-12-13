@@ -32,7 +32,7 @@ context "the faraday middleware" do
   
     asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC 539263f4f83878a4917d2f9c1521320c28b926a9")
     asserts("date header") {topic[:request_headers]["Date"]}.equals("Fri,  1 Jul 2011 20:28:55 GMT")
-    asserts("query values") {topic[:url].query_values}.empty
+    asserts("query values") {topic[:url].query_values}.nil
     
     context "> using a different auth header format" do
       setup do
@@ -42,7 +42,7 @@ context "the faraday middleware" do
   
       asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC TESTKEYID 539263f4f83878a4917d2f9c1521320c28b926a9")
       asserts("date header") {topic[:request_headers]["Date"]}.equals("Fri,  1 Jul 2011 20:28:55 GMT")
-      asserts("query values") {topic[:url].query_values}.empty
+      asserts("query values") {topic[:url].query_values}.nil
     end
     
   end
