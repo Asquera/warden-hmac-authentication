@@ -59,8 +59,8 @@ context "header-based auth" do
     context "> with valid timestamp" do
       
       setup do
-        Timecop.freeze Time.local(2011, 7, 1, 22, 28, 55).gmtime
-
+        Timecop.freeze Time.gm(2011, 7, 1, 20, 28, 55)
+        
         env = {
           "warden" => warden_struct,
           "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
@@ -80,7 +80,7 @@ context "header-based auth" do
     context "> with valid signature" do
       
       setup do
-        Timecop.freeze Time.local(2011, 7, 1, 22, 28, 55).gmtime
+        Timecop.freeze Time.gm(2011, 7, 1, 20, 28, 55)
       
         env = {
           "warden" => warden_struct,
