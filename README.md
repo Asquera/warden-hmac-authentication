@@ -275,7 +275,7 @@ The canonical representation is:
 The HMACSigner class can be used to validate and generate signatures for a given request. Most methods accept a hash as an intermediate 
 representation of the request but some methods accept and operate on full urls.
 
-    h = HMACSigner.new
+    h = HMAC::Signer.new
     h.sign_url('http://example.org/example.html', 'secret')
     h.validate_url_signature('http://example.org/example.html?auth[signature]=foo', 'secret')
 
@@ -317,8 +317,32 @@ Another option would be transporting the access key id in a separate header.
 
 ### Query-Based Authentication
 
+The same result can be achieved using query-based auth by injecting extra authentication parameters and retrieving the access key in the proc. Given a url such as `http://example.org/example.html?auth[signature]=foo&auth[access_key_id]=KEY2` the following configuration will validate the signature with the secret `foo`:
 
-    
+    use Warden::Manager do |manager|
+      manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
+      # other scopes
+      manager.scope_defaults :hmac, :strategies => [:hmac_query, :hmac_header], 
+                                     :store => false, 
+							         :hmac => {
+							           :secret => Proc.new {|strategy|
+							             keys = {
+							               "KEY1" => 'secrit',
+							               "KEY2" => "foo"
+							             }
+               
+							             access_key_id = strategy.params["auth"]["access_key_id"]
+							             keys[access_key_id]
+							           }
+							         }
+    end
+
+To simplify the generation of such urls, the `HMAC::Signer` accepts an `:extra_auth_params` option for query based authentication. Parameters passed via this option will be injected in the auth hash. Parameters injected in the auth hash via this option will not be part of the signature, so only parameters that control the generation of the signature should be placed here.
+
+
+    h.sign_url('http://example.org/example.html', 'foo', {:extra_auth_params => {"access_key_id" => "KEY2"}})
+
+
 ## Licence
 
 Copyright (c) 2011 Florian Gilcher <florian.gilcher@asquera.de>, Felix Gilcher <felix.gilcher@asquera.de>
