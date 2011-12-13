@@ -73,7 +73,7 @@ context "header-based auth" do
     context "> with valid signature" do
       
       setup do
-        Timecop.freeze Time.local(2011, 7, 1, 22, 28, 55)
+        Timecop.freeze Time.local(2011, 7, 1, 22, 28, 55).gmtime
       
         env = {
           "warden" => warden_struct,
