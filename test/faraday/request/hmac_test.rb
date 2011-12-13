@@ -49,7 +49,7 @@ context "the faraday middleware" do
 
   context "> using query-based auth" do
     setup do
-      m = Faraday::Request::Hmac.new(DummyApp.new, "testsecret", {:query_based => true})
+      m = Faraday::Request::Hmac.new(DummyApp.new, "testsecret", {:query_based => true, :extra_auth_params => {"auth_key" => "TESTKEYID"}})
       m.call({ :request_headers => {}, :url => Addressable::URI.parse('http://www.example.com') })
     end
   
@@ -63,7 +63,8 @@ context "the faraday middleware" do
       end
     
       asserts("auth date") {topic["auth"]["date"]}.equals("Fri,  1 Jul 2011 20:28:55 GMT")
-      asserts("auth date") {topic["auth"]["signature"]}.equals("539263f4f83878a4917d2f9c1521320c28b926a9")
+      asserts("auth_key") {topic["auth"]["auth_key"]}.equals("TESTKEYID")
+      asserts("auth signature") {topic["auth"]["signature"]}.equals("539263f4f83878a4917d2f9c1521320c28b926a9")
     end
     
   end
