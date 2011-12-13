@@ -6,7 +6,7 @@
 <title>
   Class: Warden::Strategies::HMAC::Base
   
-    &mdash; Documentation by YARD 0.7.2
+    &mdash; Documentation by YARD 0.7.4
   
 </title>
 
@@ -105,7 +105,8 @@ as config access and various helpers.
   </div>
 </div>
 <div class="tags">
-  <h3>Author:</h3>
+  
+<h3>Author:</h3>
 <ul class="author">
   
     <li>
@@ -343,6 +344,7 @@ in child-strategies.
 </div>
 <div class="tags">
   
+
   <h3>See Also:</h3>
   <ul class="see">
     
@@ -378,22 +380,22 @@ in child-strategies.
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac/strategies/base.rb', line 21</span>
 
-<span class='kw'>def</span> <span class='id authenticate!'>authenticate!</span>
-  <span class='kw'>if</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>==</span> <span class='id secret'>secret</span><span class='period'>.</span><span class='id to_s'>to_s</span>
-    <span class='id debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>authentication attempt with an empty secret</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id fail!'>fail!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot authenticate with an empty secret</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_authenticate!'>authenticate!</span>
+  <span class='kw'>if</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>==</span> <span class='id identifier rubyid_secret'>secret</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>authentication attempt with an empty secret</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_fail!'>fail!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot authenticate with an empty secret</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
     
-  <span class='kw'>if</span> <span class='id check_ttl?'>check_ttl?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id timestamp_valid?'>timestamp_valid?</span>
-    <span class='id debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>authentication attempt with an invalid timestamp. Given was </span><span class='embexpr_beg'>#{</span><span class='id timestamp'>timestamp</span><span class='rbrace'>}</span><span class='tstring_content'>, expected was </span><span class='embexpr_beg'>#{</span><span class='const'>Time</span><span class='period'>.</span><span class='id now'>now</span><span class='period'>.</span><span class='id gmtime'>gmtime</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id fail!'>fail!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid timestamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>  
+  <span class='kw'>if</span> <span class='id identifier rubyid_check_ttl?'>check_ttl?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_timestamp_valid?'>timestamp_valid?</span>
+    <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>authentication attempt with an invalid timestamp. Given was </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_timestamp'>timestamp</span><span class='rbrace'>}</span><span class='tstring_content'>, expected was </span><span class='embexpr_beg'>#{</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_gmtime'>gmtime</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_fail!'>fail!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid timestamp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>  
   <span class='kw'>end</span>
     
-  <span class='kw'>if</span> <span class='id signature_valid?'>signature_valid?</span>
-    <span class='id success!'>success!</span><span class='lparen'>(</span><span class='id retrieve_user'>retrieve_user</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_signature_valid?'>signature_valid?</span>
+    <span class='id identifier rubyid_success!'>success!</span><span class='lparen'>(</span><span class='id identifier rubyid_retrieve_user'>retrieve_user</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
-    <span class='id debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>authentication attempt with an invalid signature.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='id fail!'>fail!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid token passed</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>authentication attempt with an invalid signature.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_fail!'>fail!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid token passed</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -426,7 +428,7 @@ Log a debug message if a logger is available.
         <span class='name'>msg</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -439,6 +441,7 @@ The message to log
     </li>
   
 </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -455,9 +458,9 @@ The message to log
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac/strategies/base.rb', line 77</span>
 
-<span class='kw'>def</span> <span class='id debug'>debug</span><span class='lparen'>(</span><span class='id msg'>msg</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id logger'>logger</span>
-    <span class='id logger'>logger</span><span class='period'>.</span><span class='id debug'>debug</span><span class='lparen'>(</span><span class='id msg'>msg</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_logger'>logger</span>
+    <span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -484,7 +487,8 @@ stripping the `HTTP_`-prefix and replacing underscores with dashes.
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
@@ -521,12 +525,12 @@ The request headers
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac/strategies/base.rb', line 59</span>
 
-<span class='kw'>def</span> <span class='id headers'>headers</span>
-  <span class='id pairs'>pairs</span> <span class='op'>=</span> <span class='id env'>env</span><span class='period'>.</span><span class='id select'>select</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span><span class='id v'>v</span><span class='op'>|</span> <span class='id k'>k</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='period'>
-</span><span class='period'>      .</span><span class='id collect'>collect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id pair'>pair</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id pair'>pair</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^HTTP_</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id pair'>pair</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='period'>
-</span><span class='period'>      .</span><span class='id sort'>sort</span>
-   <span class='id headers'>headers</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id pairs'>pairs</span><span class='period'>.</span><span class='id flatten'>flatten</span><span class='rbracket'>]</span>
-   <span class='id headers'>headers</span>   
+<span class='kw'>def</span> <span class='id identifier rubyid_headers'>headers</span>
+  <span class='id identifier rubyid_pairs'>pairs</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTTP_</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='period'>
+</span><span class='id identifier rubyid_      .collect'>      .collect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_pair'>pair</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_pair'>pair</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^HTTP_</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_pair'>pair</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='period'>
+</span><span class='id identifier rubyid_      .sort'>      .sort</span>
+   <span class='id identifier rubyid_headers'>headers</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='lbracket'>[</span><span class='op'>*</span><span class='id identifier rubyid_pairs'>pairs</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='rbracket'>]</span>
+   <span class='id identifier rubyid_headers'>headers</span>   
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -550,7 +554,8 @@ Retrieve a logger. Current implementation can only handle Padrino loggers
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
@@ -585,9 +590,9 @@ the logger, nil if none is available
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac/strategies/base.rb', line 87</span>
 
-<span class='kw'>def</span> <span class='id logger'>logger</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_logger'>logger</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span> <span class='const'>Padrino</span>
-    <span class='const'>Padrino</span><span class='period'>.</span><span class='id logger'>logger</span>
+    <span class='const'>Padrino</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -612,7 +617,8 @@ Retrieve the request query parameters
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
@@ -645,8 +651,8 @@ The query parameters
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac/strategies/base.rb', line 50</span>
 
-<span class='kw'>def</span> <span class='id params'>params</span>
-  <span class='id request'>request</span><span class='period'>.</span><span class='const'>GET</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_params'>params</span>
+  <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='const'>GET</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -656,7 +662,7 @@ The query parameters
       <div class="method_details ">
   <p class="signature " id="request_method-instance_method">
   
-    - (<tt>String</tt>) <strong>request_method</strong> 
+    - (<tt><span class='object_link'><a href="../../../String.html" title="String (class)">String</a></span></tt>) <strong>request_method</strong> 
   
 
   
@@ -670,13 +676,14 @@ Retrieve the current request method
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -703,8 +710,8 @@ The request method in capital letters
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac/strategies/base.rb', line 43</span>
 
-<span class='kw'>def</span> <span class='id request_method'>request_method</span>
-  <span class='id env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id upcase'>upcase</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_request_method'>request_method</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>REQUEST_METHOD</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -729,7 +736,8 @@ true, needed for compat.
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
@@ -762,7 +770,7 @@ true
     <td>
       <pre class="code"><span class="info file"># File 'lib/hmac/strategies/base.rb', line 70</span>
 
-<span class='kw'>def</span> <span class='id retrieve_user'>retrieve_user</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_retrieve_user'>retrieve_user</span>
   <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -775,9 +783,9 @@ true
 </div>
     
     <div id="footer">
-  Generated on Sun Jul 17 13:34:13 2011 by 
+  Generated on Tue Dec 13 23:47:50 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.7.2 (ruby-1.9.2).
+  0.7.4 (ruby-1.9.2).
 </div>
 
   </body>
