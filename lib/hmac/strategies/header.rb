@@ -53,7 +53,20 @@ module Warden
         #
         # @return [String] The signature from the request
         def given_signature
-          headers[auth_header].split(" ")[1]
+          parsed_auth_header['signature']
+        end
+
+        # parses the authentication header from the request using the
+        # regexp or proc given in the :auth_header_parse option. The result 
+        # is memoized
+        #
+        # @return [Hash] The parsed header
+        def parsed_auth_header
+          if @parsed_auth_header.nil?
+            @parsed_auth_header = auth_header_parse.match(headers[auth_header]) || {}
+          end
+          
+          @parsed_auth_header
         end
 
         # retrieve the nonce from the request
@@ -79,7 +92,7 @@ module Warden
           end
 
           def scheme_valid?
-            headers[auth_header].to_s.split(" ").first == auth_scheme_name
+            parsed_auth_header['scheme'] == auth_scheme_name
           end
     
           def date_header

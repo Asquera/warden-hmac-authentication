@@ -118,6 +118,10 @@ module Warden
           def optional_headers
             (config[:optional_headers] || []) + ["Content-MD5", "Content-Type"]
           end
+          
+          def auth_header_parse
+            config[:auth_header_parse] || /(?<scheme>\w+) (?<signature>\w+)/
+          end
     
           def lowercase_headers
 
