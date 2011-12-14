@@ -83,6 +83,24 @@ or use a Proc that retrieves the secret.
                                      }
     end
 
+### Retrieving the user from the database
+
+If a callable object is given for the `:retrieve_user` option, this callable will be called after successful authentication. The callable must accept the strategy itself as its only argument. The strategy allows access to all request parameters and header as well as all derived values. The result will be memoized. 
+
+    use Warden::Manager do |manager|
+      manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
+      # other scopes
+      manager.scope_defaults :hmac, :strategies => [:hmac_query, :hmac_header], 
+                                     :store => false, 
+                                     :hmac => { 
+                                       :retrieve_user => Proc.new {|strategy|
+                                         User.get(strategy.params["userid"])
+                                       }
+                                     }
+    end
+
+An alternative is overwriting the strategies `retrieve_user` method.
+
 ### Controlling the HMAC algorithm
 
 The algorithm can be controlled using the `:algorithm` option:
