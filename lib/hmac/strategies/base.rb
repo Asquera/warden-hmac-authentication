@@ -119,8 +119,40 @@ module Warden
             (config[:optional_headers] || []) + ["Content-MD5", "Content-Type"]
           end
           
+          def auth_header_format
+            config[:auth_header_format] || '%{scheme} %{signature}'
+          end
+          
           def auth_header_parse
-            config[:auth_header_parse] || /(?<scheme>\w+) (?<signature>\w+)/
+            unless @auth_header_parse
+              r = config[:auth_header_parse]
+              
+              if !r
+                # transforms the auth_header_format to a regular expression
+                # that allows [-_+.\w] for each of the segments in the format string
+                #
+                # '%{scheme} %{signature}' => /(?<scheme>[-_+.\w]+) (?<signature>[-_+.\w]+)/
+                #
+                split_re = /(?<!%)(%{[^}]+})/
+                replace_re = /(?<!%)%{([^}]+)}/
+	  
+          	    segments = auth_header_format.split split_re
+                segments.each_index do |i; md, key|
+                  md = replace_re.match(segments[i])
+                  if ! md.nil?
+                    key = md.captures[0].to_sym
+                    segments[i] = "(?<#{key}>[-_+.\\w]+)"
+                  else
+                    segments[i] = segments[i].gsub "%%", "%"
+                  end
+                end
+                r = Regexp.new segments.join
+              end
+              
+              @auth_header_parse = r
+            end
+            
+            @auth_header_parse
           end
     
           def lowercase_headers

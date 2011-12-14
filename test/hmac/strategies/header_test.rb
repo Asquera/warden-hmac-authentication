@@ -30,8 +30,7 @@ context "header-based auth" do
              access_key_id = strategy.parsed_auth_header["access_key_id"]
              keys[access_key_id]
            },
-           :auth_header_format => '%{scheme} %{access_key_id} %{signature}',
-           :auth_header_parse => /(?<scheme>\w+) (?<access_key_id>\w+) (?<signature>\w+)/
+           :auth_header_format => '%{scheme} %{access_key_id} %{signature}'
          }
        }
       } 
