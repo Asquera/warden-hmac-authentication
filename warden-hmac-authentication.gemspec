@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
   
   s.add_runtime_dependency(%q<addressable>)
   s.add_runtime_dependency(%q<rack>)
-  s.add_runtime_dependency(%q<trollop>)
   s.add_runtime_dependency(%q<warden>)
   
   s.add_development_dependency(%q<rake>)
@@ -34,4 +33,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency(%q<timecop>)
   s.add_development_dependency(%q<simplecov>)
   s.add_development_dependency(%q<simplecov-html>)
+  s.add_development_dependency(%q<trollop>)
 end

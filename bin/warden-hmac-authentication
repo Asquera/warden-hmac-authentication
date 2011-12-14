@@ -1,6 +1,20 @@
 #!/usr/bin/env ruby
 
-require 'trollop'
+begin
+  require 'trollop'
+rescue LoadError => e
+  puts ""
+  puts ""
+  puts "============= ERROR ================"
+  puts ""
+  puts "You need trollop installed or in your gemfile to use the signer"
+  puts ""
+  puts "============= ERROR ================"
+  puts ""
+  puts ""
+  exit(-1)
+end
+
 require 'hmac/signer'
 
 opts = Trollop::options do
