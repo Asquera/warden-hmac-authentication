@@ -64,11 +64,12 @@ module Warden
            headers   
         end
   
-        # Retrieve a user from the database. Stub implementation that just returns true, needed for compat.
+        # Retrieve a user from the database. Calls the proc given in :retrieve_user, else returns true
         #
-        # @return [Bool] true
+        # @return [Mixed] The result of the configured proc, true is no proc was given
         def retrieve_user
-          true
+          @user ||= config[:retrieve_user].respond_to?(:call) ? config[:retrieve_user].call(self) : true
+          @user
         end
   
         # Log a debug message if a logger is available.
