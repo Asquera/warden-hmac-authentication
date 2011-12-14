@@ -37,6 +37,32 @@ context "header-based auth" do
     }
   })
   
+  warden_struct_custom_auth_header_parse = OpenStruct.new({
+    :config => {
+     :scope_defaults => {
+       :default => {
+         :hmac => {
+           :auth_scheme => 'HMAC:',
+           :secret => Proc.new {|strategy|
+             keys = {
+               "KEY1" => 'secrit',
+               "KEY2" => "foo"
+             }
+               
+             access_key_id = strategy.parsed_auth_header["access_key_id"]
+             keys[access_key_id]
+           },
+           :auth_header_format => '%{scheme} %{access_key_id} %{signature}',
+           :auth_header_parse => /(?<scheme>[-_+.\w:]+) (?<access_key_id>[-_+.\w]+) (?<signature>[-_+.\w]+)/
+           
+         }
+       }
+      } 
+    }
+  })
+  
+  
+  
   context "> without authorization header" do
     
     setup do
@@ -189,6 +215,30 @@ context "header-based auth" do
 
       asserts(:valid?)
       asserts(:timestamp_valid?)
+      asserts(:given_signature).equals("a59456da1f61f86e96622e283780f58b7428c892")
+      asserts("auth key id"){topic.parsed_auth_header["access_key_id"]}.equals("KEY2")
+      denies(:authenticate!).equals(:success)
+    end
+    
+    context "> valid key and invalid signature and custom parser" do
+      setup do
+        Timecop.freeze Time.gm(2011, 7, 1, 20, 28, 55)
+      
+        env = {
+          "warden" => warden_struct_custom_auth_header_parse,
+          "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
+          "HTTP_Authorization" => "HMAC: KEY2 a59456da1f61f86e96622e283780f58b7428c892"}
+        strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
+      end
+      
+      teardown do
+        Timecop.return
+      end
+
+      asserts(:valid?)
+      asserts(:timestamp_valid?)
+      asserts(:scheme_valid?)
+      asserts("scheme"){topic.parsed_auth_header["scheme"]}.equals("HMAC:")
       asserts(:given_signature).equals("a59456da1f61f86e96622e283780f58b7428c892")
       asserts("auth key id"){topic.parsed_auth_header["access_key_id"]}.equals("KEY2")
       denies(:authenticate!).equals(:success)
