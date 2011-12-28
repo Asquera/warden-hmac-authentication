@@ -5,11 +5,12 @@
 rvm:
 #  - 1.8.7 # (current default)
   - 1.9.2
+  - 1.9.3
 #  - rbx
 #  - rbx-2.0
 #  - ree
   - jruby
-#  - ruby-head
+  - ruby-head
 #  - 1.8.6
 
 # Define how to run your tests (defaults to `bundle exec rake` or `rake` depending on whether you have a `Gemfile`)
