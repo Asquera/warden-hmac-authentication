@@ -15,12 +15,19 @@ module Warden
         # @return [Bool] true if all required authentication information is available in the request
         # @see https://github.com/hassox/warden/wiki/Strategies
         def valid?
-          valid = auth_info.include? "signature"
+          valid = has_signature?
           valid = valid && has_timestamp? if check_ttl?
           valid = valid && has_nonce? if nonce_required?
           valid
         end
-
+        
+        # Checks that the request contains a signature
+        #
+        # @return [Bool] true if the request contains a signature
+        def has_signature?
+          auth_info.include? "signature"
+        end
+        
         # Check that the signature given in the request is valid.
         #
         # @return [Bool] true if the request is valid
