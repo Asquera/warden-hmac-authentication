@@ -23,7 +23,7 @@ module Warden
             debug("authentication attempt with an empty secret")
             return fail!("Cannot authenticate with an empty secret")
           end
-    
+          
           if check_ttl? && !timestamp_valid?
             debug("authentication attempt with an invalid timestamp. Given was #{timestamp}, expected was #{Time.now.gmtime}")
             return fail!("Invalid timestamp")  
@@ -93,7 +93,11 @@ module Warden
   
         private
           def config
-            env["warden"].config[:scope_defaults][scope][:hmac]
+            if env["warden"].config[:scope_defaults][scope][:hmac]
+              env["warden"].config[:scope_defaults][scope][:hmac]
+            else
+              {}
+            end
           end
     
           def auth_param
@@ -122,6 +126,13 @@ module Warden
           
           def auth_header_format
             config[:auth_header_format] || '%{scheme} %{signature}'
+          end
+          
+          # check whether a nonce is set in the request
+          #
+          # @return [Bool] True if a nonce was given in the request
+          def has_nonce?
+            nonce && !nonce.to_s.empty?
           end
           
           def auth_header_parse
