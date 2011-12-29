@@ -93,7 +93,7 @@ module Warden
   
         private
           def config
-            if env["warden"].config[:scope_defaults][scope][:hmac]
+            if (env["warden"].config[:scope_defaults][scope] && env["warden"].config[:scope_defaults][scope][:hmac])
               env["warden"].config[:scope_defaults][scope][:hmac]
             else
               {}
