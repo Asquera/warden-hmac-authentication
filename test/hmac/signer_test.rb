@@ -65,6 +65,24 @@ context "an HMAC object" do
     
   end
 
+  context "> generating the signature for a POST request" do
+
+    setup do
+      topic.sign_request("http://example.org?foo=bar&baz=foobar", "secret", :method=>"POST", :date => "Mon, 20 Jun 2011 12:06:11 GMT")
+    end
+
+    context "> resulting headers" do
+
+      setup do
+        topic[0]
+      end
+
+      asserts("authorization header") {topic["Authorization"]}.equals("HMAC 655e73744ab08302726f9e8def685cca")
+
+    end
+
+  end
+
   asserts("signing a url") do
     topic.sign_url("http://example.org?foo=bar&baz=foobar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
   end.equals("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b2c5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE")

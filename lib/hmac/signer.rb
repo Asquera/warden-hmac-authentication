@@ -182,6 +182,7 @@ module HMAC
     # @option opts [String]             :nonce ('')           The nonce to use in the signature
     # @option opts [String, #strftime]  :date (Time.now)      The date to use in the signature
     # @option opts [Hash]               :headers ({})         A list of optional headers to include in the signature
+    # @option opts [String,Symbol]      :method ('GET')       The HTTP method to use in the signature
     #                                   
     # @option opts [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option opts [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
@@ -201,8 +202,10 @@ module HMAC
     
       date = opts[:date] || Time.now.gmtime
       date = date.gmtime.strftime('%a, %e %b %Y %T GMT') if date.respond_to? :strftime
+
+      method = opts[:method] ? opts[:method].to_s.upcase : "GET"
     
-      signature = generate_signature(:secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => opts[:nonce], :query => uri.query_values, :headers => opts[:headers])
+      signature = generate_signature(:secret => secret, :method => method, :path => uri.path, :date => date, :nonce => opts[:nonce], :query => uri.query_values, :headers => opts[:headers])
       
       if opts[:query_based]
         auth_params = opts[:extra_auth_params].merge({
