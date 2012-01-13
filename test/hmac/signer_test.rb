@@ -93,5 +93,6 @@ context "an HMAC object" do
   asserts("checking a url_signature") { topic.validate_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b2c5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
   denies("checking an invalid url_signature") { topic.validate_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=AAc5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
   
+  asserts("signing a url with a fragment") {topic.sign_url("http://www.example.org/foo?example=bar&bar=baz#somewhere", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT")}.equals("http://www.example.org/foo?example=bar&bar=baz&auth%5Bdate%5D=Mon%2C+20+Jun+11+12%3A06%3A11+GMT&auth%5Bsignature%5D=7b34d0fabe75cb28796a94232beb70bc35e411a7#somewhere")
   
 end
