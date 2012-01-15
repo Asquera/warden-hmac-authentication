@@ -15,7 +15,7 @@ module Warden
         # @return [Bool] true if all required authentication information is available in the request
         # @see https://github.com/hassox/warden/wiki/Strategies
         def valid?
-          valid = required_headers.all? { |h| headers.include?(h) } && headers.include?("Authorization") && has_timestamp?
+          valid = required_headers.all? { |h| headers.include?(h) } && headers.include?("AUTHORIZATION") && has_timestamp?
           valid = valid && scheme_valid?
           valid
         end
@@ -97,9 +97,9 @@ module Warden
     
           def date_header
             if headers.include? alternate_date_header_name
-              alternate_date_header_name
+              alternate_date_header_name.upcase
             else
-              "Date"
+              "DATE"
             end
           end
       

@@ -105,7 +105,7 @@ module Warden
           end
     
           def auth_header
-            config[:auth_header] || "Authorization"
+            (config[:auth_header] || "Authorization").upcase
           end
     
           def auth_scheme_name
@@ -113,15 +113,15 @@ module Warden
           end
     
           def nonce_header_name
-            config[:nonce_header] || "X-#{auth_scheme_name}-Nonce"
+            (config[:nonce_header] || "X-#{auth_scheme_name}-Nonce").upcase
           end
     
           def alternate_date_header_name
-            config[:alternate_date_header] || "X-#{auth_scheme_name}-Date"
+            (config[:alternate_date_header] || "X-#{auth_scheme_name}-Date").upcase
           end
 
           def optional_headers
-            (config[:optional_headers] || []) + ["Content-MD5", "Content-Type"]
+            ((config[:optional_headers] || []) + ["Content-MD5", "Content-Type"]).map {|h| h.upcase }
           end
           
           def auth_header_format
