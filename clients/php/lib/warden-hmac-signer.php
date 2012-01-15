@@ -175,53 +175,5 @@ class WardenHmacSigner {
 		return join($segments, '');
 	}
 }
-		
-
-$params = array(
-    "method" => "GET",
-    "date" => "Mon, 20 Jun 2011 12:06:11 GMT",
-    "nonce" => "TESTNONCE",
-    "path" => "/example",
-    "query" => array(
-      "foo" => "bar",
-      "baz" => "foobared"
-    ),
-    "headers" => array(
-      "Content-Type" => "application/json;charset=utf8",
-      "Content-MD5" => "d41d8cd98f00b204e9800998ecf8427e"
-	)
-);
-
-$signer = new WardenHmacSigner("md5");
-
-#echo $signer->canonicalRepresentation($params);
-#echo $signer->signUrl("http://www.example.org/foo?example=bar&bar=baz#somewhere", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT"));
-
-#list($headers, $url) = $signer->signRequest("http://example.org?foo=bar&baz=foobar", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT", "nonce" => "TESTNONCE", "query_based" => true));
-
-
-#list($headers, $url) = $signer->signRequest("http://example.org?foo=bar&baz=foobar", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT", "nonce" => "TESTNONCE", "auth_header_format" => "%{auth_scheme} %{api_key}:%{signature}", "extra_auth_params" => array("api_key" => "test_api_key"), "query_based" => true));
-#
-#var_dump($headers);
-#echo $url;
-
-//array(3) {
-//  ["Authorization"]=>
-//  string(27) "%{auth_scheme} %{signature}"
-//  ["X-%{scheme}-Nonce"]=>
-//  string(9) "TESTNONCE"
-//  ["Date"]=>
-//  string(29) "Mon, 20 Jun 2011 12:06:11 GMT"
-//}
-//http://example.org?foo=bar&baz=foobar
-//
-//
-//      
-//asserts("date header") {topic["Date"]}.equals("Mon, 20 Jun 2011 12:06:11 GMT")
-//asserts("nonce header") {topic["X-HMAC-Nonce"]}.equals("TESTNONCE")
-//asserts("authorization header") {topic["Authorization"]}.equals("HMAC b2c5c7242f664ce18828f108452b437b")
-//
-
-
 
 ?>
