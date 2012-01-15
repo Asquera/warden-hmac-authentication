@@ -2,7 +2,6 @@
 
 # warden-hmac-signer
 # a signing client for the https://github.com/Asquera/warden-hmac-authentication library
-#		
 
 class WardenHmacSigner {
 
@@ -10,18 +9,19 @@ class WardenHmacSigner {
 	protected $defaultOts;
 
 	public function __construct($algorithm = "sha1", $default_opts = array()) {
+		$default_auth_scheme = !empty($default_opts['auth_scheme']) ? $default_opts['auth_scheme'] : "HMAC";
 		$this->algorithm = $algorithm;
-		$this->defaultOpts = array(
+		$this->defaultOpts = array_merge(array(
 			"auth_scheme" => "HMAC",
 		    "auth_param" => "auth",
 		    "auth_header" => "Authorization",
 		    "auth_header_format" => "%{auth_scheme} %{signature}",
-		    "nonce_header" => "X-%{scheme}-Nonce", #% {:scheme => (default_opts[:auth_scheme] || "HMAC")},
-		    "alternate_date_header" => "X-%{scheme}-Date", # % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
+		    "nonce_header" => $this->interpolateString("X-%{scheme}-Nonce", array("scheme" => $default_auth_scheme)), #% {:scheme => (default_opts[:auth_scheme] || "HMAC")},
+		    "alternate_date_header" => $this->interpolateString("X-%{scheme}-Date", array("scheme" => $default_auth_scheme)), # % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
 		    "query_based" => false,
 		    "use_alternate_date_header" => false,
 		    "extra_auth_params" => array()
-		) + $default_opts;
+		), $default_opts);
 	}
 
 	# returns the canonical representation for the given list of parameters
@@ -60,13 +60,11 @@ class WardenHmacSigner {
 	}
 
 	public function signRequest($url, $secret, $opts = array()) {
-		$opts = $this->defaultOpts + $opts;
+		$opts = array_merge($this->defaultOpts, $opts);
 		
 		$uri = parse_url($url);
 		$query_values = array();
 		parse_str($uri["query"], $query_values);
-		
-		var_dump($query_values);
 		
 		$headers = !empty($params["headers"]) ? $params["headers"] : array();
 		$method = !empty($params["method"]) ? $params["method"] : "GET";
@@ -87,7 +85,7 @@ class WardenHmacSigner {
 		} else {
 			$date = new DateTime("now", new DateTimeZone("UTC"));
 		}
-		$date = $date->format('D, d M y H:i:s')." GMT";
+		$date = $date->format('D, d M Y H:i:s')." GMT";
 		
 		$signature = $this->generateSignature(array(
 			"secret" 	=> $secret, 
@@ -99,7 +97,7 @@ class WardenHmacSigner {
 			"headers" 	=> $headers
 		));
       	
-		if ($opts["query_based"] || true) {
+		if ($opts["query_based"]) {
 			$auth_params = array_merge($opts["extra_auth_params"], array(
 				"date" => $date,
 				"signature" => $signature
@@ -113,7 +111,7 @@ class WardenHmacSigner {
 			
 		} else {
 			
-			$headers[$opts["auth_header"]]   = $opts["auth_header_format"]; // % opts.merge({:signature => signature})
+			$headers[$opts["auth_header"]]   = $this->interpolateString($opts["auth_header_format"], array_merge($opts, array("signature" => $signature)));
 			if (!empty($opts["nonce"])) {
 				$headers[$opts["nonce_header"]]  = $opts["nonce"];
       		}
@@ -126,7 +124,14 @@ class WardenHmacSigner {
 		}
 		
 		list($url) = split("\?", $url); # strip the query string
-		$url .= "?".http_build_query($query_values);
+		
+		# try to be rfc 3986 compatible whereever possible
+		# see http://www.php.net/manual/en/function.http-build-query.php
+		if(version_compare(PHP_VERSION, "5.4.0", ">=")) {
+			$url .= "?".http_build_query($query_values, null, '&', PHP_QUERY_RFC3986);
+		} else {
+			$url .= "?".http_build_query($query_values);
+		}
 		
 		if (!empty($uri["fragment"])) {
 			$url .= "#".$uri["fragment"];
@@ -149,6 +154,26 @@ class WardenHmacSigner {
 		return $url;
 	}
 
+
+	# this is a stripped-down, but fairly straightforward port of the ruby sprintf-replacement
+	# for named references see  http://jira.codehaus.org/browse/JRUBY-5338
+	protected function interpolateString($formatstring, $replacements) {
+		$split_re = "/(?<!%)(%{[^}]+})/";
+    	$replace_re = "/(?<!%)%{([^}]+)}/";
+	
+		$segments = preg_split($split_re, $formatstring, NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		
+		foreach (array_keys($segments) as $i) {
+			$md = preg_split($replace_re, $segments[$i], NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+			if (false != preg_match($replace_re, $segments[$i])) {
+				$key = $md[0];
+				$segments[$i] = $replacements[$key];
+			} else {
+				$segments[$i] = str_replace('%%', '%', $segments[$i]);
+			}
+		}
+		return join($segments, '');
+	}
 }
 		
 
@@ -167,9 +192,33 @@ $params = array(
 	)
 );
 
-$signer = new WardenHmacSigner();
+$signer = new WardenHmacSigner("md5");
 
 #echo $signer->canonicalRepresentation($params);
-echo $signer->signUrl("http://www.example.org/foo?example=bar&bar=baz#somewhere", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT"));
+#echo $signer->signUrl("http://www.example.org/foo?example=bar&bar=baz#somewhere", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT"));
+
+#list($headers, $url) = $signer->signRequest("http://example.org?foo=bar&baz=foobar", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT", "nonce" => "TESTNONCE", "query_based" => true));
+#
+#var_dump($headers);
+#echo $url;
+
+//array(3) {
+//  ["Authorization"]=>
+//  string(27) "%{auth_scheme} %{signature}"
+//  ["X-%{scheme}-Nonce"]=>
+//  string(9) "TESTNONCE"
+//  ["Date"]=>
+//  string(29) "Mon, 20 Jun 2011 12:06:11 GMT"
+//}
+//http://example.org?foo=bar&baz=foobar
+//
+//
+//      
+//asserts("date header") {topic["Date"]}.equals("Mon, 20 Jun 2011 12:06:11 GMT")
+//asserts("nonce header") {topic["X-HMAC-Nonce"]}.equals("TESTNONCE")
+//asserts("authorization header") {topic["Authorization"]}.equals("HMAC b2c5c7242f664ce18828f108452b437b")
+//
+
+
 
 ?>
