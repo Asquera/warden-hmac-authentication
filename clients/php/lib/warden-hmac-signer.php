@@ -111,7 +111,7 @@ class WardenHmacSigner {
 			
 		} else {
 			
-			$headers[$opts["auth_header"]]   = $this->interpolateString($opts["auth_header_format"], array_merge($opts, array("signature" => $signature)));
+			$headers[$opts["auth_header"]]   = $this->interpolateString($opts["auth_header_format"], array_merge($opts, $opts["extra_auth_params"], array("signature" => $signature)));
 			if (!empty($opts["nonce"])) {
 				$headers[$opts["nonce_header"]]  = $opts["nonce"];
       		}
@@ -198,6 +198,9 @@ $signer = new WardenHmacSigner("md5");
 #echo $signer->signUrl("http://www.example.org/foo?example=bar&bar=baz#somewhere", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT"));
 
 #list($headers, $url) = $signer->signRequest("http://example.org?foo=bar&baz=foobar", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT", "nonce" => "TESTNONCE", "query_based" => true));
+
+
+#list($headers, $url) = $signer->signRequest("http://example.org?foo=bar&baz=foobar", "secret", array("date" => "Mon, 20 Jun 2011 12:06:11 GMT", "nonce" => "TESTNONCE", "auth_header_format" => "%{auth_scheme} %{api_key}:%{signature}", "extra_auth_params" => array("api_key" => "test_api_key"), "query_based" => true));
 #
 #var_dump($headers);
 #echo $url;
