@@ -80,8 +80,8 @@ context "header-based auth" do
     setup do
       env = {
         "warden" => warden_struct,
-        "HTTP_Date" => "Mon, 20 Jun 2011 12:06:11 GMT",
-        "HTTP_Authorization" => "Basic foo:bar"}
+        "HTTP_DATE" => "Mon, 20 Jun 2011 12:06:11 GMT",
+        "HTTP_AUTHORIZATION" => "Basic foo:bar"}
       strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
     end
     
@@ -94,8 +94,8 @@ context "header-based auth" do
     setup do
       env = {
         "warden" => warden_struct,
-        "HTTP_Date" => "Mon, 20 Jun 2011 12:06:11 GMT",
-        "HTTP_Authorization" => "HMAC c2ce0f0885378f3e2e4024f505416c78abdd7a4b"}
+        "HTTP_DATE" => "Mon, 20 Jun 2011 12:06:11 GMT",
+        "HTTP_AUTHORIZATION" => "HMAC c2ce0f0885378f3e2e4024f505416c78abdd7a4b"}
       strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
     end
     
@@ -110,8 +110,8 @@ context "header-based auth" do
         
         env = {
           "warden" => warden_struct,
-          "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
-          "HTTP_Authorization" => "HMAC c2ce0f0885378f3e2e4024f505416c78abdd7a4b"}
+          "HTTP_DATE" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
+          "HTTP_AUTHORIZATION" => "HMAC c2ce0f0885378f3e2e4024f505416c78abdd7a4b"}
         strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
       
@@ -131,8 +131,8 @@ context "header-based auth" do
       
         env = {
           "warden" => warden_struct,
-          "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
-          "HTTP_Authorization" => "HMAC a59456da1f61f86e96622e283780f58b7428c892"}
+          "HTTP_DATE" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
+          "HTTP_AUTHORIZATION" => "HMAC a59456da1f61f86e96622e283780f58b7428c892"}
         strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
       
@@ -157,8 +157,8 @@ context "header-based auth" do
       
         env = {
           "warden" => warden_struct_custom_auth_header,
-          "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
-          "HTTP_Authorization" => "HMAC KEY3 a59456da1f61f86e96622e283780f58b7428c892"}
+          "HTTP_DATE" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
+          "HTTP_AUTHORIZATION" => "HMAC KEY3 a59456da1f61f86e96622e283780f58b7428c892"}
         strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
       
@@ -181,8 +181,8 @@ context "header-based auth" do
       
         env = {
           "warden" => warden_struct_custom_auth_header,
-          "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
-          "HTTP_Authorization" => "HMAC KEY3 a59456da1f61f86e96622e283780f58b7428c892"}
+          "HTTP_DATE" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
+          "HTTP_AUTHORIZATION" => "HMAC KEY3 a59456da1f61f86e96622e283780f58b7428c892"}
         strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
       
@@ -204,8 +204,8 @@ context "header-based auth" do
       
         env = {
           "warden" => warden_struct_custom_auth_header,
-          "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
-          "HTTP_Authorization" => "HMAC KEY2 a59456da1f61f86e96622e283780f58b7428c892"}
+          "HTTP_DATE" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
+          "HTTP_AUTHORIZATION" => "HMAC KEY2 a59456da1f61f86e96622e283780f58b7428c892"}
         strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
       
@@ -226,8 +226,8 @@ context "header-based auth" do
       
         env = {
           "warden" => warden_struct_custom_auth_header_parse,
-          "HTTP_Date" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
-          "HTTP_Authorization" => "HMAC: KEY2 a59456da1f61f86e96622e283780f58b7428c892"}
+          "HTTP_DATE" => Time.now.gmtime.strftime('%a, %e %b %Y %T GMT'),
+          "HTTP_AUTHORIZATION" => "HMAC: KEY2 a59456da1f61f86e96622e283780f58b7428c892"}
         strategy = Warden::Strategies::HMAC::Header.new(env_with_params('/', {}, env), :default)
       end
       
