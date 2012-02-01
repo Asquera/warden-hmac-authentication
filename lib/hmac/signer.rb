@@ -10,6 +10,17 @@ module HMAC
   #
   # @author Felix Gilcher <felix.gilcher@asquera.de>
   class Signer
+    DEFAULT_OPTS = {
+      :auth_scheme => "HMAC",
+      :auth_param => "auth",
+      :auth_header => "Authorization",
+      :auth_header_format => "%{auth_scheme} %{signature}",
+      :nonce_header => "X-%{scheme}-Nonce" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
+      :alternate_date_header => "X-%{scheme}-Date" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
+      :query_based => false,
+      :use_alternate_date_header => false,
+      :extra_auth_params => {}
+    }
     attr_accessor :secret, :algorithm, :default_opts
 
     # create a new HMAC instance
@@ -28,18 +39,7 @@ module HMAC
     #
     def initialize(algorithm = "sha1", default_opts = {})
       self.algorithm = algorithm
-      self.default_opts = {
-        :auth_scheme => "HMAC",
-        :auth_param => "auth",
-        :auth_header => "Authorization",
-        :auth_header_format => "%{auth_scheme} %{signature}",
-        :nonce_header => "X-%{scheme}-Nonce" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
-        :alternate_date_header => "X-%{scheme}-Date" % {:scheme => (default_opts[:auth_scheme] || "HMAC")},
-        :query_based => false,
-        :use_alternate_date_header => false,
-        :extra_auth_params => {}
-      }.merge(default_opts)
-    
+      self.default_opts = DEFAULT_OPTS.merge(default_opts)
     end
   
     # Generate the signature from a hash representation
