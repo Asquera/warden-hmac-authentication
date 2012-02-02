@@ -82,6 +82,20 @@ context "an HMAC object" do
     end
 
   end
+  
+  context "> generating the signature while ignoring some params" do
+    helper(:signer) { HMAC::Signer.new('md5') }
+    
+    setup do
+      signer.sign_request("http://example.org?foo=bar&baz=foobar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :ignore_params => [:baz])
+    end
+
+    asserts("authorization header") { topic[0]["Authorization"] }.equals {
+      signer.sign_request("http://example.org?foo=bar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :ignore_params => [:baz])[0]["Authorization"]
+    }
+
+
+  end
 
   asserts("signing a url") do
     topic.sign_url("http://example.org?foo=bar&baz=foobar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
