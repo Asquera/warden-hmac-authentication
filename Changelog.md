@@ -1,5 +1,7 @@
 Changelog
 
+HEAD
+    Add `:ignore_params` to instruct the signer to drop parameters
 0.5.5
     issue 12: fixes errors in header-based authentication
 
