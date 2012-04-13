@@ -123,8 +123,9 @@ module HMAC
 
       uri = Addressable::URI.parse(url)
       query_values = uri.query_values
-      auth_params = query_values.delete(opts[:auth_param])
+      return false unless query_values
 
+      auth_params = query_values.delete(opts[:auth_param])
       return false unless auth_params
 
       date = auth_params["date"]
