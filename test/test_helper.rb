@@ -14,6 +14,7 @@ require 'rack/test'
 require 'riot'
 require 'warden'
 require 'timecop'
+require 'rack/utils'
 
 begin
   require 'simplecov'

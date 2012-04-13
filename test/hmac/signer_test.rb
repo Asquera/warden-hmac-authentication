@@ -94,19 +94,71 @@ context "an HMAC object" do
       signer.sign_request("http://example.org?foo=bar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :ignore_params => [:baz])[0]["Authorization"]
     }
 
-
   end
 
-  asserts("signing a url") do
-    topic.sign_url("http://example.org?foo=bar&baz=foobar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
-  end.equals("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b2c5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE")
-  
-  asserts("signing a url without query parameters") { topic.sign_url("http://example.org/example.html", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE") }.equals("http://example.org/example.html?auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b0287a82bc0d36aef01dd8094c2e2814&auth[nonce]=TESTNONCE")
-  asserts("signing a url with extra auth parameters")  { topic.sign_url("http://example.org/example.html", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE", :extra_auth_params => {:access_key_id => "KEY1"}) }.equals("http://example.org/example.html?auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b0287a82bc0d36aef01dd8094c2e2814&auth[access_key_id]=KEY1&auth[nonce]=TESTNONCE")  
+  context "signing a url" do
+    setup do
+      topic.sign_url("http://example.org?foo=bar&baz=foobar", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
+    end
     
+    asserts("base url") {topic.split("?")[0]}.equals("http://example.org")
+    asserts("parameters") {  Rack::Utils.parse_query(topic.split("?")[1]) }.equals({
+      "foo"         => "bar",
+      "baz"         => "foobar",
+      "auth[date]"  =>"Mon, 20 Jun 2011 12:06:11 GMT",
+      "auth[signature]"=>"b2c5c7242f664ce18828f108452b437b",
+      "auth[nonce]"=>"TESTNONCE"
+    })
+    
+  end
+
+  context "signing a url without query parameters" do
+    setup do
+      topic.sign_url("http://example.org/example.html", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE")
+    end
+    
+    asserts("base url") {topic.split("?")[0]}.equals("http://example.org/example.html")
+    asserts("parameters") {  Rack::Utils.parse_query(topic.split("?")[1]) }.equals({
+      "auth[date]"  =>"Mon, 20 Jun 2011 12:06:11 GMT",
+      "auth[signature]"=>"b0287a82bc0d36aef01dd8094c2e2814",
+      "auth[nonce]"=>"TESTNONCE"
+    })
+    
+  end
+
+  context "signing a url with extra auth parameters" do
+    setup do
+      topic.sign_url("http://example.org/example.html", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT", :nonce => "TESTNONCE", :extra_auth_params => {:access_key_id => "KEY1"})
+    end
+    
+    asserts("base url") {topic.split("?")[0]}.equals("http://example.org/example.html")
+    asserts("parameters") {  Rack::Utils.parse_query(topic.split("?")[1]) }.equals({
+      "auth[date]"  =>"Mon, 20 Jun 2011 12:06:11 GMT",
+      "auth[signature]"=>"b0287a82bc0d36aef01dd8094c2e2814",
+      "auth[nonce]"=>"TESTNONCE",
+      "auth[access_key_id]" => "KEY1"
+    })
+    
+  end
+
+  context "signing a url with a fragment" do
+    setup do
+      topic.sign_url("http://www.example.org/foo?example=bar&bar=baz#somewhere", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT")
+    end
+    
+    asserts("base url") {topic.split("?")[0]}.equals("http://www.example.org/foo")
+    asserts("parameters") {  Rack::Utils.parse_query(topic.split("?")[1].split("#")[0]) }.equals({
+      "example" => "bar",
+      "bar" => "baz",
+      "auth[date]"  =>"Mon, 20 Jun 2011 12:06:11 GMT",
+      "auth[signature]"=>"4b6c1ea41fbb1c83010ebabbbd6f98e6"
+    })
+    asserts("fragment") {topic.split("#")[1]}.equals("somewhere")
+  
+  end
+
   asserts("checking a url_signature") { topic.validate_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b2c5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
   denies("checking an invalid url_signature") { topic.validate_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=AAc5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
   
-  asserts("signing a url with a fragment") {topic.sign_url("http://www.example.org/foo?example=bar&bar=baz#somewhere", "secret", :date => "Mon, 20 Jun 2011 12:06:11 GMT")}.equals("http://www.example.org/foo?bar=baz&example=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=4b6c1ea41fbb1c83010ebabbbd6f98e6#somewhere")
   
 end
