@@ -1,5 +1,7 @@
 Changelog
 
+0.6.1
+    Fix exception on HMAC::Signer when url without query string is given
 0.6.0
     Fix failing tests on travis.
 	Fix crash on jruby >= 1.6.6
