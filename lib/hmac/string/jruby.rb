@@ -1,6 +1,6 @@
-# this is a ruby workaround for jruby issue http://jira.codehaus.org/browse/JRUBY-5338
+# this is a ruby workaround for jruby issue http://jira.codehaus.org/browse/JRUBY-5338 which was fixed in jruby-1.6.6
 
-if defined?(JRUBY_VERSION) && RUBY_VERSION =~ /^1\.9/
+if defined?(JRUBY_VERSION) && RUBY_VERSION =~ /^1\.9/ && JRUBY_VERSION < "1.6.6"
   class KeyError < IndexError
   end
 
