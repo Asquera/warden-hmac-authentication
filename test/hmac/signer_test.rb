@@ -160,5 +160,6 @@ context "an HMAC object" do
   asserts("checking a url_signature") { topic.validate_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=b2c5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
   denies("checking an invalid url_signature") { topic.validate_url_signature("http://example.org?baz=foobar&foo=bar&auth[date]=Mon%2C%2020%20Jun%202011%2012%3A06%3A11%20GMT&auth[signature]=AAc5c7242f664ce18828f108452b437b&auth[nonce]=TESTNONCE", "secret") }
   
-  
+  denies("checking a url without auth parameters in query string") { topic.validate_url_signature("http://example.org?foo=bar", "secret") }
+  denies("checking a url without query string") { topic.validate_url_signature("http://example.org", "secret") }
 end

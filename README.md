@@ -11,7 +11,7 @@ The gem also provides a small helper class that can be used to generate request 
 ## Header-Based authentication
 
 The header-based authentication transports the authentication information in the (misnamed) `Authorization` HTTP-Header. The primary 
-advantage of header-based authentication is that request urls are stable even if authentication information changes. The improves
+advantage of header-based authentication is that request urls are stable even if authentication information changes. This improves
 cacheability of the resource.
 
 Header-based authentication is supported by the `:hmac_header` strategy.
@@ -373,9 +373,13 @@ The library includes a faraday middleware that can be used to sign requests made
       builder.adapter  :net_http
     end
 
-### Example (header based)
+### Example (header based with custom scheme name)
 
-
+    Faraday.new(:url => "http://example.com") do |builder|
+      builder.use      Faraday::Request::Hmac, secret, {:auth_scheme => 'MYSCHEME', :auth_key => 'TESTKEYID', :auth_header_format => '%{auth_scheme} %{auth_key} %{signature}'}}
+      builder.response :raise_error
+      builder.adapter  :net_http
+    end
 
 ## Licence
 
