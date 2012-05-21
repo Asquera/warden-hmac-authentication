@@ -11,7 +11,7 @@ The gem also provides a small helper class that can be used to generate request 
 ## Header-Based authentication
 
 The header-based authentication transports the authentication information in the (misnamed) `Authorization` HTTP-Header. The primary 
-advantage of header-based authentication is that request urls are stable even if authentication information changes. The improves
+advantage of header-based authentication is that request urls are stable even if authentication information changes. This improves
 cacheability of the resource.
 
 Header-based authentication is supported by the `:hmac_header` strategy.
