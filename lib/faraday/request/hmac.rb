@@ -16,7 +16,7 @@ module Faraday
     #                       
     # @option options [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option options [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
-    # @option options [Hash]               :extra_auth_params ({}) Additional parameters to inject in the auth parameter
+    # @option options [Hash]               :extra_auth_params ({}) Additional parameters to inject in the auth parameter. This parameter is ignored unless :query_based evaluates to true.
     # @option options [String]             :auth_header ('Authorization') The name of the authorization header to use
     # @option options [String]             :auth_header_format ('%{auth_scheme} %{signature}') The format of the authorization header. Will be interpolated with the given options and the signature.
     # @option options [String]             :nonce_header ('X-#{auth_scheme}-Nonce') The header name for the request nonce
