@@ -1,5 +1,7 @@
 Changelog
 
+0.6.2
+    Fix missing default timestamp, thanks to @darrinholst. (see PR #17)
 0.6.1
     Fix exception on HMAC::Signer when url without query string is given
 0.6.0
