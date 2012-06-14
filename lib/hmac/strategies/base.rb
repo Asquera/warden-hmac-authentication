@@ -188,15 +188,15 @@ module Warden
           end
     
           def ttl
-            config[:ttl].to_i
+            (config[:ttl] || 900).to_i
           end
     
           def check_ttl?
-            !config[:ttl].nil?
+            !config.has_key?(:ttl) || !config[:ttl].nil?
           end
 
           def timestamp
-            Time.strptime(request_timestamp, '%a, %e %b %Y %T %z') unless request_timestamp.nil?
+            Time.strptime(request_timestamp, '%a, %e %b %Y %T %z') unless request_timestamp.nil? || request_timestamp.empty?
           end
     
           def has_timestamp?

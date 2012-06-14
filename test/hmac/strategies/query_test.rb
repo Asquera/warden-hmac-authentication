@@ -246,7 +246,49 @@ context "query-based auth" do
     end
     
   end
-    
-end
+  context "> using the default ttl " do
+    app(
+      Rack::Builder.new do
+        use Rack::Session::Cookie
+        use Warden::Manager do |manager|
+          manager.failure_app = -> env { [401, {"Content-Length" => "0"}, [""]] }
+          manager.default_scope = :default
+          manager.scope_defaults :default, :strategies => [:password, :basic]
+          manager.scope_defaults :token, :strategies => [:hmac_query],
+                                         :store => false,
+                                         :hmac => {
+                                           :secret => "secrit",
+                                           :algorithm => "md5"
+                                         }
+        end
 
+        run -> env {
+          env["warden"].authenticate!(:scope => :token)
+          [200, {"Content-Length" => "0"}, [""]]
+        }
+      end.to_app
+    )
+
+    context "> with an expired timestamp " do
+      setup do
+        uri = "http://example.org/?user_id=123"
+        signed = HMAC::Signer.new('md5').sign_url(uri, 'secrit', :date => (Time.now.gmtime - 901)) #default is 15 minutes
+
+        get signed
+      end
+
+      asserts(:status).equals(401)
+    end
+
+    context "> with valid timestamp within the default range" do
+      setup do
+        uri = "http://example.org/?user_id=123"
+        signed = HMAC::Signer.new('md5').sign_url(uri, 'secrit', :date => (Time.now.gmtime - 900))
+        get signed
+      end
+
+      asserts(:status).equals(200)
+    end
+  end
+end
 
