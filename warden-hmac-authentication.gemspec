@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "warden-hmac-authentication"
-  s.version     = "0.6.1"
+  s.version     = "0.6.2"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Felix Gilcher", "Florian Gilcher"]
   s.email       = ["felix.gilcher@asquera.de", "florian.gilcher@asquera.de"]
