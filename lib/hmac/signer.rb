@@ -105,7 +105,7 @@ module HMAC
     #
     # @return [Bool] true if the signature matches
     def validate_signature(signature, params)
-      signature == generate_signature(params)
+      compare_hashes(signature, generate_signature(params))
     end
 
     # convienience method to check the signature of a url with query-based authentication
@@ -266,6 +266,19 @@ module HMAC
 
       headers, url = *sign_request(url, secret, opts)
       url
+    end
+
+    private
+    
+    # compares two hashes in a manner that's invulnerable to timing sidechannel attacks (see issue #16)
+    # by comparing them characterwise up to the end in all cases, no matter where the mismatch happens
+    # short circuits if the length does not match since this does not allow timing sidechannel attacks.
+    def compare_hashes(presented, computed)
+      if computed.length == presented.length then
+        computed.chars.zip(presented.chars).map {|x,y| x == y}.all?
+      else
+        false
+      end
     end
 
   end
