@@ -1,4 +1,3 @@
-require 'addressable/uri'
 require 'openssl'
 require 'rack/utils'
 if defined?(JRUBY_VERSION) && RUBY_VERSION =~ /^1\.9/
@@ -121,8 +120,8 @@ module HMAC
       opts = default_opts.merge(opts)
       opts[:query_based] = true
 
-      uri = Addressable::URI.parse(url)
-      query_values = uri.query_values
+      uri = URI.parse(url)
+      query_values = Rack::Utils.parse_nested_query(uri.query)
       return false unless query_values
 
       auth_params = query_values.delete(opts[:auth_param])
@@ -208,7 +207,7 @@ module HMAC
     def sign_request(url, secret, opts = {})
       opts = default_opts.merge(opts)
 
-      uri = Addressable::URI.parse(url)
+      uri = URI.parse(url)
       headers = opts[:headers] || {}
 
       date = opts[:date] || Time.now.gmtime
@@ -216,7 +215,7 @@ module HMAC
 
       method = opts[:method] ? opts[:method].to_s.upcase : "GET"
 
-      query_values = uri.query_values
+      query_values = Rack::Utils.parse_nested_query(uri.query)
 
       if query_values
         query_values.delete_if do |k,v|
@@ -233,9 +232,9 @@ module HMAC
         })
         auth_params[:nonce] = opts[:nonce] unless opts[:nonce].nil?
 
-        query_values =  uri.query_values || {}
+        query_values ||= {}
         query_values[opts[:auth_param]] = auth_params
-        uri.query_values = query_values
+        uri.query = Rack::Utils.build_nested_query(query_values)
       else
         headers[opts[:auth_header]]   = opts[:auth_header_format] % opts.merge({:signature => signature})
         headers[opts[:nonce_header]]  = opts[:nonce] unless opts[:nonce].nil?
