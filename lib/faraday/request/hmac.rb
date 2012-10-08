@@ -39,7 +39,7 @@ module Faraday
       headers, url = *signer.sign_request(url, @secret, @options)
         
       env[:request_headers] = (env[:request_headers] || {}).merge(headers)
-      env[:url] = Addressable::URI.parse(url)
+      env[:url] = URI.parse(url)
       env
     end
       

@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
   
   s.executables   = ["warden-hmac-authentication"]
   
-  s.add_runtime_dependency(%q<addressable>)
   s.add_runtime_dependency(%q<rack>)
   s.add_runtime_dependency(%q<warden>)
   
