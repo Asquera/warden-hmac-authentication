@@ -70,4 +70,20 @@ context "the faraday middleware" do
   end
 
 
+  context "> integration test" do
+    setup do
+      con = Faraday.new(:url => "http://example.com/") do |builder|
+        builder.headers['X-Public-Key'] = 'TESTPUBLIC'
+        builder.use Faraday::Request::Hmac, 'TESTKEYID'
+        builder.adapter :test do |stub|
+          stub.get('/') do |env|
+            [200, {}, ""]
+          end
+        end
+      end
+    end
+
+    asserts("Not Raise Exeption") {topic.get('/')}
+  end
+
 end

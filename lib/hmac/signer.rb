@@ -120,7 +120,7 @@ module HMAC
       opts = default_opts.merge(opts)
       opts[:query_based] = true
 
-      uri = URI.parse(url)
+      uri = parse_url(url)
       query_values = Rack::Utils.parse_nested_query(uri.query)
       return false unless query_values
 
@@ -207,7 +207,7 @@ module HMAC
     def sign_request(url, secret, opts = {})
       opts = default_opts.merge(opts)
 
-      uri = URI.parse(url)
+      uri = parse_url(url)
       headers = opts[:headers] || {}
 
       date = opts[:date] || Time.now.gmtime
@@ -280,5 +280,10 @@ module HMAC
       end
     end
 
+    #parse url if url parameter is string do nothing if parameter is URI
+    def parse_url(url)
+      return url if url.is_a?(URI)
+      URI.parse(url)
+    end
   end
 end
