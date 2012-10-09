@@ -178,7 +178,8 @@ Some headers are optional but should be included in the signature of the request
 includes `Content-MD5` and `Content-Type`. The list of optional headers can be configured using the `:optional_headers` config option.
 Optional headers are always included in the canonical representation if they are found in the request and not blank. Optional headers
 will be included in the canonical representation for query-based authentication if they are present in the request so be careful 
-not to include any header that is out of your clients control.
+not to include any header that is out of your clients control. Optional headers are currently not validated in any other way, that is
+the strategy does not check that they actually match the provided request body. This check is currently up to the application.
 
 ## Date and TTL
 
