@@ -3,7 +3,7 @@ require 'hmac/signer'
 
 module Faraday
   class Request::Hmac < Faraday::Middleware
-      
+
     # create a new Hmac middleware instance
     #
     # @param [Object] app           The url of the request
@@ -13,7 +13,7 @@ module Faraday
     # @option options [String]             :nonce ('')           The nonce to use in the signature
     # @option options [String, #strftime]  :date (Time.now)      The date to use in the signature
     # @option options [Hash]               :headers ({})         A list of optional headers to include in the signature
-    #                       
+    #
     # @option options [String]             :auth_scheme ('HMAC')   The name of the authorization scheme used in the Authorization header and to construct various header-names
     # @option options [String]             :auth_param ('auth')   The name of the authentication param to use for query based authentication
     # @option options [Hash]               :extra_auth_params ({}) Additional parameters to inject in the auth parameter. This parameter is ignored unless :query_based evaluates to true.
@@ -27,21 +27,22 @@ module Faraday
     def initialize(app, secret, options = {})
       @app, @secret, @options, @query_values = app, secret, options
     end
-  
+
     def call(env)
       sign(env)
       @app.call(env)
     end
-  
+
     def sign(env)
       signer = HMAC::Signer.new
       url = env[:url]
-      headers, url = *signer.sign_request(url, @secret, @options)
-        
+      method = env[:method]
+      headers, url = *signer.sign_request(url, @secret, @options.merge(:method => env[:method]))
+
       env[:request_headers] = (env[:request_headers] || {}).merge(headers)
       env[:url] = URI.parse(url)
       env
     end
-      
+
   end
 end
