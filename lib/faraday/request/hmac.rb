@@ -36,7 +36,10 @@ module Faraday
     def sign(env)
       signer = HMAC::Signer.new
       url = env[:url]
-      headers, url = *signer.sign_request(url, @secret, @options)
+
+      signer_options = { :method => env[:method] }.merge @options
+
+      headers, url = *signer.sign_request(url, @secret, signer_options)
 
       env[:request_headers] = (env[:request_headers] || {}).merge(headers)
       env[:url] = URI.parse(url)

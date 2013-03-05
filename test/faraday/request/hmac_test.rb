@@ -27,10 +27,10 @@ context "the faraday middleware" do
   context "> using header-based auth" do
     setup do
       m = Faraday::Request::Hmac.new(DummyApp.new, "testsecret")
-      m.call({ :request_headers => {}, :url => 'http://www.example.com' })
+      m.call({ :request_headers => {}, :url => 'http://www.example.com', :method => 'POST' })
     end
 
-    asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC 539263f4f83878a4917d2f9c1521320c28b926a9")
+    asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC 54e00aa77d513e00c1e9374429de44a475fbdcd8")
     asserts("date header") {topic[:request_headers]["Date"]}.equals("Fri,  1 Jul 2011 20:28:55 GMT")
     asserts("query values") {topic[:url].query}.nil
 
