@@ -31,8 +31,8 @@ context "the faraday middleware" do
       m.call({ :request_headers => {}, :url => 'http://www.example.com' })
     end
 
-    asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC 539263f4f83878a4917d2f9c1521320c28b926a9")
-    asserts("date header") {topic[:request_headers]["Date"]}.equals("Fri,  1 Jul 2011 20:28:55 GMT")
+    asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC 22827f18be7d4b702d402f294516c0461f4994d0")
+    asserts("date header") {topic[:request_headers]["Date"]}.equals("Fri, 01 Jul 2011 20:28:55 GMT")
     asserts("query values") {topic[:url].query}.nil
 
     context "> using a different auth header format" do
@@ -41,8 +41,8 @@ context "the faraday middleware" do
         m.call({ :request_headers => {}, :url => 'http://www.example.com' })
       end
 
-      asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC TESTKEYID 539263f4f83878a4917d2f9c1521320c28b926a9")
-      asserts("date header") {topic[:request_headers]["Date"]}.equals("Fri,  1 Jul 2011 20:28:55 GMT")
+      asserts("authorization header") {topic[:request_headers]["Authorization"]}.equals("HMAC TESTKEYID 22827f18be7d4b702d402f294516c0461f4994d0")
+      asserts("date header") {topic[:request_headers]["Date"]}.equals("Fri, 01 Jul 2011 20:28:55 GMT")
       asserts("query values") {topic[:url].query}.nil
     end
 
@@ -63,9 +63,9 @@ context "the faraday middleware" do
         Rack::Utils.parse_nested_query(topic[:url].query)
       end
 
-      asserts("auth date") {topic["auth"]["date"]}.equals("Fri,  1 Jul 2011 20:28:55 GMT")
+      asserts("auth date") {topic["auth"]["date"]}.equals("Fri, 01 Jul 2011 20:28:55 GMT")
       asserts("auth_key") {topic["auth"]["auth_key"]}.equals("TESTKEYID")
-      asserts("auth signature") {topic["auth"]["signature"]}.equals("539263f4f83878a4917d2f9c1521320c28b926a9")
+      asserts("auth signature") {topic["auth"]["signature"]}.equals("22827f18be7d4b702d402f294516c0461f4994d0")
     end
 
   end
