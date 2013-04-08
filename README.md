@@ -190,7 +190,8 @@ The timestamp of the request is usually passed in the `Date` HTTP-Header. Howeve
 setting the Date header another header may be used to override the `Date` header. The name of this header can be controlled via the
 `:alternate_date_header` option and defaults to `X-#{auth-scheme-name}-Date` (`X-HMAC-Date`). 
 
-The date must be formatted as HTTP-Date according to RFC 1123, section 5.2.14 and should be provided in GMT time.
+The date must be formatted as HTTP-Date according to RFC 1123, section 5.2.14 and should be provided in GMT time. The day of the date
+must be zero-padded to two digits.
 
 Example: Setting the ttl to 300 seconds:
 
