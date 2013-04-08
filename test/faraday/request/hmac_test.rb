@@ -90,7 +90,7 @@ context "the faraday middleware" do
       end
     end
 
-    asserts("does not raise exeption") { topic.get('/') }
+    asserts("does not raise exception") { topic.get('/') }
     asserts("passes method properly") {
       representation = nil
       any_instance_of(HMAC::Signer) do |signer|
