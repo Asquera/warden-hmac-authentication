@@ -211,7 +211,7 @@ module HMAC
       headers = opts[:headers] || {}
 
       date = opts[:date] || Time.now.gmtime
-      date = date.gmtime.strftime('%a, %e %b %Y %T GMT') if date.respond_to? :strftime
+      date = date.gmtime.strftime('%a, %d %b %Y %T GMT') if date.respond_to? :strftime
 
       method = opts[:method] ? opts[:method].to_s.upcase : "GET"
 
