@@ -268,13 +268,13 @@ module HMAC
     end
 
     private
-    
+
     # compares two hashes in a manner that's invulnerable to timing sidechannel attacks (see issue #16)
     # by comparing them characterwise up to the end in all cases, no matter where the mismatch happens
     # short circuits if the length does not match since this does not allow timing sidechannel attacks.
     def compare_hashes(presented, computed)
       if computed.length == presented.length then
-        computed.chars.zip(presented.chars).map {|x,y| x == y}.all?
+        computed.chars.zip(presented.chars).inject(true) { |value, (x,y)| value && (x == y) }
       else
         false
       end
