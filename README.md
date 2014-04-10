@@ -8,6 +8,19 @@ http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentica
 
 The gem also provides a small helper class that can be used to generate request signatures.
 
+## Installation
+
+Install the gem:
+
+    gem install warden-hmac-authentication
+    
+Or use Bundler:
+    
+    gem 'warden-hmac-authentication', require: ['hmac/strategies/header','hmac/strategies/query']
+
+_NOTE: This gem is designed to allow partial loading - no code will be auto-loaded by defaut.  That's why you have
+to specify each individual strategy you want to load._
+    
 ## Header-Based authentication
 
 The header-based authentication transports the authentication information in the (misnamed) `Authorization` HTTP-Header. The primary 
