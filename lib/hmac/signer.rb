@@ -117,6 +117,7 @@ module HMAC
     #
     # @return [Bool] true if the signature is valid
     def validate_url_signature(url, secret, opts = {})
+      method = opts.delete(:method) {|_| "GET"}
       opts = default_opts.merge(opts)
       opts[:query_based] = true
 
@@ -129,7 +130,7 @@ module HMAC
 
       date = auth_params["date"]
       nonce = auth_params["nonce"]
-      validate_signature(auth_params["signature"], :secret => secret, :method => "GET", :path => uri.path, :date => date, :nonce => nonce, :query => query_values, :headers => {})
+      validate_signature(auth_params["signature"], :secret => secret, :method => method, :path => uri.path, :date => date, :nonce => nonce, :query => query_values, :headers => {})
     end
 
     # generates the canonical representation for a given request
@@ -268,7 +269,7 @@ module HMAC
     end
 
     private
-    
+
     # compares two hashes in a manner that's invulnerable to timing sidechannel attacks (see issue #16)
     # by comparing them characterwise up to the end in all cases, no matter where the mismatch happens
     # short circuits if the length does not match since this does not allow timing sidechannel attacks.
