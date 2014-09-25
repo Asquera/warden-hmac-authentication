@@ -88,6 +88,8 @@ module Warden
         def logger
           if defined? Padrino
             Padrino.logger
+          elsif defined? Rails
+            Rails.logger
           end
         end
   
